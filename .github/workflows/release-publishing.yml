@@ -24,6 +24,11 @@ jobs:
         uses: gittools/actions/gitversion/execute@v0
         with:
           useConfigFile: true
+      - name: Manage Version
+        run: |
+          echo "Modify build.gradle for with version number \"$GitVersion_Major.$GitVersion_Minor.$GitVersion_Patch\""
+          sed -i "s#^.*version.*=.*#version = '$GitVersion_Major.$GitVersion_Minor.$GitVersion_Patch'#" build.gradle
+          cat build.gradle
       - uses: actions/setup-java@v3
         with:
           distribution: temurin
