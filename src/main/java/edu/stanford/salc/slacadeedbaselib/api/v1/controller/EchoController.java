@@ -1,6 +1,6 @@
-package edu.stanford.salc.slacadeedbaselib.controller;
+package edu.stanford.salc.slacadeedbaselib.api.v1.controller;
 
-import edu.stanford.salc.slacadeedbaselib.dto.ApiResultResponse;
+import edu.stanford.salc.slacadeedbaselib.api.v1.dto.ApiResultResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;

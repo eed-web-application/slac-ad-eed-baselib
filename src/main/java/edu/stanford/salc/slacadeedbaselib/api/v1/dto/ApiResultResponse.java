@@ -1,4 +1,4 @@
-package edu.stanford.salc.slacadeedbaselib.dto;
+package edu.stanford.salc.slacadeedbaselib.api.v1.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -51,7 +51,7 @@ public class ApiResultResponse<T> {
      *
      * @param payload the payload of the result
      * @param <T>     the generics type
-     * @return return the isntance with payload
+     * @return return the instance with payload
      */
     public static <T> ApiResultResponse<T> of(T payload) {
         return ApiResultResponse

@@ -1,4 +1,49 @@
+server:
+  tomcat:
+    mbeanregistry:
+      enabled: true
 
-# spring:
-#   main:
-#     lazy-initialization: false
+spring:
+  ldap:
+    urls: ${BASE_APP_LDAP_URI:ldap://localhost:8389}
+    base: ${BASE_APP_LDAP_BASE:dc=sdf,dc=slac,dc=stanford,dc=edu}
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 1MB
+      max-file-size: ${BASE_APP_MAX_POST_SIZE:100MB}
+      max-request-size: ${BASE_APP_MAX_POST_SIZE:100MB}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
+# swagger-ui custom path
+springdoc:
+  swagger-ui:
+    enabled: false
+  api-docs:
+    path: /api-docs
+
+mongock:
+  migration-scan-package:
+    - edu.stanford.slac.elog_plus.migration
+  throw-exception-if-cannot-obtain-lock: true #Default true
+  track-ignored: false #Default true
+  transaction-enabled: false
+  runner-type: initializingbean
+  enabled: true #Default true
+
+  edu:
+    stanford:
+      slac:
+        app-token-jwt-key: ${BASE_APP_APP_TOKEN_JWT}
+        root-user-list: ${BASE_APP_ROOT_USERS}
+        root-authentication-token-list-json: ${BASE_APP_ROOT_AUTHENTICATION_TOKEN_JSON}
+        oauth-server-discover: ${BASE_APP_OIDC_CONFIGURATION_ENDPOINT:https://dex.slac.stanford.edu/.well-known/openid-configuration}
+        user-header-name: ${BASE_APP_AUTH_HEADER:x-vouch-idp-accesstoken}
