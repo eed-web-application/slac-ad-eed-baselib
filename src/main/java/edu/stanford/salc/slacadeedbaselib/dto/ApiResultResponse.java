@@ -18,9 +18,9 @@ public class ApiResultResponse<T> {
     @Builder.Default
     @Schema(description = "Is the error code returned from api", requiredMode = Schema.RequiredMode.REQUIRED)
     private int errorCode = 0;
-    @Schema(description = "In case of error not equal to 0, an error message can be reported by api, indicating what problem is occured")
+    @Schema(description = "In case of error not equal to 0, an error message can be reported by api, indicating what problem is occurred")
     private String errorMessage;
-    @Schema(description = "In case of error not equal to 0, an error domain can be reported by api, indicating where the problem is occured")
+    @Schema(description = "In case of error not equal to 0, an error domain can be reported by api, indicating where the problem is occurred")
     private String errorDomain;
     @Schema(description = "Is the value returned by api")
     private T payload;
@@ -30,7 +30,7 @@ public class ApiResultResponse<T> {
      *
      * @param errorCode    the error code
      * @param errorMessage the error message
-     * @param errorDomain  the error domani, where the error is occurs
+     * @param errorDomain  the error domain, where the error is occurs
      * @param <T>          the type
      * @return return the instance with error information
      */
