@@ -87,8 +87,6 @@ public abstract class AuthService{
 
     abstract  public void removeRootAuthorization(String email);
 
-    abstract  public List<AuthorizationDTO> findAllRootUser();
-
     abstract  public String ensureAuthenticationToken(AuthenticationToken authenticationToken);
 
     abstract  public AuthenticationTokenDTO addNewAuthenticationToken(NewAuthenticationTokenDTO newAuthenticationTokenDTO, boolean appManaged);
