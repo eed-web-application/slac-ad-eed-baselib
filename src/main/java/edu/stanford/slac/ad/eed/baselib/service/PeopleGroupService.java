@@ -70,7 +70,7 @@ public class PeopleGroupService {
      * @param userId is the user id
      * @return the list of the groups where the user belong
      */
-    private List<GroupDTO> findGroupByUserId(String userId) {
+    public List<GroupDTO> findGroupByUserId(String userId) {
         List<Group> findGroups = groupRepository.findByMemberUidContainingIgnoreCase(userId);
         return findGroups.stream().map(
                 authMapper::fromModel
