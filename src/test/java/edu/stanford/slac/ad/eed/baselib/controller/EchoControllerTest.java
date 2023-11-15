@@ -1,8 +1,9 @@
-package edu.stanford.salc.slacadeedbaselib.controller;
+package edu.stanford.slac.ad.eed.baselib.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import edu.stanford.salc.slacadeedbaselib.dto.ApiResultResponse;
+import edu.stanford.slac.ad.eed.baselib.api.v1.dto.ApiResultResponse;
+import edu.stanford.slac.ad.eed.baselib.api.v1.dto.ApiResultResponse;
 import org.assertj.core.api.AssertionsForClassTypes;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;

@@ -1,4 +1,4 @@
-package edu.stanford.salc.slacadeedbaselib;
+package edu.stanford.slac.ad.eed.baselib;
 
 
 import org.springframework.boot.SpringApplication;
