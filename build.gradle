@@ -10,9 +10,13 @@ plugins {
 
 group = 'edu.stanford.slac'
 version = '0.0.1-SNAPSHOT'
+def javaSourceCompatibility = JavaVersion.VERSION_21
+def javaTargetCompatibility = JavaVersion.VERSION_21
 
 java {
-    sourceCompatibility = '19'
+    sourceCompatibility = javaSourceCompatibility
+    targetCompatibility = javaTargetCompatibility
+
 }
 
 configurations {
