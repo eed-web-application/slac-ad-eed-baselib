@@ -9,7 +9,11 @@ import java.util.Optional;
 /**
  * Repository for the management of the authorization
  */
-public interface AuthorizationRepository extends CrudRepository<Authorization, String> {
+public interface AuthorizationRepository{
+    Authorization save(Authorization authorization);
+
+    void delete(Authorization authorization);
+
     Optional<Authorization> findByOwnerIsAndResourceIsAndAuthorizationTypeIs(String owner, String resource, Integer authorizationType);
 
     Optional<Authorization> findByOwnerIsAndResourceIsAndAuthorizationTypeIsGreaterThanEqual(String owner, String resource, Integer authorizationType);
