@@ -1,4 +1,4 @@
-package edu.stanford.slac.ad.eed.baselib.auth.test_mock_auth.config;
+package edu.stanford.slac.ad.eed.baselib.config;
 
 import lombok.AllArgsConstructor;
 import org.springframework.boot.actuate.info.Info;

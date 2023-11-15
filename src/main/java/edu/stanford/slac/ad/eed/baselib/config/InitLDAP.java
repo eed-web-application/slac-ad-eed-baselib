@@ -1,4 +1,4 @@
-package edu.stanford.slac.ad.eed.baselib.auth.test_mock_auth.config;
+package edu.stanford.slac.ad.eed.baselib.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.ldap.repository.config.EnableLdapRepositories;

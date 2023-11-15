@@ -8,8 +8,7 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 import java.util.Optional;
 
-public interface AuthenticationTokenRepository extends CrudRepository<AuthenticationToken, String> {
-    @Override
+public interface AuthenticationTokenRepository {
     List<AuthenticationToken> findAll();
     //return all token managed by the application at startup time
     List<AuthenticationToken> findAllByApplicationManagedIsTrue();

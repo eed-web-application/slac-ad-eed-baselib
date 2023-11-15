@@ -1,11 +1,10 @@
 package edu.stanford.slac.ad.eed.baselib.auth.jwt;
 
-import edu.stanford.slac.ad.eed.baselib.auth.test_mock_auth.config.AppProperties;
+import edu.stanford.slac.ad.eed.baselib.config.AppProperties;
 import edu.stanford.slac.ad.eed.baselib.auth.BaseSignKeyResolver;
 import edu.stanford.slac.ad.eed.baselib.auth.JWTHelper;
 import edu.stanford.slac.ad.eed.baselib.auth.OIDCConfiguration;
 import edu.stanford.slac.ad.eed.baselib.auth.OIDCKeysDescription;
-import edu.stanford.slac.ad.eed.baselib.auth.test_mock_auth.config.AppProperties;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwsHeader;
 import lombok.extern.log4j.Log4j2;
