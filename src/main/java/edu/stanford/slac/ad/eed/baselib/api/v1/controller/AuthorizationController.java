@@ -3,9 +3,7 @@ package edu.stanford.slac.ad.eed.baselib.api.v1.controller;
 import edu.stanford.slac.ad.eed.baselib.api.v1.dto.*;
 import edu.stanford.slac.ad.eed.baselib.exception.NotAuthorized;
 import edu.stanford.slac.ad.eed.baselib.service.AuthService;
-import edu.stanford.slac.ad.eed.baselib.api.v1.dto.*;
-import edu.stanford.slac.ad.eed.baselib.exception.NotAuthorized;
-import edu.stanford.slac.ad.eed.baselib.service.AuthService;
+import edu.stanford.slac.ad.eed.baselib.service.PeopleGroupService;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -28,6 +26,8 @@ import static edu.stanford.slac.ad.eed.baselib.exception.Utility.assertion;
 @Schema(description = "Api for authentication information")
 public class AuthorizationController {
     AuthService authService;
+    PeopleGroupService peopleGroupService;
+
 
     @GetMapping(
             path = "/me",
@@ -45,7 +45,7 @@ public class AuthorizationController {
                         .build()
         );
         return ApiResultResponse.of(
-                authService.findPerson(
+                peopleGroupService.findPerson(
                         authentication
                 )
         );
@@ -83,7 +83,7 @@ public class AuthorizationController {
                 )
         );
         return ApiResultResponse.of(
-                authService.findPersons(
+                peopleGroupService.findPersons(
                         search.orElse("")
                 )
         );
@@ -122,7 +122,7 @@ public class AuthorizationController {
 
         );
         return ApiResultResponse.of(
-                authService.findGroup(
+                peopleGroupService.findGroup(
                         search.orElse("")
                 )
         );
@@ -248,7 +248,7 @@ public class AuthorizationController {
                 )
         );
         return ApiResultResponse.of(
-                authService.addNewAuthenticationToken(newAuthenticationTokenDTO)
+                authService.addNewAuthenticationToken(newAuthenticationTokenDTO, false)
         );
     }
 
