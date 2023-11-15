@@ -1,10 +1,11 @@
-name: Publish package to GitHub Packages
+name: MergeCheck
 on:
-  push:
+  pull_request:
+    types:
+      - opened
+      - synchronize
     branches:
       - main
-  release:
-    types: [created]
 jobs:
   build-test:
     runs-on: ubuntu-latest
