@@ -17,6 +17,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 import static edu.stanford.slac.ad.eed.baselib.exception.Utility.assertion;
 import static edu.stanford.slac.ad.eed.baselib.exception.Utility.wrapCatch;
@@ -75,5 +76,21 @@ public class PeopleGroupService {
         return findGroups.stream().map(
                 authMapper::fromModel
         ).toList();
+    }
+
+    /**
+     *
+     * @param email
+     * @return
+     */
+    public Person findPersonByMain(String email) {
+        return personRepository.findByMail(email)
+                .orElseThrow(
+                        () -> PersonNotFound.personNotFoundBuilder()
+                                .errorCode(-1)
+                                .email(email)
+                                .errorDomain("AuthService::addRootAuthorization")
+                                .build()
+                );
     }
 }
