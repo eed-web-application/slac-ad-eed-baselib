@@ -54,6 +54,10 @@ dependencies {
     testImplementation 'org.awaitility:awaitility:4.0.3'
 }
 
+springBoot {
+    buildInfo()
+}
+
 tasks.named('test') {
     useJUnitPlatform()
 }
