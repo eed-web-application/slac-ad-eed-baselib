@@ -1,6 +1,6 @@
 package edu.stanford.salc.slacadeedbaselib.auth.jwt;
 
-import edu.stanford.salc.slacadeedbaselib.config.AppProperties;
+import edu.stanford.salc.slacadeedbaselib.auth.test_mock_auth.config.AppProperties;
 import lombok.AllArgsConstructor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
@@ -25,25 +26,26 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable();
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        AuthenticationManager authenticationManager = applicationContext.getBean(AuthenticationManager.class);
-
-        http.authorizeHttpRequests()
-                .requestMatchers("/**")
-                    .permitAll()
-                    .anyRequest()
-                    .authenticated()
-                .and().addFilterBefore(
+        // Configure HttpSecurity with the newer method authorizeHttpRequests
+        http
+                .csrf(AbstractHttpConfigurer::disable) // Disabling CSRF protection
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Set session management to stateless
+                .authorizeHttpRequests(authz -> authz
+                        .requestMatchers("/**").permitAll() // Permit all requests
+                        .anyRequest().authenticated() // All other requests need to be authenticated
+                )
+                .addFilterBefore(
                         new SLACAuthenticationFilter(
                                 "/**",
-                                authenticationManager,
+                                applicationContext.getBean(AuthenticationManager.class),
                                 appProperties
                         ),
                         AnonymousAuthenticationFilter.class
                 );
+
         return http.build();
     }
+
 
     @Bean
     public AnonymousAuthenticationFilter anonymousAuthenticationFilter() {

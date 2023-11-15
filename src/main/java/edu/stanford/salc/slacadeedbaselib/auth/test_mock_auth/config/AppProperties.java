@@ -1,4 +1,4 @@
-package edu.stanford.salc.slacadeedbaselib.config;
+package edu.stanford.salc.slacadeedbaselib.auth.test_mock_auth.config;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -27,16 +27,26 @@ public class AppProperties {
     private List<NewAuthenticationTokenDTO> rootAuthenticationTokenList = new ArrayList<>();
     private String rootAuthenticationTokenListJson;
     // all email that belong to this domain belongs to application toke authorization
-    private String applicationTokenDomain = "elog.slac.app$";
-    private String logbookEmailRegex =  ".*@.*\\.elog\\.slac\\.app\\$";
+    private String applicationTokenDomain = "slac.app$";
+    private String logbookEmailRegex = ".*@.*\\.elog\\.slac\\.app\\$";
 
     @PostConstruct
     public void init() {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            rootAuthenticationTokenList = objectMapper.readValue(rootAuthenticationTokenListJson, new TypeReference<>() {});
+            rootAuthenticationTokenList = objectMapper.readValue(rootAuthenticationTokenListJson, new TypeReference<>() {
+            });
         } catch (JsonProcessingException e) {
             log.error(e.getMessage());
         }
+    }
+
+    /**
+     * Return the application token domain
+     * @param applicationName the application name
+     * @return the application domain
+     */
+    public String getApplicationTokenDomain(String applicationName) {
+        return "%s.%s".formatted(applicationName, applicationTokenDomain);
     }
 }

@@ -2,7 +2,7 @@ package edu.stanford.salc.slacadeedbaselib.api.v1.mapper;
 
 
 import edu.stanford.salc.slacadeedbaselib.api.v1.dto.*;
-import edu.stanford.salc.slacadeedbaselib.config.AppProperties;
+import edu.stanford.salc.slacadeedbaselib.auth.test_mock_auth.config.AppProperties;
 import edu.stanford.salc.slacadeedbaselib.model.AuthenticationToken;
 import edu.stanford.salc.slacadeedbaselib.model.Authorization;
 import edu.stanford.salc.slacadeedbaselib.model.Group;

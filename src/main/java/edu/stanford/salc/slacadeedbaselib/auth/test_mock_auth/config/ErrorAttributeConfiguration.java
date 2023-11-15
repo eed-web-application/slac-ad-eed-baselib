@@ -1,4 +1,4 @@
-package edu.stanford.salc.slacadeedbaselib.config;
+package edu.stanford.salc.slacadeedbaselib.auth.test_mock_auth.config;
 
 import edu.stanford.salc.slacadeedbaselib.exception.ControllerLogicException;
 import org.springframework.boot.web.error.ErrorAttributeOptions;

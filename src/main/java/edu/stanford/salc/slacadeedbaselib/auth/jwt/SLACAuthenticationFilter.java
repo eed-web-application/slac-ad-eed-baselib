@@ -1,7 +1,7 @@
 package edu.stanford.salc.slacadeedbaselib.auth.jwt;
 
 
-import edu.stanford.salc.slacadeedbaselib.config.AppProperties;
+import edu.stanford.salc.slacadeedbaselib.auth.test_mock_auth.config.AppProperties;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

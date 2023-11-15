@@ -1,7 +1,8 @@
 package edu.stanford.salc.slacadeedbaselib.auth.test_mock_auth;
 
-import edu.stanford.slac.elog_plus.auth.BaseSignKeyResolver;
-import edu.stanford.slac.elog_plus.auth.JWTHelper;
+
+import edu.stanford.salc.slacadeedbaselib.auth.BaseSignKeyResolver;
+import edu.stanford.salc.slacadeedbaselib.auth.JWTHelper;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwsHeader;
 import lombok.extern.log4j.Log4j2;

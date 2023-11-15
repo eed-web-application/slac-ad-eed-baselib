@@ -1,7 +1,7 @@
 package edu.stanford.salc.slacadeedbaselib.auth.jwt;
 
 import edu.stanford.salc.slacadeedbaselib.auth.BaseSignKeyResolver;
-import edu.stanford.salc.slacadeedbaselib.config.AppProperties;
+import edu.stanford.salc.slacadeedbaselib.auth.test_mock_auth.config.AppProperties;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;

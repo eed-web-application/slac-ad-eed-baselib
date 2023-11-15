@@ -1,7 +1,7 @@
 package edu.stanford.salc.slacadeedbaselib.auth;
 
-import edu.stanford.slac.elog_plus.config.AppProperties;
-import edu.stanford.slac.elog_plus.model.AuthenticationToken;
+import edu.stanford.salc.slacadeedbaselib.auth.test_mock_auth.config.AppProperties;
+import edu.stanford.salc.slacadeedbaselib.model.AuthenticationToken;
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;

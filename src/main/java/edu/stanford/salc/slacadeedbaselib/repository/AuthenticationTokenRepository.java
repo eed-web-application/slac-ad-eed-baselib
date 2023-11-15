@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface AuthenticationTokenRepository extends CrudRepository<AuthenticationToken, String> {
+    @Override
+    List<AuthenticationToken> findAll();
     //return all token managed by the application at startup time
     List<AuthenticationToken> findAllByApplicationManagedIsTrue();
 
