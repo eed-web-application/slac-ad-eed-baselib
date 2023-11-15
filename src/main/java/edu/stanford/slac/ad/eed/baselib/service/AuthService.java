@@ -3,7 +3,7 @@ package edu.stanford.slac.ad.eed.baselib.service;
 
 import edu.stanford.slac.ad.eed.baselib.api.v1.dto.*;
 import edu.stanford.slac.ad.eed.baselib.api.v1.mapper.AuthMapper;
-import edu.stanford.slac.ad.eed.baselib.auth.test_mock_auth.config.AppProperties;
+import edu.stanford.slac.ad.eed.baselib.config.AppProperties;
 import edu.stanford.slac.ad.eed.baselib.model.AuthenticationToken;
 import edu.stanford.slac.ad.eed.baselib.model.Authorization;
 import edu.stanford.slac.ad.eed.baselib.model.Person;
@@ -11,19 +11,9 @@ import edu.stanford.slac.ad.eed.baselib.repository.AuthenticationTokenRepository
 import edu.stanford.slac.ad.eed.baselib.repository.AuthorizationRepository;
 import edu.stanford.slac.ad.eed.baselib.repository.GroupRepository;
 import edu.stanford.slac.ad.eed.baselib.repository.PersonRepository;
-import edu.stanford.slac.ad.eed.baselib.api.v1.dto.*;
-import edu.stanford.slac.ad.eed.baselib.api.v1.mapper.AuthMapper;
 import edu.stanford.slac.ad.eed.baselib.auth.JWTHelper;
-import edu.stanford.slac.ad.eed.baselib.auth.test_mock_auth.config.AppProperties;
 import edu.stanford.slac.ad.eed.baselib.exception.*;
-import edu.stanford.slac.ad.eed.baselib.model.AuthenticationToken;
-import edu.stanford.slac.ad.eed.baselib.model.Authorization;
 import edu.stanford.slac.ad.eed.baselib.model.Group;
-import edu.stanford.slac.ad.eed.baselib.model.Person;
-import edu.stanford.slac.ad.eed.baselib.repository.AuthenticationTokenRepository;
-import edu.stanford.slac.ad.eed.baselib.repository.AuthorizationRepository;
-import edu.stanford.slac.ad.eed.baselib.repository.GroupRepository;
-import edu.stanford.slac.ad.eed.baselib.repository.PersonRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.cache.annotation.Cacheable;

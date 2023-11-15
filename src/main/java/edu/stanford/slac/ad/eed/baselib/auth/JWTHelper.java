@@ -1,8 +1,6 @@
 package edu.stanford.slac.ad.eed.baselib.auth;
 
-import edu.stanford.slac.ad.eed.baselib.auth.test_mock_auth.config.AppProperties;
-import edu.stanford.slac.ad.eed.baselib.model.AuthenticationToken;
-import edu.stanford.slac.ad.eed.baselib.auth.test_mock_auth.config.AppProperties;
+import edu.stanford.slac.ad.eed.baselib.config.AppProperties;
 import edu.stanford.slac.ad.eed.baselib.model.AuthenticationToken;
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;

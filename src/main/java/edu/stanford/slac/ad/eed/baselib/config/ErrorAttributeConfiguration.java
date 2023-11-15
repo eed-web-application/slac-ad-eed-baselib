@@ -1,4 +1,4 @@
-package edu.stanford.slac.ad.eed.baselib.auth.test_mock_auth.config;
+package edu.stanford.slac.ad.eed.baselib.config;
 
 import edu.stanford.slac.ad.eed.baselib.exception.ControllerLogicException;
 import org.springframework.boot.web.error.ErrorAttributeOptions;

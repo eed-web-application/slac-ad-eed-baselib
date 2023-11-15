@@ -1,4 +1,4 @@
-package edu.stanford.slac.ad.eed.baselib.auth.test_mock_auth.config;
+package edu.stanford.slac.ad.eed.baselib.config;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;

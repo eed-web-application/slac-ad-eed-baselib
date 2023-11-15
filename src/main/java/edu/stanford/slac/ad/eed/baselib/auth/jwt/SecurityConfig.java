@@ -1,7 +1,6 @@
 package edu.stanford.slac.ad.eed.baselib.auth.jwt;
 
-import edu.stanford.slac.ad.eed.baselib.auth.test_mock_auth.config.AppProperties;
-import edu.stanford.slac.ad.eed.baselib.auth.test_mock_auth.config.AppProperties;
+import edu.stanford.slac.ad.eed.baselib.config.AppProperties;
 import lombok.AllArgsConstructor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;

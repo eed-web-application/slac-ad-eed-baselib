@@ -4,12 +4,14 @@ package edu.stanford.slac.ad.eed.baselib.repository;
 
 import edu.stanford.slac.ad.eed.baselib.model.AuthenticationToken;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.security.core.Authentication;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface AuthenticationTokenRepository extends CrudRepository<AuthenticationToken, String> {
-    @Override
+public interface AuthenticationTokenRepository {
+    AuthenticationToken save(AuthenticationToken authentication);
+    Optional<AuthenticationToken> findById(String id);
     List<AuthenticationToken> findAll();
     //return all token managed by the application at startup time
     List<AuthenticationToken> findAllByApplicationManagedIsTrue();
@@ -29,4 +31,6 @@ public interface AuthenticationTokenRepository extends CrudRepository<Authentica
     boolean existsByEmail(String email);
 
     void deleteAllByEmailEndsWith(String emailPostfix);
+
+    void deleteById(String id);
 }

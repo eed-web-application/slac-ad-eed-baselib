@@ -1,8 +1,7 @@
 package edu.stanford.slac.ad.eed.baselib.auth.jwt;
 
 
-import edu.stanford.slac.ad.eed.baselib.auth.test_mock_auth.config.AppProperties;
-import edu.stanford.slac.ad.eed.baselib.auth.test_mock_auth.config.AppProperties;
+import edu.stanford.slac.ad.eed.baselib.config.AppProperties;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
