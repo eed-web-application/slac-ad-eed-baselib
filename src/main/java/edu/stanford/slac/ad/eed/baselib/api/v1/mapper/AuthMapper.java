@@ -23,9 +23,7 @@ import java.util.List;
         componentModel = "spring"
 )
 public abstract class AuthMapper {
-    static public final String APP_TOKEN_LOGBOOK_EMAIL_DOMAIN= "%s.%s";
-    static public final String APP_TOKEN_LOGBOOK_EMAIL = "%s@"+APP_TOKEN_LOGBOOK_EMAIL_DOMAIN;
-    static public final String APP_TOKEN_EMAIL = "%s@%s";
+    static public final String EMAIL_FORMAT = "%s@%s";
     @Autowired
     protected AppProperties appProperties;
     public abstract PersonDTO fromModel(Person p);
@@ -35,14 +33,14 @@ public abstract class AuthMapper {
     @Mapping(target = "authorizationType", expression = "java(Authorization.Type.valueOf(a.authorizationType().name()).getValue())")
     public abstract Authorization toModel(AuthorizationDTO a);
     public abstract List<Authorization> toModel(List<AuthorizationDTO> a);
-    @Mapping(target = "email", expression = "java(APP_TOKEN_LOGBOOK_EMAIL.formatted(a.name(),logbookName, appProperties.getApplicationTokenDomain()))")
-    public abstract AuthenticationToken toModelToken(AuthenticationTokenDTO a, String logbookName);
-    @Mapping(target = "email", expression = "java(APP_TOKEN_LOGBOOK_EMAIL.formatted(a.name(),logbookName, appProperties.getApplicationTokenDomain()))")
-    public abstract AuthenticationToken toModelToken(NewAuthenticationTokenDTO a, String logbookName);
-    @Mapping(target = "email", expression = "java(APP_TOKEN_EMAIL.formatted(a.name(), appProperties.getApplicationTokenDomain()))")
-    public abstract AuthenticationToken toModelToken(AuthenticationTokenDTO a);
-    @Mapping(target = "email", expression = "java(APP_TOKEN_EMAIL.formatted(a.name(), appProperties.getApplicationTokenDomain()))")
-    public abstract AuthenticationToken toModelToken(NewAuthenticationTokenDTO a);
+    @Mapping(target = "email", expression = "java(EMAIL_FORMAT.formatted(a.name(), appProperties.getApplicationTokenEmailDomain()))")
+    public abstract AuthenticationToken toModelApplicationToken(AuthenticationTokenDTO a);
+    @Mapping(target = "email", expression = "java(EMAIL_FORMAT.formatted(a.name(), appProperties.getApplicationTokenEmailDomain()))")
+    public abstract AuthenticationToken toModelApplicationToken(NewAuthenticationTokenDTO a);
+    @Mapping(target = "email", expression = "java(EMAIL_FORMAT.formatted(a.name(), appProperties.getAuthenticationTokenDomain()))")
+    public abstract AuthenticationToken toModelGlobalToken(AuthenticationTokenDTO a);
+    @Mapping(target = "email", expression = "java(EMAIL_FORMAT.formatted(a.name(), appProperties.getAuthenticationTokenDomain()))")
+    public abstract AuthenticationToken toModelGlobalToken(NewAuthenticationTokenDTO a);
     public abstract AuthenticationTokenDTO toTokenDTO(AuthenticationToken a);
     public abstract Authorization.Type toModel(AuthorizationTypeDTO type);
 }
