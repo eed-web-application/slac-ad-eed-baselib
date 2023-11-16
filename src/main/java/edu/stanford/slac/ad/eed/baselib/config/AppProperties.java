@@ -47,7 +47,6 @@ public class AppProperties {
         }
     }
 
-    public String getApplication
     /**
      * Return the application token domain regex on the form
      * of ".*@{appTokenPrefix}\.slac\.app\$"
