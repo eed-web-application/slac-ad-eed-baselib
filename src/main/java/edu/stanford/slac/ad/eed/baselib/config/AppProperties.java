@@ -47,15 +47,7 @@ public class AppProperties {
         }
     }
 
-    /**
-     * Return the application token domain
-     * @param applicationName the application name
-     * @return the application domain
-     */
-    public String getApplicationTokenDomain(String applicationName) {
-        return "%s.%s".formatted(applicationName, applicationTokenDomain);
-    }
-
+    public String getApplication
     /**
      * Return the application token domain regex on the form
      * of ".*@{appTokenPrefix}\.slac\.app\$"
