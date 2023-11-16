@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
 @Log4j2
 @Getter
 @Setter
-@ConfigurationProperties(prefix = "edu.stanford.slac")
+@ConfigurationProperties(prefix = "edu.stanford.slac.ad.eed.baselib")
 public class AppProperties {
     /**
      * The application token are generated using a fake email for identify the user
