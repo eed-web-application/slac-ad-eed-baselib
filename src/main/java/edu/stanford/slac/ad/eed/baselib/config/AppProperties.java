@@ -28,7 +28,7 @@ public class AppProperties {
     private String rootAuthenticationTokenListJson = "{}";
     // all email that belong to this domain belongs to application toke authorization
     private String applicationTokenDomain = "slac.app$";
-    private String logbookEmailRegex = ".*@.*\\.elog\\.slac\\.app\\$";
+    private String applicationEmailRegex = ".*@.*\\.%s\\.slac\\.app\\$";
 
     @PostConstruct
     public void init() {
@@ -48,5 +48,14 @@ public class AppProperties {
      */
     public String getApplicationTokenDomain(String applicationName) {
         return "%s.%s".formatted(applicationName, applicationTokenDomain);
+    }
+
+    /**
+     * Return the application token domain
+     * @param applicationName the application name
+     * @return the application domain
+     */
+    public String getAppTokenRegex(String applicationName) {
+        return applicationEmailRegex.formatted(applicationName);
     }
 }
