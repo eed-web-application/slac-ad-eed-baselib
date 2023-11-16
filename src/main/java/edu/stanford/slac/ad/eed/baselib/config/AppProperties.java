@@ -19,6 +19,12 @@ import java.util.List;
 @Setter
 @ConfigurationProperties(prefix = "edu.stanford.slac")
 public class AppProperties {
+    /**
+     * The application token are generated using a fake email for identify the user
+     * for example: token@slac.app$ is a global token. A token for only a specific applcaition
+     * will have the form: token-a@{appTokenPrefix}.slac.app$
+     */
+    private String appTokenPrefix;
     private String appTokenJwtKey;
     private String dbAdminUri;
     private String userHeaderName;
@@ -27,8 +33,8 @@ public class AppProperties {
     private List<NewAuthenticationTokenDTO> rootAuthenticationTokenList = new ArrayList<>();
     private String rootAuthenticationTokenListJson = "{}";
     // all email that belong to this domain belongs to application toke authorization
-    private String applicationTokenDomain = "slac.app$";
-    private String applicationEmailRegex = ".*@.*\\.%s\\.slac\\.app\\$";
+    private final String applicationTokenDomain = "slac.app$";
+    private final String applicationEmailRegex = ".*@%s\\.slac\\.app\\$";
 
     @PostConstruct
     public void init() {
@@ -51,11 +57,11 @@ public class AppProperties {
     }
 
     /**
-     * Return the application token domain
-     * @param applicationName the application name
+     * Return the application token domain regex on the form
+     * of ".*@{appTokenPrefix}\.slac\.app\$"
      * @return the application domain
      */
-    public String getAppTokenRegex(String applicationName) {
-        return applicationEmailRegex.formatted(applicationName);
+    public String getAppTokenRegex() {
+        return applicationEmailRegex.formatted(appTokenPrefix);
     }
 }
