@@ -34,7 +34,7 @@ public class AppProperties {
     private String oauthServerDiscover;
     private List<String> rootUserList = new ArrayList<>();
     private List<NewAuthenticationTokenDTO> rootAuthenticationTokenList = new ArrayList<>();
-    private String rootAuthenticationTokenListJson = "{}";
+    private String rootAuthenticationTokenListJson = "[]";
     // all email that belong to this domain belongs to application toke authorization
     private final String authenticationTokenDomain = "slac.app$";
     private final String applicationEmailRegex = ".*@%s\\.slac\\.app\\$";
