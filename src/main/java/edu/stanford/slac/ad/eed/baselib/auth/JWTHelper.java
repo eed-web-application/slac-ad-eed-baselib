@@ -1,11 +1,13 @@
 package edu.stanford.slac.ad.eed.baselib.auth;
 
 import edu.stanford.slac.ad.eed.baselib.config.AppProperties;
+import edu.stanford.slac.ad.eed.baselib.exception.ControllerLogicException;
 import edu.stanford.slac.ad.eed.baselib.model.AuthenticationToken;
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
@@ -13,7 +15,7 @@ import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
+@Log4j2
 @Service
 @AllArgsConstructor
 public class JWTHelper {
@@ -43,7 +45,6 @@ public class JWTHelper {
         Map<String,Object> claims = new HashMap<>();
         claims.put("email", authenticationToken.getEmail());
         // Build the JWT
-
         return Jwts.builder()
                 .setHeader(
                         Map.of(Header.TYPE, Header.JWT_TYPE)
@@ -63,6 +64,14 @@ public class JWTHelper {
 
     public Key getKey() {
         if(secretKey==null) {
+            if(appProperties.getAppTokenJwtKey() == null) {
+                throw ControllerLogicException.of(
+                        -1,
+                        "The app token key is null",
+                        "JWTHelper::getKey"
+                );
+            }
+            log.debug("Using key of size '{}' for sign authentication token JWT", appProperties.getAppTokenJwtKey().length());
             byte[] keyBytes = hexStringToByteArray(appProperties.getAppTokenJwtKey());
             secretKey = Keys.hmacShaKeyFor(keyBytes);
         }
