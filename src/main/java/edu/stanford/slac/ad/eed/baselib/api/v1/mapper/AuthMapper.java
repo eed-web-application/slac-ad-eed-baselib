@@ -2,7 +2,7 @@ package edu.stanford.slac.ad.eed.baselib.api.v1.mapper;
 
 
 import edu.stanford.slac.ad.eed.baselib.api.v1.dto.AuthorizationDTO;
-import edu.stanford.slac.ad.eed.baselib.api.v1.dto.AuthorizationLevelDTO;
+import edu.stanford.slac.ad.eed.baselib.api.v1.dto.AuthorizationTypeDTO;
 import edu.stanford.slac.ad.eed.baselib.api.v1.dto.GroupDTO;
 import edu.stanford.slac.ad.eed.baselib.api.v1.dto.NewAuthenticationTokenDTO;
 import edu.stanford.slac.ad.eed.baselib.config.AppProperties;
@@ -42,5 +42,5 @@ public abstract class AuthMapper {
     @Mapping(target = "email", expression = "java(EMAIL_FORMAT.formatted(a.name(), appProperties.getAuthenticationTokenDomain()))")
     public abstract AuthenticationToken toModelGlobalToken(NewAuthenticationTokenDTO a);
     public abstract AuthenticationTokenDTO toTokenDTO(AuthenticationToken a);
-    public abstract Authorization.Type toModel(AuthorizationLevelDTO type);
+    public abstract Authorization.Type toModel(AuthorizationTypeDTO type);
 }

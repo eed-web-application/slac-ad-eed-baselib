@@ -15,7 +15,7 @@ public record AuthorizationDTO(
         @Schema(description = "Is unique id of the authorizations")
         String id,
         @Schema(description = "Is the type of the authorizations [User, Group, Application]")
-        AuthorizationLevelDTO authorizationType,
+        AuthorizationTypeDTO authorizationType,
         @Schema(description = "Is the subject owner of the authorizations")
         String owner,
         @Schema(description = "Is the type of the owner [User, Group, Application]")
