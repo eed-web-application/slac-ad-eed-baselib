@@ -32,6 +32,8 @@ public abstract class AuthMapper {
     public abstract AuthorizationDTO fromModel(Authorization a);
     @Mapping(target = "authorizationType", expression = "java(Authorization.Type.valueOf(a.authorizationType().name()).getValue())")
     public abstract Authorization toModel(AuthorizationDTO a);
+    @Mapping(target = "authorizationType", expression = "java(Authorization.Type.valueOf(a.authorizationType().name()).getValue())")
+    public abstract Authorization toModel(NewAuthorizationDTO a);
     public abstract List<Authorization> toModel(List<AuthorizationDTO> a);
     @Mapping(target = "email", expression = "java(EMAIL_FORMAT.formatted(a.name(), appProperties.getApplicationTokenEmailDomain()))")
     public abstract AuthenticationToken toModelAuthenticationToken(AuthenticationTokenDTO a);

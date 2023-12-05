@@ -70,9 +70,9 @@ public abstract class AuthService{
 
     /**
      * Create a new authorization in case
-     * @param authorizationDTO
+     * @param newAuthorizationDTO
      */
-    abstract public void addNewAuthorization(NewAuthorizationDTO authorizationDTO);
+    abstract public String addNewAuthorization(NewAuthorizationDTO newAuthorizationDTO);
     abstract public void deleteAuthorizationById(String authorizationId);
     abstract public List<AuthorizationDTO> findByResourceIs(String resource);
     abstract  public void deleteAuthorizationForResourcePrefix(String resourcePrefix);
