@@ -28,7 +28,7 @@ public abstract class AuthMapper {
     protected AppProperties appProperties;
     public abstract PersonDTO fromModel(Person p);
     public abstract GroupDTO fromModel(Group g);
-    @Mapping(target = "authorizationType", expression = "java(AuthorizationLevelDTO.valueOf(Authorization.Type.fromValue(a.getAuthorizationType()).name()))")
+    @Mapping(target = "authorizationType", expression = "java(AuthorizationTypeDTO.valueOf(Authorization.Type.fromValue(a.getAuthorizationType()).name()))")
     public abstract AuthorizationDTO fromModel(Authorization a);
     @Mapping(target = "authorizationType", expression = "java(Authorization.Type.valueOf(a.authorizationType().name()).getValue())")
     public abstract Authorization toModel(AuthorizationDTO a);
