@@ -78,7 +78,7 @@ public class AuthorizationController {
                         .build(),
                 () -> authService.checkAuthorizationForOwnerAuthTypeAndResourcePrefix(
                         authentication,
-                        AuthorizationTypeDTO.Admin,
+                        AuthorizationLevelDTO.Admin,
                         "/"
                 )
         );
@@ -116,7 +116,7 @@ public class AuthorizationController {
                         .build(),
                 () -> authService.checkAuthorizationForOwnerAuthTypeAndResourcePrefix(
                         authentication,
-                        AuthorizationTypeDTO.Admin,
+                        AuthorizationLevelDTO.Admin,
                         "/"
                 )
 

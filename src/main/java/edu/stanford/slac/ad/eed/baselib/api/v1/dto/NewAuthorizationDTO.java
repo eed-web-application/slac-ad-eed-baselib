@@ -10,10 +10,8 @@ import java.io.Serializable;
 @Builder(toBuilder = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Schema(description = "Is the description fo an attachment")
-public record AuthorizationDTO(
-        @Schema(description = "Is unique id of the authorizations")
-        String id,
+@Schema(description = "Is the description for an authorization")
+public record NewAuthorizationDTO(
         @Schema(description = "Is the type of the authorizations [User, Group, Application]")
         AuthorizationLevelDTO authorizationType,
         @Schema(description = "Is the subject owner of the authorizations")

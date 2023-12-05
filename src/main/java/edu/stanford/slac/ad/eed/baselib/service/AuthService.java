@@ -1,9 +1,6 @@
 package edu.stanford.slac.ad.eed.baselib.service;
 
-import edu.stanford.slac.ad.eed.baselib.api.v1.dto.AuthenticationTokenDTO;
-import edu.stanford.slac.ad.eed.baselib.api.v1.dto.AuthorizationDTO;
-import edu.stanford.slac.ad.eed.baselib.api.v1.dto.AuthorizationTypeDTO;
-import edu.stanford.slac.ad.eed.baselib.api.v1.dto.NewAuthenticationTokenDTO;
+import edu.stanford.slac.ad.eed.baselib.api.v1.dto.*;
 import edu.stanford.slac.ad.eed.baselib.config.AppProperties;
 import edu.stanford.slac.ad.eed.baselib.model.AuthenticationToken;
 import lombok.AllArgsConstructor;
@@ -13,8 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Service
 @AllArgsConstructor
@@ -43,7 +38,7 @@ public abstract class AuthService{
         // only root user can create logbook
         List<AuthorizationDTO> foundAuth = getAllAuthorizationForOwnerAndAndAuthTypeAndResourcePrefix(
                 authentication.getCredentials().toString(),
-                AuthorizationTypeDTO.Admin,
+                AuthorizationLevelDTO.Admin,
                 "*",
                 Optional.empty()
         );
@@ -61,7 +56,7 @@ public abstract class AuthService{
      * @param resourcePrefix the target resource
      */
     @Cacheable(value = "user-authorization", key = "{#authentication.credentials, #authorization, #resourcePrefix}", unless = "#authentication == null")
-    public boolean checkAuthorizationForOwnerAuthTypeAndResourcePrefix(Authentication authentication, AuthorizationTypeDTO authorization, String resourcePrefix) {
+    public boolean checkAuthorizationForOwnerAuthTypeAndResourcePrefix(Authentication authentication, AuthorizationLevelDTO authorization, String resourcePrefix) {
         if (!checkAuthentication(authentication)) return false;
         if (checkForRoot(authentication)) return true;
         List<AuthorizationDTO> foundLogbookAuth = getAllAuthorizationForOwnerAndAndAuthTypeAndResourcePrefix(
@@ -73,35 +68,28 @@ public abstract class AuthService{
         return !foundLogbookAuth.isEmpty();
     }
 
+    /**
+     * Create a new authorization in case
+     * @param authorizationDTO
+     */
+    abstract public void addNewAuthorization(NewAuthorizationDTO authorizationDTO);
+    abstract public void deleteAuthorizationById(String authorizationId);
+    abstract public List<AuthorizationDTO> findByResourceIs(String resource);
     abstract  public void deleteAuthorizationForResourcePrefix(String resourcePrefix);
-
     abstract  public void deleteAuthorizationForResource(String resource);
-
-    abstract  public List<AuthorizationDTO> getAllAuthorizationForOwnerAndAndAuthTypeAndResourcePrefix(String owner, AuthorizationTypeDTO authorizationType, String resourcePrefix, Optional<Boolean> allHigherAuthOnSameResource);
-
+    abstract  public List<AuthorizationDTO> getAllAuthorizationForOwnerAndAndAuthTypeAndResourcePrefix(String owner, AuthorizationLevelDTO authorizationType, String resourcePrefix, Optional<Boolean> allHigherAuthOnSameResource);
     abstract  public void updateRootUser();
-
     abstract  public void updateAutoManagedRootToken();
-
     abstract  public void addRootAuthorization(String email, String creator);
-
     abstract  public void removeRootAuthorization(String email);
-
     abstract  public String ensureAuthenticationToken(AuthenticationToken authenticationToken);
-
     abstract  public AuthenticationTokenDTO addNewAuthenticationToken(NewAuthenticationTokenDTO newAuthenticationTokenDTO, boolean appManaged);
-
     abstract  public Optional<AuthenticationTokenDTO> getAuthenticationTokenByName(String name);
-
     abstract  public List<AuthenticationTokenDTO> getAllAuthenticationToken();
-
     abstract  public void deleteToken(String id);
-
     abstract  public Optional<AuthenticationTokenDTO> getAuthenticationTokenById(String id);
-
     abstract  public boolean existsAuthenticationTokenByEmail(String email);
-
     abstract  public Optional<AuthenticationTokenDTO> getAuthenticationTokenByEmail(String email);
-
     abstract  public void deleteAllAuthenticationTokenWithEmailEndWith(String emailPostfix);
+    abstract  public List<AuthenticationTokenDTO> getAuthenticationTokenByEmailEndsWith(String id);
 }
