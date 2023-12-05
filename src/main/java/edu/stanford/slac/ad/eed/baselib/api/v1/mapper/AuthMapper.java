@@ -2,7 +2,7 @@ package edu.stanford.slac.ad.eed.baselib.api.v1.mapper;
 
 
 import edu.stanford.slac.ad.eed.baselib.api.v1.dto.AuthorizationDTO;
-import edu.stanford.slac.ad.eed.baselib.api.v1.dto.AuthorizationLevelDTO;
+import edu.stanford.slac.ad.eed.baselib.api.v1.dto.AuthorizationTypeDTO;
 import edu.stanford.slac.ad.eed.baselib.api.v1.dto.GroupDTO;
 import edu.stanford.slac.ad.eed.baselib.api.v1.dto.NewAuthenticationTokenDTO;
 import edu.stanford.slac.ad.eed.baselib.config.AppProperties;
@@ -28,7 +28,7 @@ public abstract class AuthMapper {
     protected AppProperties appProperties;
     public abstract PersonDTO fromModel(Person p);
     public abstract GroupDTO fromModel(Group g);
-    @Mapping(target = "authorizationType", expression = "java(AuthorizationLevelDTO.valueOf(Authorization.Type.fromValue(a.getAuthorizationType()).name()))")
+    @Mapping(target = "authorizationType", expression = "java(AuthorizationTypeDTO.valueOf(Authorization.Type.fromValue(a.getAuthorizationType()).name()))")
     public abstract AuthorizationDTO fromModel(Authorization a);
     @Mapping(target = "authorizationType", expression = "java(Authorization.Type.valueOf(a.authorizationType().name()).getValue())")
     public abstract Authorization toModel(AuthorizationDTO a);
@@ -42,5 +42,5 @@ public abstract class AuthMapper {
     @Mapping(target = "email", expression = "java(EMAIL_FORMAT.formatted(a.name(), appProperties.getAuthenticationTokenDomain()))")
     public abstract AuthenticationToken toModelGlobalToken(NewAuthenticationTokenDTO a);
     public abstract AuthenticationTokenDTO toTokenDTO(AuthenticationToken a);
-    public abstract Authorization.Type toModel(AuthorizationLevelDTO type);
+    public abstract Authorization.Type toModel(AuthorizationTypeDTO type);
 }

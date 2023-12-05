@@ -38,7 +38,7 @@ public abstract class AuthService{
         // only root user can create logbook
         List<AuthorizationDTO> foundAuth = getAllAuthorizationForOwnerAndAndAuthTypeAndResourcePrefix(
                 authentication.getCredentials().toString(),
-                AuthorizationLevelDTO.Admin,
+                AuthorizationTypeDTO.Admin,
                 "*",
                 Optional.empty()
         );
@@ -56,7 +56,7 @@ public abstract class AuthService{
      * @param resourcePrefix the target resource
      */
     @Cacheable(value = "user-authorization", key = "{#authentication.credentials, #authorization, #resourcePrefix}", unless = "#authentication == null")
-    public boolean checkAuthorizationForOwnerAuthTypeAndResourcePrefix(Authentication authentication, AuthorizationLevelDTO authorization, String resourcePrefix) {
+    public boolean checkAuthorizationForOwnerAuthTypeAndResourcePrefix(Authentication authentication, AuthorizationTypeDTO authorization, String resourcePrefix) {
         if (!checkAuthentication(authentication)) return false;
         if (checkForRoot(authentication)) return true;
         List<AuthorizationDTO> foundLogbookAuth = getAllAuthorizationForOwnerAndAndAuthTypeAndResourcePrefix(
@@ -77,7 +77,7 @@ public abstract class AuthService{
     abstract public List<AuthorizationDTO> findByResourceIs(String resource);
     abstract  public void deleteAuthorizationForResourcePrefix(String resourcePrefix);
     abstract  public void deleteAuthorizationForResource(String resource);
-    abstract  public List<AuthorizationDTO> getAllAuthorizationForOwnerAndAndAuthTypeAndResourcePrefix(String owner, AuthorizationLevelDTO authorizationType, String resourcePrefix, Optional<Boolean> allHigherAuthOnSameResource);
+    abstract  public List<AuthorizationDTO> getAllAuthorizationForOwnerAndAndAuthTypeAndResourcePrefix(String owner, AuthorizationTypeDTO authorizationType, String resourcePrefix, Optional<Boolean> allHigherAuthOnSameResource);
     abstract  public void updateRootUser();
     abstract  public void updateAutoManagedRootToken();
     abstract  public void addRootAuthorization(String email, String creator);
