@@ -5,7 +5,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import static edu.stanford.slac.ad.eed.baselib.exception.Utility.getAllMethodInCall;
-import static edu.stanford.slac.code_inventory_system.exception.Utility.getAllMethodInCall;
 
 @ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "Authorization has not been found")
 public class AuthorizationNotFound extends ControllerLogicException {
