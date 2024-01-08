@@ -64,6 +64,54 @@ public class Utility {
     }
 
     /**
+     * Convert exception in @ControllerLogicException one
+     * @param callable the callable that can throw an exception
+     * @param errorCode the error
+     * @return the result of the callable
+     * @param <T> the type
+     */
+    static public <T> T wrapCatch(
+            Callable<T> callable,
+            int errorCode) {
+        try {
+            return callable.call();
+        } catch (ControllerLogicException e) {
+            throw e;
+        } catch (Exception e) {
+            throw ControllerLogicException.builder()
+                    .errorCode(errorCode)
+                    .errorMessage(e.getMessage())
+                    .errorDomain(getAllMethodInCall())
+                    .build(); // or return null, or whatever you want
+        }
+    }
+
+    /**
+     * Wrap a method within a try/catch and generate, in case of
+     * @param callable  the callable that can throw an exception
+     * @param errorCode the error
+     * @param errorMessage the message
+     * @return the result of the callable
+     * @param <T> the type
+     */
+    static public <T> T wrapCatchWMsg(
+            Callable<T> callable,
+            int errorCode,
+            String errorMessage) {
+        try {
+            return callable.call();
+        } catch (ControllerLogicException e) {
+            throw e;
+        } catch (Exception e) {
+            throw ControllerLogicException.builder()
+                    .errorCode(errorCode)
+                    .errorMessage(errorMessage)
+                    .errorDomain(getAllMethodInCall())
+                    .build(); // or return null, or whatever you want
+        }
+    }
+
+    /**
      * Throw @ControllerLogicException on assertion fails
      *
      * @param callable     the callable that return a boolean
@@ -233,5 +281,28 @@ public class Utility {
      */
     static public boolean none(List<Supplier<Boolean>> checks) {
         return checks.stream().noneMatch(Supplier::get);
+    }
+
+    /**
+     * Get all the method in call, starting from edu.stanford.slac.ad.eed.baselib.exception.Utility.getAllMethodInCall()
+     * @return the method in call
+     */
+    static String getAllMethodInCall() {
+        StringBuilder sb = new StringBuilder();
+        StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
+        for(int idx = 2; idx < stackTraceElements.length; idx++) {
+            if(stackTraceElements[idx].getClassName().contains("edu.stanford.slac.") &&
+                    !stackTraceElements[idx].getClassName().contains("<") &&
+                    !stackTraceElements[idx].getClassName().contains("$") &&
+                    !stackTraceElements[idx].getMethodName().contains("<") &&
+                    !stackTraceElements[idx].getMethodName().contains("$")
+            ) {
+                sb.append(stackTraceElements[idx].getClassName());
+                sb.append("::");
+                sb.append(stackTraceElements[idx].getMethodName());
+                break;
+            }
+        }
+        return sb.toString();
     }
 }
