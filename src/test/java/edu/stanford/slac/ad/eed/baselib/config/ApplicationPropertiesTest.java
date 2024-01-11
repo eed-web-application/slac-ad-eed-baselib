@@ -46,4 +46,17 @@ public class ApplicationPropertiesTest {
                 true
         );
     }
+    @Test
+    public void authenticationServiceTokenTest(){
+        AppProperties appProp = new AppProperties();
+        appProp.setAppName("app-a");
+
+        assertThat(
+                appProp.isAuthenticationToken(
+                        "email@%s".formatted(appProp.getAuthenticationTokenDomain())
+                )
+        ).isEqualTo(
+                true
+        );
+    }
 }

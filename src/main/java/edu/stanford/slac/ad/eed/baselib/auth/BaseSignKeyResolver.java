@@ -1,4 +1,5 @@
 package edu.stanford.slac.ad.eed.baselib.auth;
+import edu.stanford.slac.ad.eed.baselib.config.AppProperties;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwsHeader;
 import io.jsonwebtoken.SigningKeyResolverAdapter;
@@ -20,7 +21,7 @@ public  abstract class BaseSignKeyResolver extends SigningKeyResolverAdapter {
         if (
                 claims.containsKey(Claims.ISSUER) &&
                         claims.get(Claims.ISSUER).toString().compareToIgnoreCase(
-                                jwtHelper.applicationIssuer
+                                jwtHelper.getApplicationIssuer()
                         ) == 0
         ) {
             Key result = null;
