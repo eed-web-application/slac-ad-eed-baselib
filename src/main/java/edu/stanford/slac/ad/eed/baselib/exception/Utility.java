@@ -287,7 +287,7 @@ public class Utility {
      * Get all the method in call, starting from edu.stanford.slac.ad.eed.baselib.exception.Utility.getAllMethodInCall()
      * @return the method in call
      */
-    static String getAllMethodInCall() {
+    static public String getAllMethodInCall() {
         StringBuilder sb = new StringBuilder();
         StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
         for(int idx = 2; idx < stackTraceElements.length; idx++) {
