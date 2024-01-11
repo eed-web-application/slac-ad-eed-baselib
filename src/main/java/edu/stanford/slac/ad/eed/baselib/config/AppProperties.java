@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import javax.annotation.PostConstruct;
@@ -22,6 +23,8 @@ import java.util.regex.Pattern;
 @Setter
 @ConfigurationProperties(prefix = "edu.stanford.slac.ad.eed.baselib")
 public class AppProperties {
+    @Value("${spring.application.name}")
+    private String appName;
     /**
      * The application token are generated using a fake email for identify the user
      * for example: token@slac.app$ is a global token. A token for only a specific applcaition
@@ -59,7 +62,9 @@ public class AppProperties {
         return applicationEmailRegex.formatted(appTokenPrefix);
     }
 
-
+    public String getAppEmailPostfix() {
+        return "%s.%s".formatted(appName, authenticationTokenDomain);
+    }
 
     /**
      * Check if the email belong to an authentication token instead of

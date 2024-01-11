@@ -1,5 +1,8 @@
 package edu.stanford.slac.ad.eed.baselib.auth;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.stanford.slac.ad.eed.baselib.config.AppProperties;
 import edu.stanford.slac.ad.eed.baselib.exception.ControllerLogicException;
 import edu.stanford.slac.ad.eed.baselib.model.AuthenticationToken;
@@ -8,9 +11,13 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.security.Key;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.HashMap;
@@ -20,9 +27,14 @@ import java.util.Map;
 @AllArgsConstructor
 public class JWTHelper {
     private final AppProperties appProperties;
-    public final String applicationIssuer = "elog-plus";
+
     private static Key secretKey = null;
     private static final long EXPIRATION_TIME_MS = 3600000;
+
+    public String getApplicationIssuer() {
+        return appProperties.getAppName();
+    }
+
     // For use with MockMvc
     public String generateJwt(String email) {
         Date now = new Date();
@@ -41,6 +53,24 @@ public class JWTHelper {
                 .compact();
     }
 
+    /**
+     * Generate a service token
+
+     * @return the service token
+     */
+    public String generateServiceToken(){
+        return generateAuthenticationToken(
+                AuthenticationToken.builder()
+                        .name(appProperties.getAppName())
+                        .email("service@%s".formatted(appProperties.getAppEmailPostfix()))
+                        .expiration(
+                                LocalDate.now().plusDays(365)
+
+                        )
+                        .build()
+        );
+    }
+
     public String generateAuthenticationToken(AuthenticationToken authenticationToken) {
         Map<String,Object> claims = new HashMap<>();
         claims.put("email", authenticationToken.getEmail());
@@ -51,7 +81,7 @@ public class JWTHelper {
                 )
                 .addClaims(claims)
                 .setIssuedAt(new Date())
-                .setIssuer(applicationIssuer)
+                .setIssuer(appProperties.getAppName())
                 .setSubject(authenticationToken.getName())
                 .setExpiration(
                         Date.from(
