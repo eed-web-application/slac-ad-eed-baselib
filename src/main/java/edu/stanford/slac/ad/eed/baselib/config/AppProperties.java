@@ -59,7 +59,10 @@ public class AppProperties {
      * @return the application domain
      */
     public String getAppTokenRegex() {
-        return applicationEmailRegex.formatted(getApplicationTokenEmailDomain());
+        var addDomain = getApplicationTokenEmailDomain();
+        addDomain = addDomain.replace(".", "\\."); // escape the dot
+        addDomain = addDomain.replace("$", "\\$"); // escape the dollar sign
+        return applicationEmailRegex.formatted(addDomain);
     }
 
     public String getAppEmailPostfix() {
