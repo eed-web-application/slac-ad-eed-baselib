@@ -58,13 +58,6 @@ dependencies {
     testImplementation 'org.awaitility:awaitility:4.0.3'
 }
 
-springBoot {
-    buildInfo {
-        propertiesFile = file('src/main/resources/slac-ad-eed-baselib-build-info.properties')
-    }
-}
-
-
 tasks.named('test') {
     useJUnitPlatform()
 }
