@@ -25,12 +25,6 @@ import java.util.regex.Pattern;
 public class AppProperties {
     @Value("${spring.application.name}")
     private String appName;
-    /**
-     * The application token are generated using a fake email for identify the user
-     * for example: token@slac.app$ is a global token. A token for only a specific applcaition
-     * will have the form: token-a@{appTokenPrefix}.slac.app$
-     */
-    private String appTokenPrefix;
     private String appTokenJwtKey;
     private String dbAdminUri;
     private String userHeaderName;
@@ -59,7 +53,7 @@ public class AppProperties {
      * @return the application domain
      */
     public String getAppTokenRegex() {
-        var addDomain = getApplicationTokenEmailDomain();
+        var addDomain = getAppEmailPostfix();
         addDomain = addDomain.replace(".", "\\."); // escape the dot
         addDomain = addDomain.replace("$", "\\$"); // escape the dollar sign
         return applicationEmailRegex.formatted(addDomain);
@@ -91,13 +85,5 @@ public class AppProperties {
         final Pattern pattern = Pattern.compile(getAppTokenRegex(), Pattern.MULTILINE);
         final Matcher matcher = pattern.matcher(email);
         return matcher.matches();
-    }
-
-    /**
-     * Return the application token email domain
-     * @return the email domani for the application wide authentication token
-     */
-    public String getApplicationTokenEmailDomain() {
-        return "%s.%s".formatted(getAppTokenPrefix(), getAuthenticationTokenDomain());
     }
 }

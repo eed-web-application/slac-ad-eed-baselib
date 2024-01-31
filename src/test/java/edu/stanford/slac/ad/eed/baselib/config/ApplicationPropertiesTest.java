@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -20,11 +21,10 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 public class ApplicationPropertiesTest {
     @MockBean
     AuthService authService;
+    @Autowired
+    AppProperties appProp;
     @Test
     public void authenticationTokenTest(){
-        AppProperties appProp = new AppProperties();
-        appProp.setAppTokenPrefix("app-a");
-
         assertThat(
                 appProp.isAuthenticationToken(
                         "email@%s".formatted(appProp.getAuthenticationTokenDomain())
@@ -35,12 +35,9 @@ public class ApplicationPropertiesTest {
     }
     @Test
     public void applicationTokenTest(){
-        AppProperties appProp = new AppProperties();
-        appProp.setAppTokenPrefix("app-a");
-
         assertThat(
                 appProp.isAppTokenEmail(
-                        "email@app-a.%s".formatted(appProp.getAuthenticationTokenDomain())
+                        "email@%s".formatted(appProp.getAppEmailPostfix())
                 )
         ).isEqualTo(
                 true
@@ -48,9 +45,6 @@ public class ApplicationPropertiesTest {
     }
     @Test
     public void authenticationServiceTokenTest(){
-        AppProperties appProp = new AppProperties();
-        appProp.setAppName("app-a");
-
         assertThat(
                 appProp.isAuthenticationToken(
                         "email@%s".formatted(appProp.getAuthenticationTokenDomain())
