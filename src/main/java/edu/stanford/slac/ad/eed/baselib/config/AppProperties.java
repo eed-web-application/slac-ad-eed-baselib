@@ -30,6 +30,7 @@ public class AppProperties {
     private String userHeaderName;
     private String oauthServerDiscover;
     private List<String> rootUserList = new ArrayList<>();
+    private List<String> authorizedServiceInternalToken = new ArrayList<>();
     private List<NewAuthenticationTokenDTO> rootAuthenticationTokenList = new ArrayList<>();
     private String rootAuthenticationTokenListJson = "[]";
     // all email that belong to this domain belongs to application toke authorization

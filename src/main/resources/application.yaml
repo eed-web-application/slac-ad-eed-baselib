@@ -27,8 +27,10 @@ edu:
     slac:
       ad:
         eed:
-          app-token-jwt-key: ${BASE_APP_APP_TOKEN_JWT}
-          root-user-list: ${BASE_APP_ROOT_USERS}
-          root-authentication-token-list-json: ${BASE_APP_ROOT_AUTHENTICATION_TOKEN_JSON}
-          oauth-server-discover: ${BASE_APP_OIDC_CONFIGURATION_ENDPOINT:https://dex.slac.stanford.edu/.well-known/openid-configuration}
-          user-header-name: ${BASE_APP_AUTH_HEADER:x-vouch-idp-accesstoken}
+          baselib:
+            authorized-service-internal-token: ${BASE_APP_AUTHORIZED_SERVICE_INTERNAL_TOKEN}
+            app-token-jwt-key: ${BASE_APP_APP_TOKEN_JWT}
+            root-user-list: ${BASE_APP_ROOT_USERS}
+            root-authentication-token-list-json: ${BASE_APP_ROOT_AUTHENTICATION_TOKEN_JSON}
+            oauth-server-discover: ${BASE_APP_OIDC_CONFIGURATION_ENDPOINT:https://dex.slac.stanford.edu/.well-known/openid-configuration}
+            user-header-name: ${BASE_APP_AUTH_HEADER:x-vouch-idp-accesstoken}
