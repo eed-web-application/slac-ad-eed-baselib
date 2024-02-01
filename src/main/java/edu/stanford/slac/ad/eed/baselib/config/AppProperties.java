@@ -30,7 +30,6 @@ public class AppProperties {
     private String userHeaderName;
     private String oauthServerDiscover;
     private List<String> rootUserList = new ArrayList<>();
-    private List<String> authorizedServiceInternalToken = new ArrayList<>();
     private List<NewAuthenticationTokenDTO> rootAuthenticationTokenList = new ArrayList<>();
     private String rootAuthenticationTokenListJson = "[]";
     // all email that belong to this domain belongs to application toke authorization
@@ -60,10 +59,20 @@ public class AppProperties {
         return applicationEmailRegex.formatted(addDomain);
     }
 
+    public String getInternalServiceAppTokenRegex() {
+        var addDomain = authenticationTokenDomain;
+        addDomain = addDomain.replace(".", "\\."); // escape the dot
+        addDomain = addDomain.replace("$", "\\$"); // escape the dollar sign
+        return "service@internal.*.%s".formatted(addDomain);
+    }
+
     public String getAppEmailPostfix() {
         return "%s.%s".formatted(appName, authenticationTokenDomain);
     }
 
+    public String getInternalServiceTokenEmail() {
+        return "service@internal.%s.%s".formatted(appName, authenticationTokenDomain);
+    }
     /**
      * Check if the email belong to an authentication token instead of
      * real user
@@ -84,6 +93,12 @@ public class AppProperties {
      */
     public boolean isAppTokenEmail(String email) {
         final Pattern pattern = Pattern.compile(getAppTokenRegex(), Pattern.MULTILINE);
+        final Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
+
+    public boolean isServiceInternalTokenEmail(String email) {
+        final Pattern pattern = Pattern.compile(getInternalServiceAppTokenRegex(), Pattern.MULTILINE);
         final Matcher matcher = pattern.matcher(email);
         return matcher.matches();
     }
