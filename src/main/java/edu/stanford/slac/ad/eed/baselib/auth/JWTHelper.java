@@ -62,7 +62,7 @@ public class JWTHelper {
         return generateAuthenticationToken(
                 AuthenticationToken.builder()
                         .name(appProperties.getAppName())
-                        .email("service@internal.%s".formatted(appProperties.getAppEmailPostfix()))
+                        .email(appProperties.getInternalServiceTokenEmail())
                         .expiration(
                                 LocalDate.now().plusDays(365)
 

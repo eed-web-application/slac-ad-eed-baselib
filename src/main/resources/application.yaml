@@ -28,7 +28,6 @@ edu:
       ad:
         eed:
           baselib:
-            authorized-service-internal-token: ${BASE_APP_AUTHORIZED_SERVICE_INTERNAL_TOKEN}
             app-token-jwt-key: ${BASE_APP_APP_TOKEN_JWT}
             root-user-list: ${BASE_APP_ROOT_USERS}
             root-authentication-token-list-json: ${BASE_APP_ROOT_AUTHENTICATION_TOKEN_JSON}

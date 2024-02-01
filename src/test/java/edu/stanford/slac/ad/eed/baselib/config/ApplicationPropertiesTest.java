@@ -53,4 +53,15 @@ public class ApplicationPropertiesTest {
                 true
         );
     }
+
+    @Test
+    public void testInternalServiceEmail(){
+        assertThat(
+                appProp.isServiceInternalTokenEmail(
+                        appProp.getInternalServiceTokenEmail()
+                )
+        ).isEqualTo(
+                true
+        );
+    }
 }
