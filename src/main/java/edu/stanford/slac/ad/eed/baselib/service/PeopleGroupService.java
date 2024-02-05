@@ -30,6 +30,7 @@ public class PeopleGroupService {
     private final AuthMapper authMapper;
     private final PersonRepository personRepository;
     private final GroupRepository groupRepository;
+
     public PersonDTO findPerson(Authentication authentication) {
         return personRepository.findByMail(
                 authentication.getCredentials().toString()
@@ -79,18 +80,20 @@ public class PeopleGroupService {
     }
 
     /**
-     *
-     * @param email
-     * @return
+     * find all group for the user
+     * @param email the email of the person
+     * @return the person DTO
      */
-    public Person findPersonByMain(String email) {
-        return personRepository.findByMail(email)
-                .orElseThrow(
-                        () -> PersonNotFound.personNotFoundBuilder()
-                                .errorCode(-1)
-                                .email(email)
-                                .errorDomain("AuthService::addRootAuthorization")
-                                .build()
-                );
+    public PersonDTO findPersonByEMail(String email) {
+        return authMapper.fromModel(
+                personRepository.findByMail(email)
+                        .orElseThrow(
+                                () -> PersonNotFound.personNotFoundBuilder()
+                                        .errorCode(-1)
+                                        .email(email)
+                                        .errorDomain("AuthService::addRootAuthorization")
+                                        .build()
+                        )
+        );
     }
 }
