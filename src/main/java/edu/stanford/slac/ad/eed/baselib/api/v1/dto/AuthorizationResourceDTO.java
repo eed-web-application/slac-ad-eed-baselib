@@ -9,10 +9,8 @@ import lombok.Builder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Schema(description = "The authorization of the user on the resources returned in the payload")
-public record PayloadAuthorizationDTO (
-        @Schema(description = "Is the id of the authorization subject, in case of a list is returned, the id help to find the subject of the authorization")
-        String subjectId,
-        @Schema(description = "Is the resource target of the authorization")
+public record AuthorizationResourceDTO(
+        @Schema(description = "Is the field on the resource that is target of the authorization")
         String field,
         @Schema(description = "Is the type of the authorizations [Read, Write, Admin]")
         AuthorizationTypeDTO authorizationType
