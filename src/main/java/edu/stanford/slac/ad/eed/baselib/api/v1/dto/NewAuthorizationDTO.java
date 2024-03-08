@@ -10,7 +10,7 @@ import java.io.Serializable;
 @Builder(toBuilder = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Schema(description = "Is the description for an authorization")
+@Schema(description = "Is the new authorization to be created in the system")
 public record NewAuthorizationDTO(
         @Schema(description = "Is the type of the authorizations [User, Group, Application]")
         AuthorizationTypeDTO authorizationType,
