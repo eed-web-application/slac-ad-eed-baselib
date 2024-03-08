@@ -8,6 +8,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -24,6 +27,8 @@ public class ApiResultResponse<T> {
     private String errorDomain;
     @Schema(description = "Is the value returned by api")
     private T payload;
+    @Schema(description = "The authorizations of the user on the resources returned in the payload")
+    private List<PayloadAuthorizationDTO> authorizations = new ArrayList<>();
 
     /**
      * Fast constructor for error situation

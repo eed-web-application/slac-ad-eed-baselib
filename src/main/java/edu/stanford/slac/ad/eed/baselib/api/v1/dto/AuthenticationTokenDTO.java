@@ -17,7 +17,7 @@ import java.time.LocalDate;
 @Builder(toBuilder = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Schema(description = "The authentication token for logbook")
+@Schema(description = "The authentication token")
 public record AuthenticationTokenDTO(
         String id,
         String name,
