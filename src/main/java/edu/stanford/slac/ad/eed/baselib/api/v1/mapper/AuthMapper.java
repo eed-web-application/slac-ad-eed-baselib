@@ -24,6 +24,7 @@ import java.util.List;
 )
 public abstract class AuthMapper {
     static public final String EMAIL_FORMAT = "%s@%s";
+    static public final String EMAIL_FORMAT_CUSTOM_APP_DOMAIN = "%s@%s.%s";
     @Autowired
     protected AppProperties appProperties;
     public abstract PersonDTO fromModel(Person p);
@@ -39,6 +40,8 @@ public abstract class AuthMapper {
     public abstract AuthenticationToken toModelAuthenticationToken(AuthenticationTokenDTO a);
     @Mapping(target = "email", expression = "java(EMAIL_FORMAT.formatted(a.name(), appProperties.getAppEmailPostfix()))")
     public abstract AuthenticationToken toModelApplicationToken(NewAuthenticationTokenDTO a);
+    @Mapping(target = "email", expression = "java(EMAIL_FORMAT_CUSTOM_APP_DOMAIN.formatted(a.name(), prefixDomain, appProperties.getAppEmailPostfix()))")
+    public abstract AuthenticationToken toModelApplicationToken(NewAuthenticationTokenDTO a, String prefixDomain);
     @Mapping(target = "email", expression = "java(EMAIL_FORMAT.formatted(a.name(), appProperties.getAuthenticationTokenDomain()))")
     public abstract AuthenticationToken toModelGlobalToken(AuthenticationTokenDTO a);
     @Mapping(target = "email", expression = "java(EMAIL_FORMAT.formatted(a.name(), appProperties.getAuthenticationTokenDomain()))")
