@@ -1,5 +1,6 @@
 package edu.stanford.slac.ad.eed.baselib.mapper;
 
+import edu.stanford.slac.ad.eed.baselib.api.v1.dto.AuthenticationTokenDTO;
 import edu.stanford.slac.ad.eed.baselib.api.v1.dto.NewAuthenticationTokenDTO;
 import edu.stanford.slac.ad.eed.baselib.api.v1.mapper.AuthMapper;
 import edu.stanford.slac.ad.eed.baselib.service.AuthService;
@@ -26,9 +27,22 @@ public class MapperTest {
     @MockBean
     AuthService authService;
     @Test
-    public void testCustomAppAuthenticationToken() {
+    public void testCustomAppAuthenticationTokenFromNewDTO() {
         var authToken = authMapper.toModelApplicationToken(
                 NewAuthenticationTokenDTO
+                        .builder()
+                        .name("token-name")
+                        .build(),
+                "custom-app-prefix"
+        );
+
+        assertThat(authToken.getEmail()).isEqualTo("token-name@custom-app-prefix.test-app.slac.app$");
+    }
+
+    @Test
+    public void testCustomAppAuthenticationTokenFromDTO() {
+        var authToken = authMapper.toModelAuthenticationToken(
+                AuthenticationTokenDTO
                         .builder()
                         .name("token-name")
                         .build(),
