@@ -34,11 +34,8 @@ public class SLACAuthenticationProvider implements AuthenticationProvider {
         try {
             SLACAuthenticationToken slacToken = (SLACAuthenticationToken) authentication;
 
-            Jws<Claims> j = Jwts.parserBuilder()
-                    .setSigningKeyResolver
-                            (
-                                    signKeyResolver
-                            )
+            Jws<Claims> j = Jwts.parser()
+                    .setSigningKeyResolver(signKeyResolver)
                     .build()
                     .parseClaimsJws(((SLACAuthenticationToken) authentication).getUserToken());
 
