@@ -72,7 +72,7 @@ public abstract class AuthService{
     /**
      * Check and in case create the authorization
      */
-    abstract  public String ensureAuthorization(Authorization authorization);
+    abstract  public String ensureAuthorization(AuthorizationDTO authorization);
 
     /**
      * Create a new authorization in case
