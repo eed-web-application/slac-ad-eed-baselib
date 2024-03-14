@@ -230,8 +230,8 @@ public class AuthorizationController {
     )
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResultResponse<AuthenticationTokenDTO> createNewAuthenticationToken(
-            @RequestBody NewAuthenticationTokenDTO newAuthenticationTokenDTO,
-            Authentication authentication
+            Authentication authentication,
+            @RequestBody NewAuthenticationTokenDTO newAuthenticationTokenDTO
     ) {
         // assert that all the user that are root of whatever resource
         assertion(
@@ -248,7 +248,7 @@ public class AuthorizationController {
                 )
         );
         return ApiResultResponse.of(
-                authService.addNewAuthenticationToken(newAuthenticationTokenDTO, false)
+                authService.addNewApplicationAuthenticationToken(newAuthenticationTokenDTO, false)
         );
     }
 
@@ -259,7 +259,7 @@ public class AuthorizationController {
             path = "/application-token",
             produces = {MediaType.APPLICATION_JSON_VALUE}
     )
-    public ApiResultResponse<List<AuthenticationTokenDTO>> getAuthenticationToken(
+    public ApiResultResponse<List<AuthenticationTokenDTO>> getApplicationAuthenticationToken(
             Authentication authentication
     ) {
         // assert that all the user that are root of whatever resource
