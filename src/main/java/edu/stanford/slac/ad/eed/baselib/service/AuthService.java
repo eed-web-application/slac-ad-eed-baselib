@@ -70,13 +70,18 @@ public abstract class AuthService{
     }
 
     /**
+     * Update the authorization type
+     */
+    abstract  public String updateAuthorizationType(String authorizationId, AuthorizationTypeDTO authorizationTypeDTO);
+
+    /**
      * Check and in case create the authorization
      */
     abstract  public String ensureAuthorization(AuthorizationDTO authorization);
 
     /**
      * Create a new authorization in case
-     * @param newAuthorizationDTO
+     * @param newAuthorizationDTO the new authorization
      */
     abstract public String addNewAuthorization(NewAuthorizationDTO newAuthorizationDTO);
     abstract public void deleteAuthorizationById(String authorizationId);
