@@ -89,7 +89,18 @@ public abstract class AuthService{
     abstract  public void addRootAuthorization(String email, String creator);
     abstract  public void removeRootAuthorization(String email);
     abstract  public String ensureAuthenticationToken(AuthenticationToken authenticationToken);
+    /**
+     * Add a new authentication token application specific that mean the email is @slac.stanford.edu$
+     * @param newAuthenticationTokenDTO the new authentication token
+     * @param appManaged if the token is managed by the application
+     */
     abstract  public AuthenticationTokenDTO addNewAuthenticationToken(NewAuthenticationTokenDTO newAuthenticationTokenDTO, boolean appManaged);
+    /**
+     * Add a new authentication token application specific that mean the email is @app-name.slac.stanford.edu$
+     * @param newAuthenticationTokenDTO the new authentication token
+     * @param appManaged if the token is managed by the application
+     */
+    abstract  public AuthenticationTokenDTO addNewApplicationAuthenticationToken(NewAuthenticationTokenDTO newAuthenticationTokenDTO, boolean appManaged);
     abstract  public Optional<AuthenticationTokenDTO> getAuthenticationTokenByName(String name);
     abstract  public List<AuthenticationTokenDTO> getAllAuthenticationToken();
     abstract  public void deleteToken(String id);
