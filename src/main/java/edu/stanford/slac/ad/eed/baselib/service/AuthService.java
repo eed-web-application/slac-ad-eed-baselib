@@ -3,6 +3,7 @@ package edu.stanford.slac.ad.eed.baselib.service;
 import edu.stanford.slac.ad.eed.baselib.api.v1.dto.*;
 import edu.stanford.slac.ad.eed.baselib.config.AppProperties;
 import edu.stanford.slac.ad.eed.baselib.model.AuthenticationToken;
+import edu.stanford.slac.ad.eed.baselib.model.Authorization;
 import lombok.AllArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.Authentication;
@@ -67,6 +68,11 @@ public abstract class AuthService{
         );
         return !foundLogbookAuth.isEmpty();
     }
+
+    /**
+     * Check and in case create the authorization
+     */
+    abstract  public String ensureAuthorization(Authorization authorization);
 
     /**
      * Create a new authorization in case
