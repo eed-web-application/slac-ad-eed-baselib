@@ -4,6 +4,7 @@ import edu.stanford.slac.ad.eed.baselib.api.v1.dto.*;
 import edu.stanford.slac.ad.eed.baselib.exception.NotAuthorized;
 import edu.stanford.slac.ad.eed.baselib.service.AuthService;
 import edu.stanford.slac.ad.eed.baselib.service.PeopleGroupService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -136,6 +137,7 @@ public class AuthorizationController {
             produces = {MediaType.APPLICATION_JSON_VALUE}
     )
     @ResponseStatus(HttpStatus.CREATED)
+    @Operation(summary = "Create root user authorization", description = "Let the user, identified by the email, to be root")
     public ApiResultResponse<Boolean> setRootUser(
             @PathVariable String email,
             Authentication authentication
@@ -167,6 +169,7 @@ public class AuthorizationController {
             path = "/root/{email}",
             produces = {MediaType.APPLICATION_JSON_VALUE}
     )
+    @Operation(summary = "Delete root user authorization", description = "Remove the user, identified by the email, to be root")
     public ApiResultResponse<Boolean> removeAsRootUser(
             @PathVariable String email,
             Authentication authentication
@@ -198,6 +201,7 @@ public class AuthorizationController {
             path = "/root",
             produces = {MediaType.APPLICATION_JSON_VALUE}
     )
+    @Operation(summary = "Delete root user authorization", description = "Remove the user, identified by the email, to be root")
     public ApiResultResponse<List<AuthorizationDTO>> findAllRoot(
             Authentication authentication
     ) {
@@ -229,8 +233,16 @@ public class AuthorizationController {
             produces = {MediaType.APPLICATION_JSON_VALUE}
     )
     @ResponseStatus(HttpStatus.CREATED)
+    @Operation(
+            summary = "Create new authentication token",
+            description = """
+                    Create a new authentication token, a token permit to access the application without the needs of a user password
+                    it should be submitted in the http header along with the http request
+                    """
+    )
     public ApiResultResponse<AuthenticationTokenDTO> createNewAuthenticationToken(
             Authentication authentication,
+            @Parameter(description = "Is the new authentication token to be created")
             @RequestBody NewAuthenticationTokenDTO newAuthenticationTokenDTO
     ) {
         // assert that all the user that are root of whatever resource
@@ -259,7 +271,11 @@ public class AuthorizationController {
             path = "/application-token",
             produces = {MediaType.APPLICATION_JSON_VALUE}
     )
-    public ApiResultResponse<List<AuthenticationTokenDTO>> getApplicationAuthenticationToken(
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(
+            summary = "Find all authentication token"
+    )
+    public ApiResultResponse<List<AuthenticationTokenDTO>> findAllAuthenticationToken(
             Authentication authentication
     ) {
         // assert that all the user that are root of whatever resource
@@ -289,8 +305,12 @@ public class AuthorizationController {
             path = "/application-token/{id}",
             produces = {MediaType.APPLICATION_JSON_VALUE}
     )
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(
+            summary = "Delete an authentication token"
+    )
     public ApiResultResponse<Boolean> deleteAuthenticationToken(
-            @Parameter(description = "Is the unique eid of the authentication token")
+            @Parameter(description = "Is the unique id of the authentication token")
             @PathVariable() String id,
             Authentication authentication
     ) {
