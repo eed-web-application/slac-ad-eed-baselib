@@ -290,7 +290,7 @@ public class Utility {
     static public String getAllMethodInCall() {
         StringBuilder sb = new StringBuilder();
         StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
-        for(int idx = 2; idx < stackTraceElements.length; idx++) {
+        for(int idx = 3; idx < stackTraceElements.length; idx++) {
             if(stackTraceElements[idx].getClassName().contains("edu.stanford.slac.") &&
                     !stackTraceElements[idx].getClassName().contains("<") &&
                     !stackTraceElements[idx].getClassName().contains("$") &&
