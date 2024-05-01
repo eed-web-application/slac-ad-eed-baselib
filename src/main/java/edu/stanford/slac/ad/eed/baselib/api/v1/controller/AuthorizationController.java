@@ -34,6 +34,9 @@ public class AuthorizationController {
             path = "/me",
             produces = {MediaType.APPLICATION_JSON_VALUE}
     )
+    @Operation(
+            summary = "Get current user information"
+    )
     //@Cacheable(value = "current-user-info", key = "#authentication.credentials")
     public ApiResultResponse<PersonDTO> me(Authentication authentication) {
         // check authentication
@@ -55,6 +58,9 @@ public class AuthorizationController {
     @GetMapping(
             path = "/users",
             produces = {MediaType.APPLICATION_JSON_VALUE}
+    )
+    @Operation(
+            summary = "Find within user list"
     )
     public ApiResultResponse<List<PersonDTO>> findPeople(
             @Parameter(description = "is the prefix used to filter the people")
@@ -93,6 +99,9 @@ public class AuthorizationController {
     @GetMapping(
             path = "/groups",
             produces = {MediaType.APPLICATION_JSON_VALUE}
+    )
+    @Operation(
+            summary = "Find within user group"
     )
     public ApiResultResponse<List<GroupDTO>> findGroups(
             @Parameter(description = "is the prefix used to filter the groups")
