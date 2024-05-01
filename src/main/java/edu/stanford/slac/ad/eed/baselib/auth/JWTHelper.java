@@ -22,6 +22,7 @@ import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
 @Log4j2
 @Service
 @AllArgsConstructor
@@ -39,7 +40,7 @@ public class JWTHelper {
     public String generateJwt(String email) {
         Date now = new Date();
         Date expiration = new Date(now.getTime() + EXPIRATION_TIME_MS);
-        Map<String,Object> claims = new HashMap<>();
+        Map<String, Object> claims = new HashMap<>();
         claims.put("email", email);
         // Build the JWT
         return Jwts.builder()
@@ -55,10 +56,10 @@ public class JWTHelper {
 
     /**
      * Generate a service token
-
+     *
      * @return the service token
      */
-    public String generateServiceToken(){
+    public String generateServiceToken() {
         return generateAuthenticationToken(
                 AuthenticationToken.builder()
                         .name(appProperties.getAppName())
@@ -72,7 +73,7 @@ public class JWTHelper {
     }
 
     public String generateAuthenticationToken(AuthenticationToken authenticationToken) {
-        Map<String,Object> claims = new HashMap<>();
+        Map<String, Object> claims = new HashMap<>();
         claims.put("email", authenticationToken.getEmail());
         // Build the JWT
         return Jwts.builder()
@@ -93,13 +94,14 @@ public class JWTHelper {
     }
 
     public Key getKey() {
-        if(secretKey==null) {
-            if(appProperties.getAppTokenJwtKey() == null) {
-                throw ControllerLogicException.of(
-                        -1,
-                        "The app token key is null",
-                        "JWTHelper::getKey"
-                );
+        if (secretKey == null) {
+            if (appProperties.getAppTokenJwtKey() == null) {
+                throw ControllerLogicException
+                        .builder()
+                        .errorCode(-1)
+                        .errorMessage("The app token key is null")
+                        .errorMessage("JWTHelper::getKey")
+                        .build();
             }
             log.debug("Using key of size '{}' for sign authentication token JWT", appProperties.getAppTokenJwtKey().length());
             byte[] keyBytes = hexStringToByteArray(appProperties.getAppTokenJwtKey());
