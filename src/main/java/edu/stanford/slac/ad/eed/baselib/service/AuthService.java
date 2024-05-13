@@ -4,6 +4,7 @@ import edu.stanford.slac.ad.eed.baselib.api.v1.dto.*;
 import edu.stanford.slac.ad.eed.baselib.config.AppProperties;
 import edu.stanford.slac.ad.eed.baselib.model.AuthenticationToken;
 import edu.stanford.slac.ad.eed.baselib.model.Authorization;
+import edu.stanford.slac.ad.eed.baselib.model.AuthorizationOwnerType;
 import lombok.AllArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.Authentication;
@@ -14,8 +15,9 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public abstract class AuthService{
+public abstract class AuthService {
     private final AppProperties appProperties;
+
     /**
      * Check if the current authentication is authenticated
      *
@@ -72,46 +74,167 @@ public abstract class AuthService{
     /**
      * Update the authorization type
      */
-    abstract  public String updateAuthorizationType(String authorizationId, AuthorizationTypeDTO authorizationTypeDTO);
+    abstract public String updateAuthorizationType(String authorizationId, AuthorizationTypeDTO authorizationTypeDTO);
 
     /**
      * Check and in case create the authorization
      */
-    abstract  public String ensureAuthorization(AuthorizationDTO authorization);
+    abstract public String ensureAuthorization(AuthorizationDTO authorization);
 
     /**
      * Create a new authorization in case
+     *
      * @param newAuthorizationDTO the new authorization
      */
     abstract public String addNewAuthorization(NewAuthorizationDTO newAuthorizationDTO);
+
+    /**
+     * Find all authorization for a resource
+     *
+     * @param resource the resource
+     */
     abstract public void deleteAuthorizationById(String authorizationId);
+
+    /**
+     * Find all authorization for a resource
+     *
+     * @param resource the resource
+     */
     abstract public List<AuthorizationDTO> findByResourceIs(String resource);
-    abstract  public void deleteAuthorizationForResourcePrefix(String resourcePrefix);
-    abstract  public void deleteAuthorizationForResource(String resource);
-    abstract  public List<AuthorizationDTO> getAllAuthorizationForOwnerAndAndAuthTypeAndResourcePrefix(String owner, AuthorizationTypeDTO authorizationType, String resourcePrefix, Optional<Boolean> allHigherAuthOnSameResource);
-    abstract  public void updateRootUser();
-    abstract  public void updateAutoManagedRootToken();
-    abstract  public void addRootAuthorization(String email, String creator);
-    abstract  public void removeRootAuthorization(String email);
-    abstract  public String ensureAuthenticationToken(AuthenticationToken authenticationToken);
+
+    /**
+     * Delete all authorization for a resource prefix
+     *
+     * @param resourcePrefix the resource prefix
+     */
+    abstract public void deleteAuthorizationForResourcePrefix(String resourcePrefix);
+
+    /**
+     * Delete all authorization for a resource prefix and owner
+     *
+     * @param resourcePrefix the resource prefix
+     * @param ownerId        the owner id
+     * @param ownerType      the owner type
+     */
+    abstract public void deleteAuthorizationForResourcePrefix(String resourcePrefix, String ownerId, AuthorizationOwnerType ownerType);
+
+    /**
+     * Delete all authorization for a resource
+     *
+     * @param resource the resource
+     */
+    abstract public void deleteAuthorizationForResource(String resource);
+
+    /**
+     * return all authorization for a resource
+     *
+     * @param owner the owner
+     * @param authorizationType the authorization type
+     * @param resourcePrefix the resource prefix
+     * @param allHigherAuthOnSameResource return only the higher authorization for each resource
+     */
+    abstract public List<AuthorizationDTO> getAllAuthorizationForOwnerAndAndAuthTypeAndResourcePrefix(String owner, AuthorizationTypeDTO authorizationType, String resourcePrefix, Optional<Boolean> allHigherAuthOnSameResource);
+
+    /**
+     * Automatically manage root user by configuration
+     *
+     * @param resource the resource
+     */
+    abstract public void updateRootUser();
+
+    /**
+     * Automatically update the root token
+     *
+     * @param resource the resource
+     */
+    abstract public void updateAutoManagedRootToken();
+
+    /**
+     * add a new root authorization for the given email
+     * @param email the email
+     * @param creator the creator
+     */
+    abstract public void addRootAuthorization(String email, String creator);
+
+    /**
+     * Delete the root authorization
+     *
+     * @param email the email
+     */
+    abstract public void removeRootAuthorization(String email);
+
+    /**
+     * Ensure that the authentication token is created and exists
+     *
+     * @param authenticationToken the authentication token
+     */
+    abstract public String ensureAuthenticationToken(AuthenticationToken authenticationToken);
+
     /**
      * Add a new authentication token application specific that mean the email is @slac.stanford.edu$
+     *
      * @param newAuthenticationTokenDTO the new authentication token
-     * @param appManaged if the token is managed by the application
+     * @param appManaged                if the token is managed by the application
      */
-    abstract  public AuthenticationTokenDTO addNewAuthenticationToken(NewAuthenticationTokenDTO newAuthenticationTokenDTO, boolean appManaged);
+    abstract public AuthenticationTokenDTO addNewAuthenticationToken(NewAuthenticationTokenDTO newAuthenticationTokenDTO, boolean appManaged);
+
     /**
-     * Add a new authentication token application specific that mean the email is @app-name.slac.stanford.edu$
+     * add a new authentication token application specific that mean the email is @slac.stanford.edu$
+     *
      * @param newAuthenticationTokenDTO the new authentication token
-     * @param appManaged if the token is managed by the application
+     * @param appManaged                if the token is managed by the application
      */
-    abstract  public AuthenticationTokenDTO addNewApplicationAuthenticationToken(NewAuthenticationTokenDTO newAuthenticationTokenDTO, boolean appManaged);
-    abstract  public Optional<AuthenticationTokenDTO> getAuthenticationTokenByName(String name);
-    abstract  public List<AuthenticationTokenDTO> getAllAuthenticationToken();
-    abstract  public void deleteToken(String id);
-    abstract  public Optional<AuthenticationTokenDTO> getAuthenticationTokenById(String id);
-    abstract  public boolean existsAuthenticationTokenByEmail(String email);
-    abstract  public Optional<AuthenticationTokenDTO> getAuthenticationTokenByEmail(String email);
-    abstract  public void deleteAllAuthenticationTokenWithEmailEndWith(String emailPostfix);
-    abstract  public List<AuthenticationTokenDTO> getAuthenticationTokenByEmailEndsWith(String id);
+    abstract public AuthenticationTokenDTO addNewApplicationAuthenticationToken(NewAuthenticationTokenDTO newAuthenticationTokenDTO, boolean appManaged);
+
+    /**
+     * Return all authentication token by name
+     */
+    abstract public Optional<AuthenticationTokenDTO> getAuthenticationTokenByName(String name);
+
+    /**
+     * Return all authentication token
+     */
+    abstract public List<AuthenticationTokenDTO> getAllAuthenticationToken();
+
+    /**
+     * Delete a token by id
+     *
+     * @param id the id
+     */
+    abstract public void deleteToken(String id);
+
+    /**
+     * Get an authentication token by id
+     *
+     * @param id the id
+     */
+    abstract public Optional<AuthenticationTokenDTO> getAuthenticationTokenById(String id);
+
+    /**
+     * Check if the token, identified by the email, exists
+     *
+     * @param email the email
+     */
+    abstract public boolean existsAuthenticationTokenByEmail(String email);
+
+    /**
+     * Return all authentication token that have an email
+     *
+     * @param email the email
+     */
+    abstract public Optional<AuthenticationTokenDTO> getAuthenticationTokenByEmail(String email);
+
+    /**
+     * Delete and authentication token
+     *
+     * @param emailPostfix the email postfix
+     */
+    abstract public void deleteAllAuthenticationTokenWithEmailEndWith(String emailPostfix);
+
+    /**
+     * Return all authentication token that have an email that end with the given postfix
+     *
+     * @param emailPostfix the email postfix
+     */
+    abstract public List<AuthenticationTokenDTO> getAuthenticationTokenByEmailEndsWith(String emailPostfix);
 }
