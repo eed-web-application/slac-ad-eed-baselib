@@ -147,14 +147,14 @@ public abstract class AuthService {
      * @param owner the owner
      * @param resourcePrefix the resource prefix
      */
-    abstract public List<AuthorizationDTO> getAllAuthenticationForOwner(String owner, AuthorizationOwnerTypeDTO ownerType, String resourcePrefix);
+    abstract public List<AuthorizationDTO> getAllAuthenticationForOwner(String owner, AuthorizationOwnerTypeDTO ownerType, String resourcePrefix, Optional<Boolean> allHigherAuthOnSameResource);
 
     /**
      * return all authorization for an owner
      *
      * @param owner the owner
      */
-    abstract public List<AuthorizationDTO> getAllAuthenticationForOwner(String owner, AuthorizationOwnerTypeDTO ownerType);
+    abstract public List<AuthorizationDTO> getAllAuthenticationForOwner(String owner, AuthorizationOwnerTypeDTO ownerType, Optional<Boolean> allHigherAuthOnSameResource);
 
     /**
      * Automatically manage root user by configuration
