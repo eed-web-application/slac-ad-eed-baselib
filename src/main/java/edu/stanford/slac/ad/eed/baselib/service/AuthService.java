@@ -4,6 +4,7 @@ import edu.stanford.slac.ad.eed.baselib.api.v1.dto.*;
 import edu.stanford.slac.ad.eed.baselib.config.AppProperties;
 import edu.stanford.slac.ad.eed.baselib.model.AuthenticationToken;
 import edu.stanford.slac.ad.eed.baselib.model.Authorization;
+import edu.stanford.slac.ad.eed.baselib.model.AuthorizationOwnerType;
 import lombok.AllArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.Authentication;
@@ -84,15 +85,64 @@ public abstract class AuthService{
      * @param newAuthorizationDTO the new authorization
      */
     abstract public String addNewAuthorization(NewAuthorizationDTO newAuthorizationDTO);
+    /**
+     * Find all authorization for a resource
+     * @param resource the resource
+     */
     abstract public void deleteAuthorizationById(String authorizationId);
+    /**
+     * Find all authorization for a resource
+     * @param resource the resource
+     */
     abstract public List<AuthorizationDTO> findByResourceIs(String resource);
+    /**
+     * Delete all authorization for a resource prefix
+     * @param resourcePrefix the resource prefix
+     */
     abstract  public void deleteAuthorizationForResourcePrefix(String resourcePrefix);
+    /**
+     * Delete all authorization for a resource prefix and owner
+     * @param resourcePrefix the resource prefix
+     * @param ownerId the owner id
+     * @param ownerType the owner type
+     */
+    abstract  public void deleteAuthorizationForResourcePrefix(String resourcePrefix, String ownerId, AuthorizationOwnerType ownerType);
+    /**
+     * Delete all authorization for a resource
+     * @param resource the resource
+     */
     abstract  public void deleteAuthorizationForResource(String resource);
+    /**
+     * Delete all authorization for a resource and owner
+     * @param resource the resource
+     * @param ownerId the owner id
+     * @param ownerType the owner type
+     */
     abstract  public List<AuthorizationDTO> getAllAuthorizationForOwnerAndAndAuthTypeAndResourcePrefix(String owner, AuthorizationTypeDTO authorizationType, String resourcePrefix, Optional<Boolean> allHigherAuthOnSameResource);
+    /**
+     * Automatically manage root user by configuration
+     * @param resource the resource
+     */
     abstract  public void updateRootUser();
+    /**
+     * Automatically update the root token
+     * @param resource the resource
+     */
     abstract  public void updateAutoManagedRootToken();
+    /**
+     * Automatically update the root token
+     * @param resource the resource
+     */
     abstract  public void addRootAuthorization(String email, String creator);
+    /**
+     * Automatically update the root token
+     * @param resource the resource
+     */
     abstract  public void removeRootAuthorization(String email);
+    /**
+     * Automatically update the root token
+     * @param resource the resource
+     */
     abstract  public String ensureAuthenticationToken(AuthenticationToken authenticationToken);
     /**
      * Add a new authentication token application specific that mean the email is @slac.stanford.edu$
@@ -106,12 +156,52 @@ public abstract class AuthService{
      * @param appManaged if the token is managed by the application
      */
     abstract  public AuthenticationTokenDTO addNewApplicationAuthenticationToken(NewAuthenticationTokenDTO newAuthenticationTokenDTO, boolean appManaged);
+    /**
+     * Add a new authentication token application specific that mean the email is @app-name.slac.stanford.edu$
+     * @param newAuthenticationTokenDTO the new authentication token
+     * @param appManaged if the token is managed by the application
+     */
     abstract  public Optional<AuthenticationTokenDTO> getAuthenticationTokenByName(String name);
+    /**
+     * Add a new authentication token application specific that mean the email is @app-name.slac.stanford.edu$
+     * @param newAuthenticationTokenDTO the new authentication token
+     * @param appManaged if the token is managed by the application
+     */
     abstract  public List<AuthenticationTokenDTO> getAllAuthenticationToken();
+    /**
+     * Add a new authentication token application specific that mean the email is @app-name.slac.stanford.edu$
+     * @param newAuthenticationTokenDTO the new authentication token
+     * @param appManaged if the token is managed by the application
+     */
     abstract  public void deleteToken(String id);
+    /**
+     * Add a new authentication token application specific that mean the email is @app-name.slac.stanford.edu$
+     * @param newAuthenticationTokenDTO the new authentication token
+     * @param appManaged if the token is managed by the application
+     */
     abstract  public Optional<AuthenticationTokenDTO> getAuthenticationTokenById(String id);
+    /**
+     * Add a new authentication token application specific that mean the email is @app-name.slac.stanford.edu$
+     * @param newAuthenticationTokenDTO the new authentication token
+     * @param appManaged if the token is managed by the application
+     */
     abstract  public boolean existsAuthenticationTokenByEmail(String email);
+    /**
+     * Add a new authentication token application specific that mean the email is @app-name.slac.stanford.edu$
+     * @param newAuthenticationTokenDTO the new authentication token
+     * @param appManaged if the token is managed by the application
+     */
     abstract  public Optional<AuthenticationTokenDTO> getAuthenticationTokenByEmail(String email);
+    /**
+     * Add a new authentication token application specific that mean the email is @app-name.slac.stanford.edu$
+     * @param newAuthenticationTokenDTO the new authentication token
+     * @param appManaged if the token is managed by the application
+     */
     abstract  public void deleteAllAuthenticationTokenWithEmailEndWith(String emailPostfix);
+    /**
+     * Add a new authentication token application specific that mean the email is @app-name.slac.stanford.edu$
+     * @param newAuthenticationTokenDTO the new authentication token
+     * @param appManaged if the token is managed by the application
+     */
     abstract  public List<AuthenticationTokenDTO> getAuthenticationTokenByEmailEndsWith(String id);
 }
