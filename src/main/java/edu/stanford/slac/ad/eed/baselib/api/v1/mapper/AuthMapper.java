@@ -7,10 +7,7 @@ import edu.stanford.slac.ad.eed.baselib.api.v1.dto.GroupDTO;
 import edu.stanford.slac.ad.eed.baselib.api.v1.dto.NewAuthenticationTokenDTO;
 import edu.stanford.slac.ad.eed.baselib.config.AppProperties;
 import edu.stanford.slac.ad.eed.baselib.api.v1.dto.*;
-import edu.stanford.slac.ad.eed.baselib.model.AuthenticationToken;
-import edu.stanford.slac.ad.eed.baselib.model.Authorization;
-import edu.stanford.slac.ad.eed.baselib.model.Group;
-import edu.stanford.slac.ad.eed.baselib.model.Person;
+import edu.stanford.slac.ad.eed.baselib.model.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
@@ -50,4 +47,5 @@ public abstract class AuthMapper {
     public abstract AuthenticationToken toModelGlobalToken(NewAuthenticationTokenDTO a);
     public abstract AuthenticationTokenDTO toTokenDTO(AuthenticationToken a);
     public abstract Authorization.Type toModel(AuthorizationTypeDTO type);
+    public abstract AuthorizationOwnerType toModel(AuthorizationOwnerTypeDTO ownerType);
 }
