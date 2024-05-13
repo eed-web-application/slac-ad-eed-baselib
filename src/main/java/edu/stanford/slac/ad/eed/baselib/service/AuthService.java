@@ -91,7 +91,7 @@ public abstract class AuthService {
     /**
      * Find all authorization for a resource
      *
-     * @param resource the resource
+     * @param authorizationId the id
      */
     abstract public void deleteAuthorizationById(String authorizationId);
 
@@ -137,15 +137,11 @@ public abstract class AuthService {
 
     /**
      * Automatically manage root user by configuration
-     *
-     * @param resource the resource
      */
     abstract public void updateRootUser();
 
     /**
      * Automatically update the root token
-     *
-     * @param resource the resource
      */
     abstract public void updateAutoManagedRootToken();
 
