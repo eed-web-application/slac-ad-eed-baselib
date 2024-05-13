@@ -116,7 +116,7 @@ public abstract class AuthService {
      * @param ownerId        the owner id
      * @param ownerType      the owner type
      */
-    abstract public void deleteAuthorizationForResourcePrefix(String resourcePrefix, String ownerId, AuthorizationOwnerType ownerType);
+    abstract public void deleteAuthorizationForResourcePrefix(String resourcePrefix, String ownerId, AuthorizationOwnerTypeDTO ownerType);
 
     /**
      * Delete all authorization for a resource
