@@ -35,7 +35,7 @@ public abstract class AuthService {
      *
      * @param authentication is the current authentication
      */
-    @Cacheable(value = "user-root-authorization", key = "{#authentication.credentials}", unless = "#authentication == null")
+    @Cacheable(value = "user-authorization", key = "{#authentication.principal}", unless = "#authentication == null")
     public boolean checkForRoot(Authentication authentication) {
         if (!checkAuthentication(authentication)) return false;
         // only root user can create logbook
@@ -58,7 +58,7 @@ public abstract class AuthService {
      * @param authentication the current authentication
      * @param resourcePrefix the target resource
      */
-    @Cacheable(value = "user-authorization", key = "{#authentication.credentials, #authorization, #resourcePrefix}", unless = "#authentication == null")
+    @Cacheable(value = "user-authorization", key = "{#authentication.principal, #authorization, #resourcePrefix}", unless = "#authentication == null")
     public boolean checkAuthorizationForOwnerAuthTypeAndResourcePrefix(Authentication authentication, AuthorizationTypeDTO authorization, String resourcePrefix) {
         if (!checkAuthentication(authentication)) return false;
         if (checkForRoot(authentication)) return true;
