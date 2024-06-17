@@ -14,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,7 +39,7 @@ public class AuthorizationController {
             summary = "Get current user information"
     )
     //@Cacheable(value = "current-user-info", key = "#authentication.credentials")
-    public ApiResultResponse<PersonDTO> me(Authentication authentication) {
+    public ApiResultResponse<PersonDetailsDTO> me(Authentication authentication) {
         // check authentication
         assertion(
                 () -> authService.checkAuthentication(authentication),
@@ -49,9 +50,21 @@ public class AuthorizationController {
                         .build()
         );
         return ApiResultResponse.of(
-                peopleGroupService.findPerson(
-                        authentication
-                )
+                PersonDetailsDTO.builder()
+                        .person(
+                                peopleGroupService.findPerson(
+                                        authentication
+                                )
+                        )
+                        .authorizations(
+                                authService.getAllAuthenticationForOwner(
+                                        authentication.getPrincipal().toString(),
+                                        AuthorizationOwnerTypeDTO.User,
+                                        Optional.empty()
+                                )
+                        )
+                        .build()
+
         );
     }
 
