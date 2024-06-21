@@ -27,8 +27,8 @@ jobs:
           useConfigFile: true
       - name: Manage Version
         run: |
-          echo "Modify build.gradle for with version number \"$GitVersion_LegacySemVerPadded\""
-          sed -i "s#^.*version.*=.*#version = '$GitVersion_LegacySemVerPadded'#" build.gradle
+          echo "Modify build.gradle for with version number \"$GitVersion_Major.$GitVersion_Minor.$GitVersion_Patch-$GitVersion_PreReleaseLabel\""
+          sed -i "s#^.*version.*=.*#version = '$GitVersion_Major.$GitVersion_Minor.$GitVersion_Patch-$GitVersion_PreReleaseLabel'#" build.gradle
           cat build.gradle
       - uses: actions/setup-java@v3
         with:
