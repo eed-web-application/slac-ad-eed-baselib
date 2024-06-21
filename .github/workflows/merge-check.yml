@@ -46,6 +46,13 @@ jobs:
           CI: true
         with:
           arguments: test
+      - name: Delete SNAPSHOT packages
+        uses: Savrov/action-version-cleaner@v1.0.0
+        with:
+          package-type: maven
+          version-tag: $GitVersion_Major.$GitVersion_Minor.$GitVersion_Patch-$GitVersion_PreReleaseLabel
+          is-version-tag-strict: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Publish package
         uses: gradle/gradle-build-action@v2
         with:
