@@ -51,23 +51,27 @@ jobs:
           GH_PAT: ${{ secrets.GITHUB_TOKEN }}
         run: |
           PACKAGE_NAME="edu.stanford.slac.slac-ad-eed-baselib"
-          PACKAGE_VERSION="${{ steps.gitversion.outputs.GitVersion_Major }}.${{ steps.gitversion.outputs.GitVersion_Minor }}.${{ steps.gitversion.outputs.GitVersion_Patch }}-${{ steps.gitversion.outputs.GitVersion_PreReleaseLabel }}"
-          OWNER="eed-web-application"
-          REPO="slac-ad-eed-baselib"
+          PACKAGE_VERSION="your-package-version"  # Replace with the specific version
+          OWNER="your-username-or-org"  # Replace with your GitHub username or organization
+          REPO="your-repo-name"  # Replace with your repository name
           
           # Get the package ID
           PACKAGE_ID=$(curl -s -H "Authorization: token $GH_PAT" \
             "https://api.github.com/orgs/$OWNER/packages/maven/$REPO/$PACKAGE_NAME/versions" \
-            | jq -r --arg VERSION "$PACKAGE_VERSION" '.[] | select(.metadata.container.tags[] == $VERSION) | .id')
+            | jq -r --arg VERSION "$PACKAGE_VERSION" '.[] | select(.name == $VERSION) | .id')
           
-          if [ -n "$PACKAGE_ID" ]; then
-            # Delete the package version
-            curl -X DELETE -H "Authorization: token $GH_PAT" \
-              "https://api.github.com/orgs/$OWNER/packages/maven/$REPO/$PACKAGE_NAME/versions/$PACKAGE_ID"
+          echo "Package ID: $PACKAGE_ID"
+            
+            if [ -n "$PACKAGE_ID" ]; then
+          # Delete the package version
+          RESPONSE=$(curl -X DELETE -H "Authorization: token $GH_PAT" \
+            "https://api.github.com/orgs/$OWNER/packages/maven/$REPO/$PACKAGE_NAME/versions/$PACKAGE_ID")
+          
+          echo "Delete response: $RESPONSE"
             echo "Deleted package version $PACKAGE_VERSION"
-          else
+            else
             echo "Package version $PACKAGE_VERSION not found"
-          fi
+            fi
       - name: Publish package
         uses: gradle/gradle-build-action@v2
         with:
