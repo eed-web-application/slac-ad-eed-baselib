@@ -19,11 +19,15 @@ public class LocalGroup {
     @Id
     String id;
     /**
-     * The name of the activity.
+     * The name of the group.
+     */
+    String name;
+    /**
+     * The name of the group.
      */
     String description;
     /**
-     * The list of members of the activity.
+     * The list of members of the group.
      */
     List<String> members;
     /**
