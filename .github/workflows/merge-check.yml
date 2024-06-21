@@ -47,12 +47,11 @@ jobs:
         with:
           arguments: test
       - name: Delete SNAPSHOT packages
-        uses: Savrov/action-version-cleaner@v1.0.0
+        uses: actions/delete-package-versions@v5
         with:
           package-type: maven
-          version-tag: $GitVersion_Major.$GitVersion_Minor.$GitVersion_Patch-$GitVersion_PreReleaseLabel
-          is-version-tag-strict: true
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          package-name: 'edu.stanford.slac.slac-ad-eed-baselib'
+          version: '${{ steps.gitversion.outputs.GitVersion_Major }}.${{ steps.gitversion.outputs.GitVersion_Minor }}.${{ steps.gitversion.outputs.GitVersion_Patch }}-${{ steps.gitversion.outputs.GitVersion_PreReleaseLabel }}'
       - name: Publish package
         uses: gradle/gradle-build-action@v2
         with:
