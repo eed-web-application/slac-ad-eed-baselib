@@ -51,7 +51,7 @@ jobs:
         with:
           package-type: maven
           package-name: 'edu.stanford.slac.slac-ad-eed-baselib'
-          version: '${{ steps.gitversion.outputs.GitVersion_Major }}.${{ steps.gitversion.outputs.GitVersion_Minor }}.${{ steps.gitversion.outputs.GitVersion_Patch }}-${{ steps.gitversion.outputs.GitVersion_PreReleaseLabel }}'
+          package-version-ids: '${{ steps.gitversion.outputs.GitVersion_Major }}.${{ steps.gitversion.outputs.GitVersion_Minor }}.${{ steps.gitversion.outputs.GitVersion_Patch }}-${{ steps.gitversion.outputs.GitVersion_PreReleaseLabel }}'
       - name: Publish package
         uses: gradle/gradle-build-action@v2
         with:
