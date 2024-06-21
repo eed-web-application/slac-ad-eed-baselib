@@ -25,7 +25,7 @@ public class LocalGroup {
     /**
      * The list of members of the activity.
      */
-    List<String> userIds;
+    List<String> members;
     /**
      * The date and time when the activity was created.
      * This field is automatically populated with the creation date and time, using @CreatedDate annotation.
