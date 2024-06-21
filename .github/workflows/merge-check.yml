@@ -49,25 +49,25 @@ jobs:
       - name: Delete Pre-Release Maven Package
         env:
           GH_PAT: ${{ secrets.GITHUB_TOKEN }}
-          run: |
-            PACKAGE_NAME="edu.stanford.slac.slac-ad-eed-baselib"
-            PACKAGE_VERSION="${{ steps.gitversion.outputs.GitVersion_Major }}.${{ steps.gitversion.outputs.GitVersion_Minor }}.${{ steps.gitversion.outputs.GitVersion_Patch }}-${{ steps.gitversion.outputs.GitVersion_PreReleaseLabel }}"
-            OWNER="eed-web-application"
-            REPO="slac-ad-eed-baselib"
-            
-            # Get the package ID
-            PACKAGE_ID=$(curl -s -H "Authorization: token $GH_PAT" \
-              "https://api.github.com/orgs/$OWNER/packages/maven/$REPO/$PACKAGE_NAME/versions" \
-              | jq -r --arg VERSION "$PACKAGE_VERSION" '.[] | select(.metadata.container.tags[] == $VERSION) | .id')
-            
-            if [ -n "$PACKAGE_ID" ]; then
-              # Delete the package version
-              curl -X DELETE -H "Authorization: token $GH_PAT" \
-                "https://api.github.com/orgs/$OWNER/packages/maven/$REPO/$PACKAGE_NAME/versions/$PACKAGE_ID"
-              echo "Deleted package version $PACKAGE_VERSION"
-            else
-              echo "Package version $PACKAGE_VERSION not found"
-            fi
+        run: |
+          PACKAGE_NAME="edu.stanford.slac.slac-ad-eed-baselib"
+          PACKAGE_VERSION="${{ steps.gitversion.outputs.GitVersion_Major }}.${{ steps.gitversion.outputs.GitVersion_Minor }}.${{ steps.gitversion.outputs.GitVersion_Patch }}-${{ steps.gitversion.outputs.GitVersion_PreReleaseLabel }}"
+          OWNER="eed-web-application"
+          REPO="slac-ad-eed-baselib"
+          
+          # Get the package ID
+          PACKAGE_ID=$(curl -s -H "Authorization: token $GH_PAT" \
+            "https://api.github.com/orgs/$OWNER/packages/maven/$REPO/$PACKAGE_NAME/versions" \
+            | jq -r --arg VERSION "$PACKAGE_VERSION" '.[] | select(.metadata.container.tags[] == $VERSION) | .id')
+          
+          if [ -n "$PACKAGE_ID" ]; then
+            # Delete the package version
+            curl -X DELETE -H "Authorization: token $GH_PAT" \
+              "https://api.github.com/orgs/$OWNER/packages/maven/$REPO/$PACKAGE_NAME/versions/$PACKAGE_ID"
+            echo "Deleted package version $PACKAGE_VERSION"
+          else
+            echo "Package version $PACKAGE_VERSION not found"
+          fi
       - name: Publish package
         uses: gradle/gradle-build-action@v2
         with:
