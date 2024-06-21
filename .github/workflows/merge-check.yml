@@ -46,3 +46,9 @@ jobs:
           CI: true
         with:
           arguments: test
+      - name: Publish package
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
