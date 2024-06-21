@@ -27,8 +27,8 @@ jobs:
           useConfigFile: true
       - name: Manage Version
         run: |
-          echo "Modify build.gradle for with version number \"$GitVersion_Major.$GitVersion_Minor.$GitVersion_Patch-$GitVersion_PreReleaseLabel\""
-          sed -i "s#^.*version.*=.*#version = '$GitVersion_Major.$GitVersion_Minor.$GitVersion_Patch-$GitVersion_PreReleaseLabel'#" build.gradle
+          echo "Modify build.gradle for with version number \"$GitVersion_fullSemVer\""
+          sed -i "s#^.*version.*=.*#version = '$GitVersion_fullSemVer'#" build.gradle
           cat build.gradle
       - uses: actions/setup-java@v3
         with:
@@ -46,32 +46,6 @@ jobs:
           CI: true
         with:
           arguments: test
-      - name: Delete Pre-Release Maven Package
-        env:
-          GH_PAT: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          PACKAGE_NAME="edu.stanford.slac.slac-ad-eed-baselib"
-          PACKAGE_VERSION="your-package-version"  # Replace with the specific version
-          OWNER="eed-web-application"  # Replace with your GitHub username or organization
-          REPO="slac-ad-eed-baselib"  # Replace with your repository name
-          
-          # Get the package ID
-          PACKAGE_ID=$(curl -s -H "Authorization: token $GH_PAT" \
-            "https://api.github.com/orgs/$OWNER/packages/maven/$REPO/$PACKAGE_NAME/versions" \
-            | jq -r --arg VERSION "$PACKAGE_VERSION" '.[] | select(.name == $VERSION) | .id')
-          
-          echo "Package ID: $PACKAGE_ID"
-            
-            if [ -n "$PACKAGE_ID" ]; then
-          # Delete the package version
-          RESPONSE=$(curl -X DELETE -H "Authorization: token $GH_PAT" \
-            "https://api.github.com/orgs/$OWNER/packages/maven/$REPO/$PACKAGE_NAME/versions/$PACKAGE_ID")
-          
-          echo "Delete response: $RESPONSE"
-            echo "Deleted package version $PACKAGE_VERSION"
-            else
-            echo "Package version $PACKAGE_VERSION not found"
-            fi
       - name: Publish package
         uses: gradle/gradle-build-action@v2
         with:
