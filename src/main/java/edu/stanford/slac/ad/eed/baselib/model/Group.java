@@ -18,5 +18,4 @@ public final class Group {
     private Name id;
     private @Attribute(name = "cn") String commonName;
     private @Attribute(name = "memberUid") List<String> memberUid;
-
 }
