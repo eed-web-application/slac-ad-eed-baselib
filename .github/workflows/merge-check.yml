@@ -52,8 +52,8 @@ jobs:
         run: |
           PACKAGE_NAME="edu.stanford.slac.slac-ad-eed-baselib"
           PACKAGE_VERSION="your-package-version"  # Replace with the specific version
-          OWNER="your-username-or-org"  # Replace with your GitHub username or organization
-          REPO="your-repo-name"  # Replace with your repository name
+          OWNER="eed-web-application"  # Replace with your GitHub username or organization
+          REPO="slac-ad-eed-baselib"  # Replace with your repository name
           
           # Get the package ID
           PACKAGE_ID=$(curl -s -H "Authorization: token $GH_PAT" \
