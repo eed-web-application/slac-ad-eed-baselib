@@ -13,7 +13,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
-import lombok.extern.log4j.Log4j2;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -28,7 +27,7 @@ import java.util.Optional;
 @RequestMapping("/v2/auth/local/group")
 @AllArgsConstructor
 @Schema(description = "Api for authentication information")
-public class AuthorizationController {
+public class V2AuthorizationController {
     AuthService authService;
     PeopleGroupService peopleGroupService;
 
