@@ -51,27 +51,6 @@ public abstract class AuthService {
     }
 
     /**
-     * check if the current authentication can manage the group
-     * @param authentication the current authentication
-     */
-    public abstract boolean canManageGroup(Authentication authentication);
-
-    /**
-     * authorize an user to manage groups
-     * @param userId the user id
-     * @param localGroupId the local group id
-     */
-    public abstract void authorizeUserIdToManageGroup(String userId, String localGroupId);
-
-    /**
-     * check if the current authentication can manage the group
-     * @param userId the user id
-     * @param localGroupId the local group id
-     */
-    public abstract void removeAuthorizationToUserIdToManageGroup(String userId, String localGroupId);
-
-
-    /**
      * Check the authorizations level on a resource, the authorizations found
      * will be all those authorizations that will have the value of authorizations type greater
      * or equal to the one give as argument. This return true also if the current authentication
@@ -277,6 +256,25 @@ public abstract class AuthService {
      * @param emailPostfix the email postfix
      */
     abstract public List<AuthenticationTokenDTO> getAuthenticationTokenByEmailEndsWith(String emailPostfix);
+
+    /**
+     * check if the current authentication can manage the group
+     * @param authentication the current authentication
+     */
+    public abstract boolean canManageGroup(Authentication authentication);
+
+    /**
+     * authorize an user to manage groups
+     * @param userId the user id
+     */
+    public abstract void authorizeUserIdToManageGroup(String userId);
+
+    /**
+     * check if the current authentication can manage the group
+     * @param userId the user id
+     */
+    public abstract void removeAuthorizationToUserIdToManageGroup(String userId);
+
 
     /**
      * Return all authentication token that have an email that end with the given postfix
