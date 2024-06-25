@@ -1,10 +1,7 @@
 package edu.stanford.slac.ad.eed.baselib.api.v2.controller;
 
 import edu.stanford.slac.ad.eed.baselib.api.v1.dto.*;
-import edu.stanford.slac.ad.eed.baselib.api.v2.dto.LocalGroupDTO;
-import edu.stanford.slac.ad.eed.baselib.api.v2.dto.LocalGroupQueryParameterDTO;
-import edu.stanford.slac.ad.eed.baselib.api.v2.dto.NewLocalGroupDTO;
-import edu.stanford.slac.ad.eed.baselib.api.v2.dto.UpdateLocalGroupDTO;
+import edu.stanford.slac.ad.eed.baselib.api.v2.dto.*;
 import edu.stanford.slac.ad.eed.baselib.service.AuthService;
 import edu.stanford.slac.ad.eed.baselib.service.PeopleGroupService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -116,5 +113,38 @@ public class V2AuthorizationController {
         );
     }
 
+    @PostMapping(
+            path = "/authorize",
+            produces = {MediaType.APPLICATION_JSON_VALUE}
+    )
+    @Operation(
+            summary = "Get current user information"
+    )
+    @PreAuthorize("@authService.canManageGroup(#authentication)")
+    public ApiResultResponse<Boolean> enableUsersToManageGroup(
+            Authentication authentication,
+            @RequestBody @Valid AuthorizationGroupManagementDTO authorizationGroupManagementDTO
 
+    ) {
+        authService.manageAuthorizationOnGroup(authorizationGroupManagementDTO);
+        return ApiResultResponse.of(true);
+    }
+
+    @GetMapping(
+            path = "/authorize/{userId}",
+            produces = {MediaType.APPLICATION_JSON_VALUE}
+    )
+    @Operation(
+            summary = "Get current user authorization on group management"
+    )
+    @PreAuthorize("@authService.canManageGroup(#authentication)")
+    public ApiResultResponse<List<UserGroupManagementAuthorizationLevel>> getGroupManagementAuthorization(
+            Authentication authentication,
+            @Parameter(description = "The id of the local group to delete, each id should be separated by the character ';'", example = "user1@slac.stanford.edu;user2@slac.stanford.edu")
+            @PathVariable @Valid List<String> userIds
+
+    ) {
+
+        return ApiResultResponse.of(authService.getGroupManagementAuthorization(userIds));
+    }
 }

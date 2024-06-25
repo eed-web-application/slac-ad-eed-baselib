@@ -1,10 +1,7 @@
 package edu.stanford.slac.ad.eed.baselib.service;
 
 import edu.stanford.slac.ad.eed.baselib.api.v1.dto.*;
-import edu.stanford.slac.ad.eed.baselib.api.v2.dto.LocalGroupDTO;
-import edu.stanford.slac.ad.eed.baselib.api.v2.dto.LocalGroupQueryParameterDTO;
-import edu.stanford.slac.ad.eed.baselib.api.v2.dto.NewLocalGroupDTO;
-import edu.stanford.slac.ad.eed.baselib.api.v2.dto.UpdateLocalGroupDTO;
+import edu.stanford.slac.ad.eed.baselib.api.v2.dto.*;
 import edu.stanford.slac.ad.eed.baselib.config.AppProperties;
 import edu.stanford.slac.ad.eed.baselib.model.AuthenticationToken;
 import lombok.AllArgsConstructor;
@@ -271,10 +268,22 @@ public abstract class AuthService {
 
     /**
      * check if the current authentication can manage the group
+     * @param authorizationGroupManagementDTO the user id
+     */
+    abstract public void manageAuthorizationOnGroup(AuthorizationGroupManagementDTO authorizationGroupManagementDTO);
+
+    /**
+     * check if the current authentication can manage the group
      * @param userId the user id
      */
     public abstract void removeAuthorizationToUserIdToManageGroup(String userId);
 
+    /**
+     * Return all authentication token that have an email that end with the given postfix
+     *
+     * @param userIds the list of user ids
+     */
+    abstract public List<UserGroupManagementAuthorizationLevel> getGroupManagementAuthorization(List<String> userIds);
 
     /**
      * Return all authentication token that have an email that end with the given postfix
