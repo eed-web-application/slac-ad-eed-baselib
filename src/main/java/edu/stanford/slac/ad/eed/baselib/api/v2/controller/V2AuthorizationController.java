@@ -2,6 +2,7 @@ package edu.stanford.slac.ad.eed.baselib.api.v2.controller;
 
 import edu.stanford.slac.ad.eed.baselib.api.v1.dto.*;
 import edu.stanford.slac.ad.eed.baselib.api.v2.dto.*;
+import edu.stanford.slac.ad.eed.baselib.exception.NotAuthorized;
 import edu.stanford.slac.ad.eed.baselib.service.AuthService;
 import edu.stanford.slac.ad.eed.baselib.service.PeopleGroupService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+
+import static edu.stanford.slac.ad.eed.baselib.exception.Utility.assertion;
 
 @Validated
 @RestController()
@@ -36,11 +39,19 @@ public class V2AuthorizationController {
     @Operation(
             summary = "Create new local group"
     )
-    @PreAuthorize("@authService.canManageGroup(#authentication)")
     public ApiResultResponse<String> createNewLocalGroup(
             Authentication authentication,
             @RequestBody @Valid NewLocalGroupDTO newGroupDTO
             ) {
+        assertion(
+                NotAuthorized
+                        .notAuthorizedBuilder()
+                        .errorCode(-1)
+                        .errorDomain("V2AuthorizationController::createNewLocalGroup")
+                        .build(),
+                // is authenticated
+                () -> authService.canManageGroup(authentication)
+        );
         return ApiResultResponse.of(
                 authService.createLocalGroup(newGroupDTO)
         );
@@ -53,12 +64,20 @@ public class V2AuthorizationController {
     @Operation(
             summary = "Delete a local group"
     )
-    @PreAuthorize("@authService.canManageGroup(#authentication)")
     public ApiResultResponse<Boolean> deleteLocalGroup(
             Authentication authentication,
             @Parameter(description = "The id of the local group to delete")
             @PathVariable @NotEmpty String localGroupId
     ) {
+        assertion(
+                NotAuthorized
+                        .notAuthorizedBuilder()
+                        .errorCode(-1)
+                        .errorDomain("V2AuthorizationController::deleteLocalGroup")
+                        .build(),
+                // is authenticated
+                () -> authService.canManageGroup(authentication)
+        );
         // check authentication
         authService.deleteLocalGroup(localGroupId);
         return ApiResultResponse.of(true);
@@ -71,13 +90,21 @@ public class V2AuthorizationController {
     @Operation(
             summary = "Delete a local group"
     )
-    @PreAuthorize("@authService.canManageGroup(#authentication)")
     public ApiResultResponse<Boolean> updateLocalGroup(
             Authentication authentication,
             @Parameter(description = "The id of the local group to delete")
             @PathVariable @NotEmpty String localGroupId,
             @RequestBody @Valid UpdateLocalGroupDTO updateGroupDTO
     ) {
+        assertion(
+                NotAuthorized
+                        .notAuthorizedBuilder()
+                        .errorCode(-1)
+                        .errorDomain("V2AuthorizationController::updateLocalGroup")
+                        .build(),
+                // is authenticated
+                () -> authService.canManageGroup(authentication)
+        );
         // check authentication
         authService.updateLocalGroup(localGroupId, updateGroupDTO);
         return ApiResultResponse.of(true);
@@ -89,7 +116,6 @@ public class V2AuthorizationController {
     @Operation(
             summary = "Get current user information"
     )
-    @PreAuthorize("@authService.canManageGroup(#authentication)")
     public ApiResultResponse<List<LocalGroupDTO>> findLocalGroup(
             Authentication authentication,
             @Parameter(name = "anchorId", description = "Is the id of an entry from where start the search")
@@ -101,6 +127,15 @@ public class V2AuthorizationController {
             @Parameter(name = "search", description = "Typical search functionality")
             @RequestParam(value = "search") Optional<String> search
     ) {
+        assertion(
+                NotAuthorized
+                        .notAuthorizedBuilder()
+                        .errorCode(-1)
+                        .errorDomain("V2AuthorizationController::updateLocalGroup")
+                        .build(),
+                // is authenticated
+                () -> authService.canManageGroup(authentication)
+        );
         return ApiResultResponse.of(
                 authService.findLocalGroup(
                         LocalGroupQueryParameterDTO.builder()
@@ -120,31 +155,46 @@ public class V2AuthorizationController {
     @Operation(
             summary = "Get current user information"
     )
-    @PreAuthorize("@authService.canManageGroup(#authentication)")
-    public ApiResultResponse<Boolean> enableUsersToManageGroup(
+    public ApiResultResponse<Boolean> manageGroupManagementAuthorization(
             Authentication authentication,
             @RequestBody @Valid AuthorizationGroupManagementDTO authorizationGroupManagementDTO
 
     ) {
+        assertion(
+                NotAuthorized
+                        .notAuthorizedBuilder()
+                        .errorCode(-1)
+                        .errorDomain("V2AuthorizationController::manageGroupManagementAuthorization")
+                        .build(),
+                // is authenticated
+                () -> authService.canManageGroup(authentication)
+        );
         authService.manageAuthorizationOnGroup(authorizationGroupManagementDTO);
         return ApiResultResponse.of(true);
     }
 
     @GetMapping(
-            path = "/authorize/{userId}",
+            path = "/authorize/{userIds}",
             produces = {MediaType.APPLICATION_JSON_VALUE}
     )
     @Operation(
             summary = "Get current user authorization on group management"
     )
-    @PreAuthorize("@authService.canManageGroup(#authentication)")
     public ApiResultResponse<List<UserGroupManagementAuthorizationLevel>> getGroupManagementAuthorization(
             Authentication authentication,
             @Parameter(description = "The id of the local group to delete, each id should be separated by the character ';'", example = "user1@slac.stanford.edu;user2@slac.stanford.edu")
             @PathVariable @Valid List<String> userIds
 
     ) {
-
+        assertion(
+                NotAuthorized
+                        .notAuthorizedBuilder()
+                        .errorCode(-1)
+                        .errorDomain("V2AuthorizationController::getGroupManagementAuthorization")
+                        .build(),
+                // is authenticated
+                () -> authService.canManageGroup(authentication)
+        );
         return ApiResultResponse.of(authService.getGroupManagementAuthorization(userIds));
     }
 }
