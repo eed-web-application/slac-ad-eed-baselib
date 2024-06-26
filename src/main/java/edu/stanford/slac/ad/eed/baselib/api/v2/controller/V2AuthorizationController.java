@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -32,7 +33,6 @@ public class V2AuthorizationController {
     AuthService authService;
     PeopleGroupService peopleGroupService;
 
-
     @PostMapping(
             consumes = {MediaType.APPLICATION_JSON_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE}
@@ -40,6 +40,7 @@ public class V2AuthorizationController {
     @Operation(
             summary = "Create new local group"
     )
+    @ResponseStatus(HttpStatus.CREATED)
     public ApiResultResponse<String> createNewLocalGroup(
             Authentication authentication,
             @RequestBody @Valid NewLocalGroupDTO newGroupDTO
