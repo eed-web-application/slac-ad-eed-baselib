@@ -1,10 +1,9 @@
 package edu.stanford.slac.ad.eed.baselib.service;
 
 import edu.stanford.slac.ad.eed.baselib.api.v1.dto.*;
+import edu.stanford.slac.ad.eed.baselib.api.v2.dto.*;
 import edu.stanford.slac.ad.eed.baselib.config.AppProperties;
 import edu.stanford.slac.ad.eed.baselib.model.AuthenticationToken;
-import edu.stanford.slac.ad.eed.baselib.model.Authorization;
-import edu.stanford.slac.ad.eed.baselib.model.AuthorizationOwnerType;
 import lombok.AllArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.Authentication;
@@ -254,4 +253,71 @@ public abstract class AuthService {
      * @param emailPostfix the email postfix
      */
     abstract public List<AuthenticationTokenDTO> getAuthenticationTokenByEmailEndsWith(String emailPostfix);
+
+    /**
+     * check if the current authentication can manage the group
+     * @param authentication the current authentication
+     */
+    public abstract boolean canManageGroup(Authentication authentication);
+
+    /**
+     * authorize an user to manage groups
+     * @param userId the user id
+     */
+    public abstract void authorizeUserIdToManageGroup(String userId);
+
+    /**
+     * check if the current authentication can manage the group
+     * @param authorizationGroupManagementDTO the user id
+     */
+    abstract public void manageAuthorizationOnGroup(AuthorizationGroupManagementDTO authorizationGroupManagementDTO);
+
+    /**
+     * check if the current authentication can manage the group
+     * @param userId the user id
+     */
+    public abstract void removeAuthorizationToUserIdToManageGroup(String userId);
+
+    /**
+     * Return all authentication token that have an email that end with the given postfix
+     *
+     * @param userIds the list of user ids
+     */
+    abstract public List<UserGroupManagementAuthorizationLevel> getGroupManagementAuthorization(List<String> userIds);
+
+    /**
+     * Return all authentication token that have an email that end with the given postfix
+     *
+     * @param newGroupDTO the new group
+     */
+    abstract public String createLocalGroup(NewLocalGroupDTO newGroupDTO);
+
+    /**
+     * Update the local group
+     *
+     * @param localGroupId the local group id
+     * @param updateGroupDTO the information to update
+     */
+    abstract public void updateLocalGroup(String localGroupId, UpdateLocalGroupDTO updateGroupDTO);
+
+    /**
+     * Return all authentication token that have an email that end with the given postfix
+     *
+     * @param localGroupId the local group id
+     */
+    abstract public void deleteLocalGroup(String localGroupId);
+
+    /**
+     * Return al the local group paging with search on name and description
+     *
+     * @param build the query parameter
+     */
+    abstract public List<LocalGroupDTO> findLocalGroup(LocalGroupQueryParameterDTO build);
+
+    /**
+     * Return the local group description by a given id
+     *
+     * @param localGroupId the local group id
+     */
+    abstract public LocalGroupDTO findLocalGroupById(String localGroupId);
 }
