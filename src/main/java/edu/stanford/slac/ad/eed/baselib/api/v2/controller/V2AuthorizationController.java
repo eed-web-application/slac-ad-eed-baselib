@@ -98,7 +98,7 @@ public class V2AuthorizationController {
             produces = {MediaType.APPLICATION_JSON_VALUE}
     )
     @Operation(
-            summary = "Delete a local group"
+            summary = "Update a local group"
     )
     public ApiResultResponse<Boolean> updateLocalGroup(
             Authentication authentication,
@@ -122,6 +122,20 @@ public class V2AuthorizationController {
         // check authentication
         authService.updateLocalGroup(localGroupId, updateGroupDTO);
         return ApiResultResponse.of(true);
+    }
+
+    @GetMapping(
+            path = "/{localGroupId}",
+            produces = {MediaType.APPLICATION_JSON_VALUE}
+    )
+    @Operation(
+            summary = "Find a local group"
+    )
+    public ApiResultResponse<LocalGroupDTO> findLocalGroupById(
+            Authentication authentication,
+            @PathVariable @Valid String localGroupId
+    ){
+        return ApiResultResponse.of(authService.findLocalGroupById(localGroupId));
     }
 
     @GetMapping(

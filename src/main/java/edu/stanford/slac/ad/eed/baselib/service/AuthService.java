@@ -308,10 +308,16 @@ public abstract class AuthService {
     abstract public void deleteLocalGroup(String localGroupId);
 
     /**
-     * Return all authentication token that have an email that end with the given postfix
+     * Return al the local group paging with search on name and description
      *
      * @param build the query parameter
      */
     abstract public List<LocalGroupDTO> findLocalGroup(LocalGroupQueryParameterDTO build);
 
+    /**
+     * Return the local group description by a given id
+     *
+     * @param localGroupId the local group id
+     */
+    abstract public LocalGroupDTO findLocalGroupById(String localGroupId);
 }
