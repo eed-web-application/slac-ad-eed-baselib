@@ -144,8 +144,7 @@ public class V2AuthorizationController {
                 // is authenticated
                 () -> any
                         (
-                                () -> authService.checkForRoot(authentication),
-                                () -> authService.canManageGroup(authentication)
+                                () -> authService.checkAuthentication(authentication)
                         )
         );
         return ApiResultResponse.of(authService.findLocalGroupById(localGroupId));
@@ -177,8 +176,7 @@ public class V2AuthorizationController {
                 // is authenticated
                 () -> any
                         (
-                                () -> authService.checkForRoot(authentication),
-                                () -> authService.canManageGroup(authentication)
+                                () -> authService.checkAuthentication(authentication)
                         )
         );
         return ApiResultResponse.of(
