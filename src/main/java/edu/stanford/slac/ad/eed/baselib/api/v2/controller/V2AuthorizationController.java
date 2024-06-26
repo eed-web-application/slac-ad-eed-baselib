@@ -135,6 +135,19 @@ public class V2AuthorizationController {
             Authentication authentication,
             @PathVariable @Valid String localGroupId
     ){
+        assertion(
+                NotAuthorized
+                        .notAuthorizedBuilder()
+                        .errorCode(-1)
+                        .errorDomain("V2AuthorizationController::updateLocalGroup")
+                        .build(),
+                // is authenticated
+                () -> any
+                        (
+                                () -> authService.checkForRoot(authentication),
+                                () -> authService.canManageGroup(authentication)
+                        )
+        );
         return ApiResultResponse.of(authService.findLocalGroupById(localGroupId));
     }
 
