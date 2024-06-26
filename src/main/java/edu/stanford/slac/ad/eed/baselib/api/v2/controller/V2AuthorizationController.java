@@ -203,7 +203,9 @@ public class V2AuthorizationController {
     )
     public ApiResultResponse<List<UserGroupManagementAuthorizationLevel>> getGroupManagementAuthorization(
             Authentication authentication,
-            @Parameter(description = "The id of the local group to delete, each id should be separated by the character ';'", example = "user1@slac.stanford.edu;user2@slac.stanford.edu")
+            @Parameter(
+                    description = "The id of the local group to delete, each id should be a comma separated list",
+                    example = "user1@slac.stanford.edu,user2@slac.stanford.edu")
             @PathVariable @Valid List<String> userIds
 
     ) {
