@@ -29,8 +29,8 @@ public abstract class ModelChangeMapper {
                         modelChange -> ModelChangeDTO
                                 .builder()
                                 .fieldName(modelChange.getFieldName())
-                                .oldValue(modelChange.getOldValue().toString())
-                                .newValue(modelChange.getNewValue().toString())
+                                .oldValue(modelChange.getOldValue()!=null?modelChange.getOldValue().toString():null)
+                                .newValue(modelChange.getNewValue()!=null?modelChange.getNewValue().toString():null)
                                 .build()
                 )
                 .toList();
