@@ -19,6 +19,7 @@ import java.util.List;
 public class ModelChangesHistory {
     @Id
     private String id;
+    private String modelId;
     @Builder.Default
     private List<ModelChange> changes = new ArrayList<>();
     /**
