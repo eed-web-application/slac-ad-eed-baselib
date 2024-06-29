@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@Builder
+@Builder(toBuilder = true)
 @ToString
 @EqualsAndHashCode
 public class ModelChangesHistory {
