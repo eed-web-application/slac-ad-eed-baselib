@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
  * every time a model is saved a ModelHistory object is created with all the
  * changes from all annotated fields
  */
-@Target({ ElementType.FIELD })
+@Target({ ElementType.TYPE, ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CaptureChanges {
 }
