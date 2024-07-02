@@ -102,11 +102,11 @@ public class V2AuthorizationController {
             produces = {MediaType.APPLICATION_JSON_VALUE}
     )
     @Operation(
-            summary = "Update a local group"
+            summary = "Delete a local group"
     )
     public ApiResultResponse<Boolean> updateLocalGroup(
             Authentication authentication,
-            @Parameter(description = "The id of the local group to delete")
+            @Parameter(description = "The id of the local group to update")
             @PathVariable @NotEmpty String localGroupId,
             @RequestBody @Valid UpdateLocalGroupDTO updateGroupDTO
     ) {
@@ -135,10 +135,11 @@ public class V2AuthorizationController {
             produces = {MediaType.APPLICATION_JSON_VALUE}
     )
     @Operation(
-            summary = "Find a local group"
+            summary = "Find a local group using an id"
     )
     public ApiResultResponse<LocalGroupDTO> findLocalGroupById(
             Authentication authentication,
+            @Parameter(description = "The id of the local group to find")
             @PathVariable @Valid String localGroupId
     ) {
         assertion(
@@ -157,7 +158,7 @@ public class V2AuthorizationController {
             produces = {MediaType.APPLICATION_JSON_VALUE}
     )
     @Operation(
-            summary = "Get current user information"
+            summary = "Find the local group using a query parameter"
     )
     public ApiResultResponse<List<LocalGroupDTO>> findLocalGroup(
             Authentication authentication,
