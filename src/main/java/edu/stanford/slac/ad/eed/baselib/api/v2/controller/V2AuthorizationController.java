@@ -52,11 +52,13 @@ public class V2AuthorizationController {
                         .errorDomain("V2AuthorizationController::createNewLocalGroup")
                         .build(),
                 // is authenticated
-                () -> any
-                        (
-                                () -> authService.checkForRoot(authentication),
-                                () -> authService.canManageGroup(authentication)
-                        )
+                () -> authService.checkAuthentication(authentication),
+                () -> any(
+                        //is root
+                        () -> authService.checkForRoot(authentication),
+                        // or can manage group
+                        () -> authService.canManageGroup(authentication)
+                )
         );
         return ApiResultResponse.of(
                 authService.createLocalGroup(newGroupDTO)
@@ -82,11 +84,13 @@ public class V2AuthorizationController {
                         .errorDomain("V2AuthorizationController::deleteLocalGroup")
                         .build(),
                 // is authenticated
-                () -> any
-                        (
-                                () -> authService.checkForRoot(authentication),
-                                () -> authService.canManageGroup(authentication)
-                        )
+                () -> authService.checkAuthentication(authentication),
+                () -> any(
+                        //is root
+                        () -> authService.checkForRoot(authentication),
+                        // or can manage group
+                        () -> authService.canManageGroup(authentication)
+                )
         );
         // check authentication
         authService.deleteLocalGroup(localGroupId);
@@ -113,11 +117,13 @@ public class V2AuthorizationController {
                         .errorDomain("V2AuthorizationController::updateLocalGroup")
                         .build(),
                 // is authenticated
-                () -> any
-                        (
-                                () -> authService.checkForRoot(authentication),
-                                () -> authService.canManageGroup(authentication)
-                        )
+                () -> authService.checkAuthentication(authentication),
+                () -> any(
+                        //is root
+                        () -> authService.checkForRoot(authentication),
+                        // or can manage group
+                        () -> authService.canManageGroup(authentication)
+                )
         );
         // check authentication
         authService.updateLocalGroup(localGroupId, updateGroupDTO);
@@ -134,7 +140,7 @@ public class V2AuthorizationController {
     public ApiResultResponse<LocalGroupDTO> findLocalGroupById(
             Authentication authentication,
             @PathVariable @Valid String localGroupId
-    ){
+    ) {
         assertion(
                 NotAuthorized
                         .notAuthorizedBuilder()
@@ -142,10 +148,7 @@ public class V2AuthorizationController {
                         .errorDomain("V2AuthorizationController::updateLocalGroup")
                         .build(),
                 // is authenticated
-                () -> any
-                        (
-                                () -> authService.checkAuthentication(authentication)
-                        )
+                () -> authService.checkAuthentication(authentication)
         );
         return ApiResultResponse.of(authService.findLocalGroupById(localGroupId));
     }
@@ -174,10 +177,7 @@ public class V2AuthorizationController {
                         .errorDomain("V2AuthorizationController::updateLocalGroup")
                         .build(),
                 // is authenticated
-                () -> any
-                        (
-                                () -> authService.checkAuthentication(authentication)
-                        )
+                () -> authService.checkAuthentication(authentication)
         );
         return ApiResultResponse.of(
                 authService.findLocalGroup(
@@ -210,11 +210,13 @@ public class V2AuthorizationController {
                         .errorDomain("V2AuthorizationController::manageGroupManagementAuthorization")
                         .build(),
                 // is authenticated
-                () -> any
-                        (
-                                () -> authService.checkForRoot(authentication),
-                                () -> authService.canManageGroup(authentication)
-                        )
+                () -> authService.checkAuthentication(authentication),
+                () -> any(
+                        //is root
+                        () -> authService.checkForRoot(authentication),
+                        // or can manage group
+                        () -> authService.canManageGroup(authentication)
+                )
         );
         authService.manageAuthorizationOnGroup(authorizationGroupManagementDTO);
         return ApiResultResponse.of(true);
@@ -242,11 +244,13 @@ public class V2AuthorizationController {
                         .errorDomain("V2AuthorizationController::getGroupManagementAuthorization")
                         .build(),
                 // is authenticated
-                () -> any
-                        (
-                                () -> authService.checkForRoot(authentication),
-                                () -> authService.canManageGroup(authentication)
-                        )
+                () -> authService.checkAuthentication(authentication),
+                () -> any(
+                        //is root
+                        () -> authService.checkForRoot(authentication),
+                        // or can manage group
+                        () -> authService.canManageGroup(authentication)
+                )
         );
         return ApiResultResponse.of(authService.getGroupManagementAuthorization(userIds));
     }
