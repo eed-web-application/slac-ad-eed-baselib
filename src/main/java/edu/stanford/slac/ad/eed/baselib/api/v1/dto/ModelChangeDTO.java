@@ -17,6 +17,6 @@ import java.time.LocalDateTime;
 @Schema(description = "The history of the field changes for a specific model")
 public record ModelChangeDTO(
         String fieldName,
-        String oldValue,
-        String newValue
+        Object oldValue,
+        Object newValue
 ){}
