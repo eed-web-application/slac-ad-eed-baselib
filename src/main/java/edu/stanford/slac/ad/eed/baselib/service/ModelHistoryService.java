@@ -17,7 +17,7 @@ public abstract class ModelHistoryService {
      * @param modelId The identifier of the model
      * @return The list of changes for the model
      */
-    abstract public List<ModelChangesHistoryDTO> findChangesByModelId(String modelId);
+    abstract public <T> List<ModelChangesHistoryDTO> findChangesByModelId(Class<T> modelClazz, String modelId);
 
     /**
      * Find the changes for a model id
