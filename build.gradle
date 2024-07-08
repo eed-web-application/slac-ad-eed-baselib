@@ -50,6 +50,8 @@ dependencies {
             'io.jsonwebtoken:jjwt-extensions:0.12.4',
             'com.unboundid:unboundid-ldapsdk:6.0.11'
 
+    implementation 'org.silentsoft:badge4j:1.11.0'
+
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
