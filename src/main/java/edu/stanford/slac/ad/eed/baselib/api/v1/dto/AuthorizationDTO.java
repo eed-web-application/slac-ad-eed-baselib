@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
+import org.springframework.security.core.GrantedAuthority;
 
 import java.io.Serializable;
 
@@ -22,5 +23,9 @@ public record AuthorizationDTO(
         AuthorizationOwnerTypeDTO ownerType,
         @Schema(description = "The resource eof the authorizations")
         String resource
-)  implements Serializable {
+)  implements GrantedAuthority {
+        @Override
+        public String getAuthority() {
+                return "";
+        }
 }

@@ -1,10 +1,13 @@
 package edu.stanford.slac.ad.eed.baselib.auth.jwt;
 
+import edu.stanford.slac.ad.eed.baselib.api.v1.dto.AuthorizationDTO;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import lombok.Getter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
 
+import java.util.Collection;
 import java.util.Collections;
 
 @Getter
@@ -15,11 +18,12 @@ public class SLACAuthenticationJWTToken extends AbstractAuthenticationToken {
         super.setAuthenticated(false);
     }
 
-    public SLACAuthenticationJWTToken(Jws<Claims> token) {
-        super(Collections.emptyList());
+    public SLACAuthenticationJWTToken(Jws<Claims> token, Collection<AuthorizationDTO> authorities) {
+        super(authorities);
         super.setAuthenticated(true);
         this.token = token;
     }
+
     @Override
     public Object getCredentials() {
         return token!=null?token.getBody().get("email"):null;

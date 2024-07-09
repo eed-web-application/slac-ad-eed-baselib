@@ -1,17 +1,23 @@
 package edu.stanford.slac.ad.eed.baselib.auth.jwt;
 
+import edu.stanford.slac.ad.eed.baselib.api.v1.dto.AuthorizationOwnerTypeDTO;
 import edu.stanford.slac.ad.eed.baselib.config.AppProperties;
 import edu.stanford.slac.ad.eed.baselib.auth.BaseSignKeyResolver;
+import edu.stanford.slac.ad.eed.baselib.service.AuthService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
+
+import java.util.Collections;
+import java.util.Optional;
 
 @Log4j2
 @Component
@@ -20,6 +26,7 @@ import org.springframework.stereotype.Component;
 public class SLACAuthenticationProvider implements AuthenticationProvider {
     private final AppProperties appProperties;
     private final BaseSignKeyResolver signKeyResolver;
+    private final AuthService authService;
 
     @Override
     public boolean supports(Class<?> authentication) {
@@ -28,6 +35,7 @@ public class SLACAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication authentication) {
+        AbstractAuthenticationToken token = null;
         if (authentication.getPrincipal() == null) {
             return new SLACAuthenticationJWTToken();
         }
@@ -43,10 +51,23 @@ public class SLACAuthenticationProvider implements AuthenticationProvider {
             if (!jwtBody.containsKey("email")) {
                 throw new BadCredentialsException("The 'email' is not present in the claims of the jwt");
             }
-//            if (!jwtBody.containsKey("name")) {
-//                throw new BadCredentialsException("The 'name' is not present in the claims of the jwt");
-//            }
-            return new SLACAuthenticationJWTToken(j);
+
+            if (appProperties.getAutoloadUserAuthorizations()) {
+                // load all the authorization claims and create the token
+                token = new SLACAuthenticationJWTToken
+                        (
+                                j,
+                                authService.getAllAuthenticationForOwner
+                                        (
+                                                jwtBody.get("email").toString(),
+                                                AuthorizationOwnerTypeDTO.User,
+                                                Optional.of(false)
+                                        )
+                        );
+            } else {
+                token = new SLACAuthenticationJWTToken(j, Collections.emptyList());
+            }
+            return token;
         } catch (Throwable e) {
             log.error("{}", e.toString());
             throw new BadCredentialsException("Invalid token signature");
