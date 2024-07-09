@@ -28,6 +28,7 @@ public class AppProperties {
     private String appTokenJwtKey;
     private String dbAdminUri;
     private String userHeaderName;
+    private Boolean autoloadUserAuthorizations = false;
     private String oauthServerDiscover;
     private List<String> rootUserList = new ArrayList<>();
     private List<NewAuthenticationTokenDTO> rootAuthenticationTokenList = new ArrayList<>();

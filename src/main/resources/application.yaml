@@ -33,3 +33,4 @@ edu:
             root-authentication-token-list-json: ${BASE_APP_ROOT_AUTHENTICATION_TOKEN_JSON}
             oauth-server-discover: ${BASE_APP_OIDC_CONFIGURATION_ENDPOINT:https://dex.slac.stanford.edu/.well-known/openid-configuration}
             user-header-name: ${BASE_APP_AUTH_HEADER:x-vouch-idp-accesstoken}
+            autoload-user-authorizations: true
