@@ -21,7 +21,6 @@ public class SLACAuthenticationJWTToken extends AbstractAuthenticationToken {
     /**
      * Constructor
      */
-    @Builder(builderMethodName = "noAuthentication")
     public SLACAuthenticationJWTToken() {
         super(Collections.emptyList());
         super.setAuthenticated(false);
@@ -61,7 +60,7 @@ public class SLACAuthenticationJWTToken extends AbstractAuthenticationToken {
                 .stream()
                 .map(a->(AuthorizationDTO)a)
                 // check if authorization is great or equal to actual
-                .filter(a->decode(authorizationType) >= decode(a.authorizationType()))
+                .filter(a->decode(authorizationType) <= decode(a.authorizationType()))
                 .filter(a->a.resource().startsWith(resourcePrefix))
                 .findAny().isPresent();
     }

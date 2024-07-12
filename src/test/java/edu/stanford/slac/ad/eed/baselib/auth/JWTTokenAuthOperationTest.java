@@ -30,9 +30,8 @@ public class JWTTokenAuthOperationTest {
     AuthService authService;
     @Test
     public void testJWTTokenRoot(){
-        SLACAuthenticationJWTToken rootServiceToken = SLACAuthenticationJWTToken
-                .authenticated()
-                .authorities(
+        SLACAuthenticationJWTToken rootServiceToken = new SLACAuthenticationJWTToken(
+                null,
                         List.of(
                                 AuthorizationDTO
                                         .builder()
@@ -40,8 +39,7 @@ public class JWTTokenAuthOperationTest {
                                         .resource("*")
                                         .build()
                         )
-                )
-                .build();
+                );
         assertThat(rootServiceToken.isRoot()).isTrue();
 
         SLACAuthenticationJWTToken nonRootServiceToken = SLACAuthenticationJWTToken
@@ -57,5 +55,45 @@ public class JWTTokenAuthOperationTest {
                 )
                 .build();
         assertThat(nonRootServiceToken.isRoot()).isFalse();
+    }
+
+    @Test
+    public void testSearchingAuthTypeForResource(){
+        SLACAuthenticationJWTToken rootServiceToken = new SLACAuthenticationJWTToken(
+                null,
+                List.of(
+                        AuthorizationDTO
+                                .builder()
+                                .authorizationType(AuthorizationTypeDTO.Admin)
+                                .resource("/r/1")
+                                .build(),
+                        AuthorizationDTO
+                                .builder()
+                                .authorizationType(AuthorizationTypeDTO.Write)
+                                .resource("/r/2")
+                                .build(),
+                        // simulate additional auth form group on same /r/2 resource
+                        AuthorizationDTO
+                                .builder()
+                                .authorizationType(AuthorizationTypeDTO.Admin)
+                                .resource("/r/2")
+                                .build(),
+                        AuthorizationDTO
+                                .builder()
+                                .authorizationType(AuthorizationTypeDTO.Read)
+                                .resource("/r/3")
+                                .build()
+                )
+        );
+        assertThat(rootServiceToken.isRoot()).isFalse();
+        assertThat(rootServiceToken.hasAuthorizationOn(AuthorizationTypeDTO.Admin, "/r/1")).isTrue();
+        assertThat(rootServiceToken.hasAuthorizationOn(AuthorizationTypeDTO.Write, "/r/2")).isTrue();
+        assertThat(rootServiceToken.hasAuthorizationOn(AuthorizationTypeDTO.Admin, "/r/2")).isTrue();
+        assertThat(rootServiceToken.hasAuthorizationOn(AuthorizationTypeDTO.Read, "/r/2")).isTrue();
+        assertThat(rootServiceToken.hasAuthorizationOn(AuthorizationTypeDTO.Read, "/r/3")).isTrue();
+        assertThat(rootServiceToken.hasAuthorizationOn(AuthorizationTypeDTO.Admin, "/r/3")).isFalse();
+        assertThat(rootServiceToken.hasAuthorizationOn(AuthorizationTypeDTO.Write, "/r/3")).isFalse();
+        assertThat(rootServiceToken.hasAuthorizationOn(AuthorizationTypeDTO.Read, "/r/1")).isTrue();
+        assertThat(rootServiceToken.hasAuthorizationOn(AuthorizationTypeDTO.Write, "/r/1")).isTrue();
     }
 }
