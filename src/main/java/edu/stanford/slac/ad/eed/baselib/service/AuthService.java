@@ -212,6 +212,8 @@ public abstract class AuthService {
      */
     abstract public List<AuthenticationTokenDTO> getAllAuthenticationToken();
 
+    abstract public List<AuthenticationTokenDTO> findAllAuthenticationToken(AuthenticationTokenQueryParameterDTO build);
+
     /**
      * Delete a token by id
      *

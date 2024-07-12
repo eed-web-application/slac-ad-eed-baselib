@@ -48,4 +48,6 @@ public abstract class AuthMapper {
     public abstract AuthenticationTokenDTO toTokenDTO(AuthenticationToken a);
     public abstract Authorization.Type toModel(AuthorizationTypeDTO type);
     public abstract AuthorizationOwnerType toModel(AuthorizationOwnerTypeDTO ownerType);
+    public abstract PersonQueryParameter toModel(PersonQueryParameterDTO personQueryParameter);
+    public abstract AuthenticationTokenQueryParameter toModel(AuthenticationTokenQueryParameterDTO authenticationTokenQueryParameter);
 }

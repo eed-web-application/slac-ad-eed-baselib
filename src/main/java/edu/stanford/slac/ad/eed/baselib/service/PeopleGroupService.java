@@ -5,6 +5,7 @@ import edu.stanford.slac.ad.eed.baselib.api.v1.dto.*;
 import edu.stanford.slac.ad.eed.baselib.api.v1.mapper.AuthMapper;
 import edu.stanford.slac.ad.eed.baselib.config.AppProperties;
 import edu.stanford.slac.ad.eed.baselib.model.Person;
+import edu.stanford.slac.ad.eed.baselib.model.PersonQueryParameter;
 import edu.stanford.slac.ad.eed.baselib.repository.GroupRepository;
 import edu.stanford.slac.ad.eed.baselib.repository.PersonRepository;
 import edu.stanford.slac.ad.eed.baselib.auth.JWTHelper;
@@ -44,9 +45,30 @@ public class PeopleGroupService {
         );
     }
 
+    /**
+     * Find the person by the user id
+     *
+     * @param searchString the search string
+     * @return the person DTO
+     */
     public List<PersonDTO> findPersons(String searchString) throws UsernameNotFoundException {
         List<Person> foundPerson = personRepository.findByGecosContainsIgnoreCaseOrderByCommonNameAsc(
                 searchString
+        );
+        return foundPerson.stream().map(
+                authMapper::fromModel
+        ).toList();
+    }
+
+    /**
+     * Find the person by the user id
+     *
+     * @param personQueryParameter the query parameter
+     * @return the person DTO
+     */
+    public List<PersonDTO> findPersons(PersonQueryParameterDTO personQueryParameter) {
+        List<Person> foundPerson = personRepository.findAll(
+                authMapper.toModel(personQueryParameter)
         );
         return foundPerson.stream().map(
                 authMapper::fromModel
