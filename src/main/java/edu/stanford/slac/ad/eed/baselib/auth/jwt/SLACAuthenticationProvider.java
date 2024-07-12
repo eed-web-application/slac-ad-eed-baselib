@@ -54,16 +54,23 @@ public class SLACAuthenticationProvider implements AuthenticationProvider {
 
             if (appProperties.getAutoloadUserAuthorizations()) {
                 // load all the authorization claims and create the token
-                token = new SLACAuthenticationJWTToken
-                        (
-                                j,
-                                authService.getAllAuthenticationForOwner
-                                        (
-                                                jwtBody.get("email").toString(),
-                                                AuthorizationOwnerTypeDTO.User,
-                                                Optional.of(false)
-                                        )
-                        );
+                token = SLACAuthenticationJWTToken.authenticated()
+                        .token(j)
+                        .authorities
+                                (
+                                        // load all user authorization
+                                        authService.getAllAuthenticationForOwner
+                                                (
+                                                        jwtBody.get("email").toString(),
+                                                        // check if we have an user or a token
+                                                        appProperties.isAppTokenEmail(
+                                                                jwtBody.get("email").toString()) ?
+                                                                AuthorizationOwnerTypeDTO.Token :
+                                                                AuthorizationOwnerTypeDTO.User,
+                                                        Optional.of(false)
+                                                )
+                                )
+                        .build();
             } else {
                 token = new SLACAuthenticationJWTToken(j, Collections.emptyList());
             }
