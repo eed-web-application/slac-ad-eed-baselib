@@ -36,11 +36,11 @@ public class AuthenticationToken {
     private Boolean applicationManaged = false;
     // default model information
     @CreatedDate
-    private LocalDateTime creationDate;
+    private LocalDateTime createdDate;
     @CreatedBy
-    private String creationBy;
+    private String createdBy;
     @LastModifiedDate
-    private LocalDateTime modificationDate;
+    private LocalDateTime modifiedDate;
     @LastModifiedBy
     private String modifiedBy;
 }

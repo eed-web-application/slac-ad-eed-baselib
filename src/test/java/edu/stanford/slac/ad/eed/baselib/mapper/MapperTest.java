@@ -1,7 +1,9 @@
 package edu.stanford.slac.ad.eed.baselib.mapper;
 
 import edu.stanford.slac.ad.eed.baselib.api.v1.dto.AuthenticationTokenDTO;
+import edu.stanford.slac.ad.eed.baselib.api.v1.dto.AuthenticationTokenQueryParameterDTO;
 import edu.stanford.slac.ad.eed.baselib.api.v1.dto.NewAuthenticationTokenDTO;
+import edu.stanford.slac.ad.eed.baselib.api.v1.dto.PersonQueryParameterDTO;
 import edu.stanford.slac.ad.eed.baselib.api.v1.mapper.AuthMapper;
 import edu.stanford.slac.ad.eed.baselib.api.v1.mapper.ModelChangeMapper;
 import edu.stanford.slac.ad.eed.baselib.model.ModelChange;
@@ -89,5 +91,31 @@ public class MapperTest {
         assertThat(modelChangesHistoryDTO.changes().get(1).fieldName()).isEqualTo("field-name-2");
         assertThat(modelChangesHistoryDTO.changes().get(1).oldValue()).isEqualTo("1");
         assertThat(modelChangesHistoryDTO.changes().get(1).newValue()).isEqualTo("2");
+    }
+
+    @Test
+    public void testPersonQueryParameterMapper() {
+        var personQueryParameter = authMapper.toModel(
+                PersonQueryParameterDTO
+                        .builder()
+                        .anchor("last-user-id")
+                        .limit(2)
+                        .build()
+        );
+        assertThat(personQueryParameter.getLimit()).isEqualTo(2);
+        assertThat(personQueryParameter.getAnchor()).isEqualTo("last-user-id");
+    }
+
+    @Test
+    public void testAuthenticationTokenQueryParameter() {
+        var authenticationTokenQueryParameter = authMapper.toModel(
+                AuthenticationTokenQueryParameterDTO
+                        .builder()
+                        .anchor("last-app-id")
+                        .limit(2)
+                        .build()
+        );
+        assertThat(authenticationTokenQueryParameter.getLimit()).isEqualTo(2);
+        assertThat(authenticationTokenQueryParameter.getAnchor()).isEqualTo("last-app-id");
     }
 }

@@ -7,7 +7,7 @@ import org.springframework.data.ldap.repository.LdapRepository;
 import java.util.List;
 import java.util.Optional;
 
-public interface PersonRepository extends LdapRepository<Person> {
+public interface PersonRepository extends LdapRepository<Person>, PersonRepositoryCustom{
     Optional<Person> findByMail(String mail);
     List<Person> findByGecosContainsIgnoreCaseOrderByCommonNameAsc(String commonNamePrefix);
 }
