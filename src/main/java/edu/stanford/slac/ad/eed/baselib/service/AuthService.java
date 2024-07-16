@@ -86,7 +86,12 @@ public abstract class AuthService {
      * @param newAuthorizationDTO the new authorization
      */
     abstract public String addNewAuthorization(NewAuthorizationDTO newAuthorizationDTO);
-
+    /**
+     * Find all authorization for a resource
+     *
+     * @param authorizationId the id
+     */
+    abstract public AuthorizationDTO findAuthorizationById(String authorizationId);
     /**
      * Find all authorization for a resource
      *
@@ -212,6 +217,9 @@ public abstract class AuthService {
      */
     abstract public List<AuthenticationTokenDTO> getAllAuthenticationToken();
 
+    /**
+     * Return all authentication token
+     */
     abstract public List<AuthenticationTokenDTO> findAllAuthenticationToken(AuthenticationTokenQueryParameterDTO build);
 
     /**
