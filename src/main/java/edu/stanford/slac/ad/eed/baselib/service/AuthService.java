@@ -39,7 +39,7 @@ public abstract class AuthService {
         if (!checkAuthentication(authentication)) return false;
         // only root user can create logbook
         List<AuthorizationDTO> foundAuth = getAllAuthorizationForOwnerAndAndAuthTypeAndResourcePrefix(
-                authentication.getCredentials().toString(),
+                authentication.getPrincipal().toString(),
                 AuthorizationTypeDTO.Admin,
                 "*",
                 Optional.empty()
@@ -285,7 +285,7 @@ public abstract class AuthService {
      * @param authentication the current authentication
      */
     public boolean canManageGroup(Authentication authentication) {
-        return canManageGroup(authentication.getCredentials().toString());
+        return canManageGroup(authentication.getPrincipal().toString());
     }
 
     /**
