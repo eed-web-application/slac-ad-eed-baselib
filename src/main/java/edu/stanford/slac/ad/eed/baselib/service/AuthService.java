@@ -48,6 +48,22 @@ public abstract class AuthService {
     }
 
     /**
+     * Check if the current authentication is a root user
+     *
+     * @param userId is the current authentication
+     */
+    public boolean checkForRoot(String userId) {
+        // only root user can create logbook
+        List<AuthorizationDTO> foundAuth = getAllAuthorizationForOwnerAndAndAuthTypeAndResourcePrefix(
+                userId,
+                AuthorizationTypeDTO.Admin,
+                "*",
+                Optional.empty()
+        );
+        return foundAuth != null && !foundAuth.isEmpty();
+    }
+
+    /**
      * Check the authorizations level on a resource, the authorizations found
      * will be all those authorizations that will have the value of authorizations type greater
      * or equal to the one give as argument. This return true also if the current authentication
@@ -268,7 +284,15 @@ public abstract class AuthService {
      * check if the current authentication can manage the group
      * @param authentication the current authentication
      */
-    public abstract boolean canManageGroup(Authentication authentication);
+    public boolean canManageGroup(Authentication authentication) {
+        return canManageGroup(authentication.getCredentials().toString());
+    }
+
+    /**
+     * check if the current authentication can manage the group
+     * @param userId the user id
+     */
+    public abstract boolean canManageGroup(String userId);
 
     /**
      * authorize an user to manage groups
