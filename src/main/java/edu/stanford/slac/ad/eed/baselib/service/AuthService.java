@@ -188,7 +188,16 @@ public abstract class AuthService {
      *
      * @param owner the owner
      */
-    abstract public List<AuthorizationDTO> getAllAuthenticationForOwner(String owner, AuthorizationOwnerTypeDTO ownerType, Optional<Boolean> allHigherAuthOnSameResource);
+    public List<AuthorizationDTO> getAllAuthenticationForOwner(String owner, AuthorizationOwnerTypeDTO ownerType, Optional<Boolean> allHigherAuthOnSameResource) {
+        return getAllAuthenticationForOwner(owner, ownerType, allHigherAuthOnSameResource, Optional.of(true));
+    }
+
+    /**
+     * return all authorization for an owner
+     *
+     * @param owner the owner
+     */
+    abstract public List<AuthorizationDTO> getAllAuthenticationForOwner(String owner, AuthorizationOwnerTypeDTO ownerType, Optional<Boolean> allHigherAuthOnSameResource, Optional<Boolean> includeInherited);
 
     /**
      * Automatically manage root user by configuration
