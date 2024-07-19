@@ -159,7 +159,21 @@ public abstract class AuthService {
      * @param resourcePrefix the resource prefix
      * @param allHigherAuthOnSameResource return only the higher authorization for each resource
      */
-    abstract public List<AuthorizationDTO> getAllAuthorizationForOwnerAndAndAuthTypeAndResourcePrefix(String owner, AuthorizationTypeDTO authorizationType, String resourcePrefix, Optional<Boolean> allHigherAuthOnSameResource);
+    @Cacheable(value = "user-authorization", key = "{#owner, #authorizationType, #resourcePrefix, #allHigherAuthOnSameResource}")
+    public List<AuthorizationDTO> getAllAuthorizationForOwnerAndAndAuthTypeAndResourcePrefix(String owner, AuthorizationTypeDTO authorizationType, String resourcePrefix, Optional<Boolean> allHigherAuthOnSameResource) {
+        return getAllAuthorizationForOwnerAndAndAuthTypeAndResourcePrefix(owner, authorizationType, resourcePrefix, allHigherAuthOnSameResource, Optional.of(true));
+    }
+
+    /**
+     * return all authorization for a resource
+     *
+     * @param owner the owner
+     * @param authorizationType the authorization type
+     * @param resourcePrefix the resource prefix
+     * @param allHigherAuthOnSameResource return only the higher authorization for each resource
+     * @param includeGroupForUser include the group for the user
+     */
+    abstract public List<AuthorizationDTO> getAllAuthorizationForOwnerAndAndAuthTypeAndResourcePrefix(String owner, AuthorizationTypeDTO authorizationType, String resourcePrefix, Optional<Boolean> allHigherAuthOnSameResource, Optional<Boolean> includeGroupForUser);
 
     /**
      * return all authorization for an owner
