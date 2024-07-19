@@ -188,6 +188,7 @@ public abstract class AuthService {
      *
      * @param owner the owner
      */
+    @Cacheable(value = "user-authorization", key = "{#owner, #ownerType, #allHigherAuthOnSameResource}")
     public List<AuthorizationDTO> getAllAuthenticationForOwner(String owner, AuthorizationOwnerTypeDTO ownerType, Optional<Boolean> allHigherAuthOnSameResource) {
         return getAllAuthenticationForOwner(owner, ownerType, allHigherAuthOnSameResource, Optional.of(true));
     }
