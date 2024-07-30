@@ -11,6 +11,8 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.Map;
 
 /**
@@ -41,13 +43,25 @@ public class ErrorAttributeConfiguration {
                         errorAttributes.put(error.getClass().getName(), error.toString());
                     }
                     if(error.toString()!=null){
-                        log.error("Error: {}", error.toString());
+                        log.error("Error Message: {}", error.toString());
                     } else {
-                        log.error("Error: {}", error);
+                        error.printStackTrace();
+                        log.error("Error: {}", getStackTraceAsString(error));
                     }
                 }
                 return errorAttributes;
             }
         };
+    }
+    /**
+     * Get the stack trace as a string
+     * @param throwable the throwable
+     * @return the stack trace as a string
+     */
+    private  String getStackTraceAsString(Throwable throwable) {
+        StringWriter stringWriter = new StringWriter();
+        PrintWriter printWriter = new PrintWriter(stringWriter);
+        throwable.printStackTrace(printWriter);
+        return stringWriter.toString();
     }
 }
