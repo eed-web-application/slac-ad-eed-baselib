@@ -88,7 +88,9 @@ public class PersonRepositoryImpl implements PersonRepositoryCustom {
             }
             conditionCriteria = conditionCriteria.and("mail").gte(personQueryParameter.getAnchor());
             result = ldapTemplate.search(conditionCriteria, new PersonAttributesMapper());
-            result.remove(0); // Remove the first element as it is the last element from the previous page
+            if(result.size()>0) {
+                result.remove(0); // Remove the first element as it is the last element from the previous page
+            }
         } else {
             if(personQueryParameter.getSearchFilter() != null && !personQueryParameter.getSearchFilter().isEmpty()) {
                 conditionCriteria = conditionCriteria.or(
