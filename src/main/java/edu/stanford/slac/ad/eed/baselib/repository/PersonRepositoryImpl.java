@@ -70,38 +70,28 @@ public class PersonRepositoryImpl implements PersonRepositoryCustom {
      */
     private List<Person> getLimitResult(PersonQueryParameter personQueryParameter) {
         List<Person> result;
-        var conditionCriteria = LdapQueryBuilder.query()
+        var baseCriteria = LdapQueryBuilder.query()
                 .base("ou=people")
-                // with anchor dap return always the anchor so limit is increased by +1
-                .countLimit(personQueryParameter.getAnchor()!=null?personQueryParameter.getLimit()+1:personQueryParameter.getLimit())
+                // with anchor LDAP returns always the anchor, so limit is increased by +1
+                .countLimit(personQueryParameter.getAnchor() != null ? personQueryParameter.getLimit() + 1 : personQueryParameter.getLimit())
                 .where("objectclass").is("person");
 
+        // Apply search filter if present
+        if (personQueryParameter.getSearchFilter() != null && !personQueryParameter.getSearchFilter().isEmpty()) {
+            baseCriteria = baseCriteria.and(
+                    LdapQueryBuilder.query().where("cn").like(personQueryParameter.getSearchFilter())
+                            .or(LdapQueryBuilder.query().where("sn").like(personQueryParameter.getSearchFilter()))
+            );
+        }
+
         if (personQueryParameter.getAnchor() != null && !personQueryParameter.getAnchor().isEmpty()) {
-            if(personQueryParameter.getSearchFilter() != null && !personQueryParameter.getSearchFilter().isEmpty()) {
-                conditionCriteria = conditionCriteria.or(
-                        query()
-                                .where("cn").like(personQueryParameter.getSearchFilter())
-                                .or(
-                                        query().where("sn").like(personQueryParameter.getSearchFilter())
-                                )
-                );
-            }
-            conditionCriteria = conditionCriteria.and("mail").gte(personQueryParameter.getAnchor());
-            result = ldapTemplate.search(conditionCriteria, new PersonAttributesMapper());
-            if(result.size()>0) {
+            baseCriteria = baseCriteria.and("mail").gte(personQueryParameter.getAnchor());
+            result = ldapTemplate.search(baseCriteria, new PersonAttributesMapper());
+            if (result.size() > 0) {
                 result.remove(0); // Remove the first element as it is the last element from the previous page
             }
         } else {
-            if(personQueryParameter.getSearchFilter() != null && !personQueryParameter.getSearchFilter().isEmpty()) {
-                conditionCriteria = conditionCriteria.or(
-                        query()
-                                .where("cn").like(personQueryParameter.getSearchFilter())
-                                .or(
-                                        query().where("sn").like(personQueryParameter.getSearchFilter())
-                                )
-                );
-            }
-            result = ldapTemplate.search(conditionCriteria, new PersonAttributesMapper());
+            result = ldapTemplate.search(baseCriteria, new PersonAttributesMapper());
         }
         return result;
     }
