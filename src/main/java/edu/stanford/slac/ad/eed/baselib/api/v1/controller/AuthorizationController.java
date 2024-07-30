@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
@@ -38,7 +39,7 @@ public class AuthorizationController {
     @Operation(
             summary = "Get current user information"
     )
-    //@Cacheable(value = "current-user-info", key = "#authentication.credentials")
+    @Cacheable(value = "current-user-info", key = "#authentication.credentials")
     public ApiResultResponse<PersonDetailsDTO> me(Authentication authentication) {
         // check authentication
         assertion(
