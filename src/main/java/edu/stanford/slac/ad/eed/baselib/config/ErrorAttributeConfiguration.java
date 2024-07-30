@@ -40,7 +40,11 @@ public class ErrorAttributeConfiguration {
                     } else {
                         errorAttributes.put(error.getClass().getName(), error.toString());
                     }
-                    log.error("Error: ", error.toString());
+                    if(error.toString()!=null){
+                        log.error("Error: {}", error.toString());
+                    } else {
+                        log.error("Error: {}", error);
+                    }
                 }
                 return errorAttributes;
             }
