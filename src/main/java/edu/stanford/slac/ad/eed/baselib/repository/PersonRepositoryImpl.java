@@ -5,6 +5,7 @@ import edu.stanford.slac.ad.eed.baselib.model.PersonQueryParameter;
 import lombok.AllArgsConstructor;
 import org.springframework.ldap.control.SortControlDirContextProcessor;
 import org.springframework.ldap.core.LdapTemplate;
+import org.springframework.ldap.filter.*;
 import org.springframework.ldap.query.LdapQuery;
 import org.springframework.ldap.query.LdapQueryBuilder;
 import org.springframework.stereotype.Repository;
@@ -70,28 +71,39 @@ public class PersonRepositoryImpl implements PersonRepositoryCustom {
      */
     private List<Person> getLimitResult(PersonQueryParameter personQueryParameter) {
         List<Person> result;
+
+        // Create the search filter
+        Filter searchFilter = null;
+        if (personQueryParameter.getSearchFilter() != null && !personQueryParameter.getSearchFilter().isEmpty()) {
+            OrFilter orFilter = new OrFilter();
+            orFilter.or(new LikeFilter("gecos", "*" + personQueryParameter.getSearchFilter() + "*"));
+            searchFilter = orFilter;
+        }
+
+        // Handle anchor
+        Filter anchorFilter = null;
+        if (personQueryParameter.getAnchor() != null && !personQueryParameter.getAnchor().isEmpty()) {
+            anchorFilter = new GreaterThanOrEqualsFilter("mail", personQueryParameter.getAnchor().toLowerCase() );
+        }
+
+        // Combine filters
+        AndFilter finalFilter = new AndFilter();
+        finalFilter.and(new LikeFilter("objectclass", "person"));
+        if (searchFilter != null) {
+            finalFilter.and(searchFilter);
+        }
+        if (anchorFilter != null) {
+            finalFilter.and(anchorFilter);
+        }
         var baseCriteria = LdapQueryBuilder.query()
                 .base("ou=people")
                 // with anchor LDAP returns always the anchor, so limit is increased by +1
                 .countLimit(personQueryParameter.getAnchor() != null ? personQueryParameter.getLimit() + 1 : personQueryParameter.getLimit())
-                .where("objectclass").is("person");
+                .filter(finalFilter);
+        result = ldapTemplate.search(baseCriteria, new PersonAttributesMapper());
 
-        // Apply search filter if present
-        if (personQueryParameter.getSearchFilter() != null && !personQueryParameter.getSearchFilter().isEmpty()) {
-            baseCriteria = baseCriteria.and(
-                    LdapQueryBuilder.query().where("cn").like(personQueryParameter.getSearchFilter())
-                            .or(LdapQueryBuilder.query().where("sn").like(personQueryParameter.getSearchFilter()))
-            );
-        }
-
-        if (personQueryParameter.getAnchor() != null && !personQueryParameter.getAnchor().isEmpty()) {
-            baseCriteria = baseCriteria.and("mail").gte(personQueryParameter.getAnchor());
-            result = ldapTemplate.search(baseCriteria, new PersonAttributesMapper());
-            if (result.size() > 0) {
-                result.remove(0); // Remove the first element as it is the last element from the previous page
-            }
-        } else {
-            result = ldapTemplate.search(baseCriteria, new PersonAttributesMapper());
+        if (personQueryParameter.getAnchor() != null && !personQueryParameter.getAnchor().isEmpty() && result.size() > 0) {
+            result.remove(0); // Remove the first element as it is the last element from the previous page
         }
         return result;
     }

@@ -269,7 +269,18 @@ objectclass: inetOrgPerson
 gecos: Name23 Surname23
 cn: Name23
 sn: Surname23
+mail: user23@slac.stanford.edu
 
+dn: uid=user24,ou=People,dc=sdf,dc=slac,dc=stanford,dc=edu
+uid: user24
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+gecos: Another User
+cn: Another
+sn: User
+mail: user24@slac.stanford.edu
 
 # Create Group
 dn: cn=group-1,ou=Group, dc=sdf,dc=slac,dc=stanford,dc=edu
