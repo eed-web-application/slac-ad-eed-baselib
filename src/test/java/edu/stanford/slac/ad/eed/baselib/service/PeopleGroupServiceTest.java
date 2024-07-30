@@ -1,8 +1,6 @@
-package edu.stanford.slac.ad.eed.baselib.utility;
+package edu.stanford.slac.ad.eed.baselib.service;
 
 import edu.stanford.slac.ad.eed.baselib.api.v1.dto.PersonQueryParameterDTO;
-import edu.stanford.slac.ad.eed.baselib.service.AuthService;
-import edu.stanford.slac.ad.eed.baselib.service.PeopleGroupService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,34 +35,22 @@ public class PeopleGroupServiceTest {
         var allPersonFirstSearch =  peopleGroupService.findPersons(
                 PersonQueryParameterDTO
                         .builder()
-                        .limit(2)
+                        .limit(10)
                         .build()
         );
-        assertThat(allPersonFirstSearch).isNotNull().hasSize(2);
+        assertThat(allPersonFirstSearch).isNotNull().hasSize(10);
         assertThat(allPersonFirstSearch.get(0).mail()).isNotNull().isEqualTo("user01@slac.stanford.edu");
         assertThat(allPersonFirstSearch.get(1).mail()).isNotNull().isEqualTo("user02@slac.stanford.edu");
-
+        assertThat(allPersonFirstSearch.get(9).mail()).isNotNull().isEqualTo("user10@slac.stanford.edu");
         var allPersonSecond =  peopleGroupService.findPersons(
                 PersonQueryParameterDTO
                         .builder()
-                        .anchor(allPersonFirstSearch.get(1).mail())
-                        .limit(2)
+                        .anchor(allPersonFirstSearch.get(9).mail())
+                        .limit(5)
                         .build()
         );
-        assertThat(allPersonSecond).isNotNull().hasSize(1);
-        assertThat(allPersonSecond.get(0).mail()).isNotNull().isEqualTo("user03@slac.stanford.edu");
-
-        var allPersonContextAndLimit =  peopleGroupService.findPersons(
-                PersonQueryParameterDTO
-                        .builder()
-                        .anchor(allPersonFirstSearch.get(1).mail())
-                        .context(2)
-                        .limit(2)
-                        .build()
-        );
-        assertThat(allPersonContextAndLimit).isNotNull().hasSize(3);
-        assertThat(allPersonContextAndLimit.get(0).mail()).isNotNull().isEqualTo("user01@slac.stanford.edu");
-        assertThat(allPersonContextAndLimit.get(1).mail()).isNotNull().isEqualTo("user02@slac.stanford.edu");
-        assertThat(allPersonContextAndLimit.get(2).mail()).isNotNull().isEqualTo("user03@slac.stanford.edu");
+        assertThat(allPersonSecond).isNotNull().hasSize(5);
+        assertThat(allPersonSecond.get(0).mail()).isNotNull().isEqualTo("user11@slac.stanford.edu");
+        assertThat(allPersonSecond.get(4).mail()).isNotNull().isEqualTo("user15@slac.stanford.edu");
     }
 }

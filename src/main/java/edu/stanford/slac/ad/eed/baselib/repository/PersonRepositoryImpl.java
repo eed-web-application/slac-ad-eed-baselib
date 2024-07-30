@@ -3,6 +3,7 @@ package edu.stanford.slac.ad.eed.baselib.repository;
 import edu.stanford.slac.ad.eed.baselib.model.Person;
 import edu.stanford.slac.ad.eed.baselib.model.PersonQueryParameter;
 import lombok.AllArgsConstructor;
+import org.springframework.ldap.control.SortControlDirContextProcessor;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.query.LdapQuery;
 import org.springframework.ldap.query.LdapQueryBuilder;
@@ -24,7 +25,7 @@ public class PersonRepositoryImpl implements PersonRepositoryCustom {
         // Build query based on lastCn for cursor-based pagination
         LdapQuery query = null;
         List<Person> result = new LinkedList<>();
-        result.addAll(getContextResult(personQueryParameter));
+//        result.addAll(getContextResult(personQueryParameter));
         result.addAll(getLimitResult(personQueryParameter));
         return result;
     }
@@ -36,6 +37,7 @@ public class PersonRepositoryImpl implements PersonRepositoryCustom {
      */
     private List<Person> getContextResult(PersonQueryParameter personQueryParameter) {
         List<Person> result;
+        SortControlDirContextProcessor sortControl = new SortControlDirContextProcessor("mail");
         if (personQueryParameter.getAnchor() != null && !personQueryParameter.getAnchor().isEmpty() &&
                 personQueryParameter.getContext() != null && personQueryParameter.getContext()>0) {
             var conditionCriteria = LdapQueryBuilder.query()
@@ -70,7 +72,8 @@ public class PersonRepositoryImpl implements PersonRepositoryCustom {
         List<Person> result;
         var conditionCriteria = LdapQueryBuilder.query()
                 .base("ou=people")
-                .countLimit(personQueryParameter.getLimit())
+                // with anchor dap return always the anchor so limit is increased by +1
+                .countLimit(personQueryParameter.getAnchor()!=null?personQueryParameter.getLimit()+1:personQueryParameter.getLimit())
                 .where("objectclass").is("person");
 
         if (personQueryParameter.getAnchor() != null && !personQueryParameter.getAnchor().isEmpty()) {

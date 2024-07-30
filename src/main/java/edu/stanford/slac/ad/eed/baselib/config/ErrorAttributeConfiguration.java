@@ -1,6 +1,7 @@
 package edu.stanford.slac.ad.eed.baselib.config;
 
 import edu.stanford.slac.ad.eed.baselib.exception.ControllerLogicException;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.servlet.error.DefaultErrorAttributes;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
@@ -16,6 +17,7 @@ import java.util.Map;
  * Automatically add field to be compliant with the
  * default REST API default dto.
  */
+@Log4j2
 @ControllerAdvice
 public class ErrorAttributeConfiguration {
     @Bean
@@ -37,6 +39,11 @@ public class ErrorAttributeConfiguration {
                         }
                     } else {
                         errorAttributes.put(error.getClass().getName(), error.toString());
+                    }
+                    if(error.toString()!=null){
+                        log.error("Error: {}", error.toString());
+                    } else {
+                        log.error("Error: {}", error);
                     }
                 }
                 return errorAttributes;
