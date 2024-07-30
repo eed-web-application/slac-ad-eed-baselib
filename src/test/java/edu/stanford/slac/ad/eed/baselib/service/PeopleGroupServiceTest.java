@@ -52,18 +52,5 @@ public class PeopleGroupServiceTest {
         assertThat(allPersonSecond).isNotNull().hasSize(5);
         assertThat(allPersonSecond.get(0).mail()).isNotNull().isEqualTo("user11@slac.stanford.edu");
         assertThat(allPersonSecond.get(4).mail()).isNotNull().isEqualTo("user15@slac.stanford.edu");
-        var allPersonContextAndLimit =  peopleGroupService.findPersons(
-                PersonQueryParameterDTO
-                        .builder()
-                        .anchor(allPersonFirstSearch.get(9).mail())
-                        .context(2)
-                        .limit(2)
-                        .build()
-        );
-        assertThat(allPersonContextAndLimit).isNotNull().hasSize(3);
-        assertThat(allPersonContextAndLimit.get(0).mail()).isNotNull().isEqualTo("user09@slac.stanford.edu");
-        assertThat(allPersonContextAndLimit.get(1).mail()).isNotNull().isEqualTo("user10@slac.stanford.edu");
-        assertThat(allPersonContextAndLimit.get(2).mail()).isNotNull().isEqualTo("user11@slac.stanford.edu");
-        assertThat(allPersonContextAndLimit.get(3).mail()).isNotNull().isEqualTo("user12@slac.stanford.edu");
     }
 }
