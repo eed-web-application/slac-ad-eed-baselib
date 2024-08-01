@@ -16,9 +16,6 @@ public class SecurityAuditorAware implements AuditorAware<String> {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !authentication.isAuthenticated()) {
             return result;
-        } else if (authentication.getClass().isAssignableFrom(SLACAuthenticationJWTToken.class)) {
-            // source principal always point to the real user
-            return Optional.of(((SLACAuthenticationJWTToken) authentication).getSourcePrincipal().toString());
         }
         return Optional.of(authentication.getPrincipal().toString());
     }
