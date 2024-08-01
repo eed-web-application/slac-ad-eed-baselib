@@ -3,7 +3,6 @@ package edu.stanford.slac.ad.eed.baselib.auth.jwt;
 import edu.stanford.slac.ad.eed.baselib.api.v1.dto.AuthorizationDTO;
 import edu.stanford.slac.ad.eed.baselib.api.v1.dto.AuthorizationTypeDTO;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
@@ -16,36 +15,65 @@ import java.util.Collections;
  * SLAC Authentication JWT Token
  */
 public class SLACAuthenticationJWTToken extends AbstractAuthenticationToken {
-    private Jws<Claims> token = null;
-
+    private Claims tokenClaims = null;
+    private final boolean impersonation;
     /**
      * Constructor
      */
     public SLACAuthenticationJWTToken() {
         super(Collections.emptyList());
         super.setAuthenticated(false);
+        impersonation = false;
     }
 
     /**
      * Constructor
-     * @param token the token
+     * @param tokenClaims the token claims
      * @param authorities the authorities
      */
     @Builder(builderMethodName = "authenticated")
-    public SLACAuthenticationJWTToken(Jws<Claims> token, Collection<AuthorizationDTO> authorities) {
+    public SLACAuthenticationJWTToken(Claims tokenClaims, Collection<AuthorizationDTO> authorities) {
         super(authorities);
-        super.setAuthenticated(true);
-        this.token = token;
+        super.setAuthenticated(tokenClaims!=null);
+        this.tokenClaims = tokenClaims;
+        impersonation = tokenClaims!=null?tokenClaims.containsKey("imp-email"):false;
     }
 
     @Override
     public Object getCredentials() {
-        return token!=null?token.getBody().get("email"):null;
+        return getAuthCredentials();
     }
 
     @Override
     public Object getPrincipal() {
-        return token!=null?token.getBody().get("email"):null;
+        return getAuthCredentials();
+    }
+
+    /**
+     * Check if the user is authenticated
+     * @return true if the user is authenticated
+     */
+    public boolean isImpersonating() {
+        return isAuthenticated() && impersonation;
+    }
+
+    /**
+     * Get the impersonating principal
+     * @return the impersonating principal
+     */
+    public Object getSourcePrincipal() {
+        if(isAuthenticated()==false) return null;
+        return getRealCredential();
+    }
+
+    private Object getAuthCredentials() {
+        if(tokenClaims==null) return null;
+        return impersonation?tokenClaims.get("imp-email"):tokenClaims.get("email");
+    }
+
+    private Object getRealCredential() {
+        if(tokenClaims==null || !tokenClaims.containsKey("email")) return null;
+        return tokenClaims.get("email");
     }
 
     /**

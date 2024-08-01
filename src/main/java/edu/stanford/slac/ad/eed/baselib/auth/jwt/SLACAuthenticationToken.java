@@ -1,5 +1,6 @@
 package edu.stanford.slac.ad.eed.baselib.auth.jwt;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
@@ -13,15 +14,17 @@ import java.util.Collections;
 public class SLACAuthenticationToken extends AbstractAuthenticationToken {
     @Builder.Default
     private String userToken = null;
+    private String impersonateUserID = null;
     public SLACAuthenticationToken() {
         super(Collections.emptyList());
         super.setAuthenticated(false);
     }
 
-    public SLACAuthenticationToken(String userToken) {
+    public SLACAuthenticationToken(String userToken, String impersonateUserID) {
         super(Collections.emptyList());
         super.setAuthenticated(true);
         this.userToken = userToken;
+        this.impersonateUserID = impersonateUserID;
     }
 
     public SLACAuthenticationToken(String userUniqueId, Object details, Collection<? extends GrantedAuthority> authorities) {

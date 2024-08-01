@@ -20,6 +20,7 @@ edu:
               - user1@slac.stanford.edu
             app-token-jwt-key: dabd148ddd89bf64236b3c2563a54921d95c959dbe6a872be3eefaa2f284a4cb
             user-header-name: jwt-token-header-key
+            impersonate-header-name: impersonate
 #          - name: test
 #            expiration: '2023-12-31'
 # Set the logging level for the entire MongoDB package
