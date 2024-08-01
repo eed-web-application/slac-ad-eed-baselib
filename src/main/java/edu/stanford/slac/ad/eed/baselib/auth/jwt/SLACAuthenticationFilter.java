@@ -16,6 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 
 import java.io.IOException;
+import java.util.Collections;
 
 
 @Log4j2
@@ -35,6 +36,8 @@ public class SLACAuthenticationFilter extends AbstractAuthenticationProcessingFi
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         Authentication auth = null;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        boolean wantToImpersonate = Collections.list(request.getHeaderNames()).stream().filter(h -> h.equalsIgnoreCase(appProperties.getImpersonateHeaderName())).findAny().isPresent();
+        String impersonateUserId = wantToImpersonate?request.getHeader(appProperties.getImpersonateHeaderName()):null;
         // print all header received
         String authenticationToken = request.getHeader(appProperties.getUserHeaderName());
         if (authenticationToken == null) {
@@ -43,6 +46,7 @@ public class SLACAuthenticationFilter extends AbstractAuthenticationProcessingFi
             auth = SLACAuthenticationToken
                     .builder()
                     .userToken(authenticationToken)
+                    .impersonateUserID(impersonateUserId)
                     .build();
         }
         return getAuthenticationManager().authenticate(auth);
