@@ -118,4 +118,22 @@ public class PeopleGroupService {
                         )
         );
     }
+
+    /**
+     * find all group for the user
+     * @param uid the uid of the person
+     * @return the person DTO
+     */
+    public PersonDTO findPersonByUid(String uid) {
+        return authMapper.fromModel(
+                personRepository.findByUid(uid)
+                        .orElseThrow(
+                                () -> PersonNotFound.personNotFoundBuilder()
+                                        .errorCode(-1)
+                                        .email(uid)
+                                        .errorDomain("AuthService::addRootAuthorization")
+                                        .build()
+                        )
+        );
+    }
 }

@@ -66,4 +66,18 @@ public class PeopleGroupServiceTest {
         assertThat(allPerson).isNotNull().hasSize(1);
         assertThat(allPerson.get(0).mail()).isNotNull().isEqualTo("user22@slac.stanford.edu");
     }
+
+    @Test
+    public void findUserByEmailAndUID() {
+        var userByMail = peopleGroupService.findPersonByEMail("user1@slac.stanford.edu");
+        assertThat(userByMail).isNotNull();
+        assertThat(userByMail.mail()).isNotNull().isEqualTo("user1@slac.stanford.edu");
+        assertThat(userByMail.uid()).isNotNull().isEqualTo("user1");
+
+        // now find by uid
+        var userByUid = peopleGroupService.findPersonByUid(userByMail.uid());
+        assertThat(userByUid).isNotNull();
+        assertThat(userByUid.mail()).isNotNull().isEqualTo(userByMail.mail());
+        assertThat(userByUid.uid()).isNotNull().isEqualTo(userByMail.uid());
+    }
 }
