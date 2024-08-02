@@ -113,7 +113,7 @@ public class PeopleGroupService {
                                 () -> PersonNotFound.personNotFoundBuilder()
                                         .errorCode(-1)
                                         .email(email)
-                                        .errorDomain("AuthService::addRootAuthorization")
+                                        .errorDomain("PeopleGroupService::findPersonByEMail")
                                         .build()
                         )
         );
@@ -131,7 +131,7 @@ public class PeopleGroupService {
                                 () -> PersonNotFound.personNotFoundBuilder()
                                         .errorCode(-1)
                                         .email(uid)
-                                        .errorDomain("AuthService::addRootAuthorization")
+                                        .errorDomain("PeopleGroupService::findPersonByUid")
                                         .build()
                         )
         );
