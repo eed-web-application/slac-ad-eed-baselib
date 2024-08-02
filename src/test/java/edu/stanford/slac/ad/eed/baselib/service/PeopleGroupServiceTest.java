@@ -39,13 +39,13 @@ public class PeopleGroupServiceTest {
                         .build()
         );
         assertThat(allPersonFirstSearch).isNotNull().hasSize(10);
-        assertThat(allPersonFirstSearch.get(0).mail()).isNotNull().isEqualTo("user01@slac.stanford.edu");
-        assertThat(allPersonFirstSearch.get(1).mail()).isNotNull().isEqualTo("user02@slac.stanford.edu");
-        assertThat(allPersonFirstSearch.get(9).mail()).isNotNull().isEqualTo("user10@slac.stanford.edu");
+        assertThat(allPersonFirstSearch.get(0).mail()).isNotNull().isEqualTo("user1@slac.stanford.edu");
+        assertThat(allPersonFirstSearch.get(1).mail()).isNotNull().isEqualTo("user10@slac.stanford.edu");
+        assertThat(allPersonFirstSearch.get(9).mail()).isNotNull().isEqualTo("user18@slac.stanford.edu");
         var allPersonSecond =  peopleGroupService.findPersons(
                 PersonQueryParameterDTO
                         .builder()
-                        .anchor(allPersonFirstSearch.get(9).mail())
+                        .anchor(allPersonFirstSearch.get(9).uid())
                         .limit(5)
                         .build()
         );

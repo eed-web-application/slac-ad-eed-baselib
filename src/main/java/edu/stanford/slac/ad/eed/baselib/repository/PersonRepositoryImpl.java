@@ -83,7 +83,7 @@ public class PersonRepositoryImpl implements PersonRepositoryCustom {
         // Handle anchor
         Filter anchorFilter = null;
         if (personQueryParameter.getAnchor() != null && !personQueryParameter.getAnchor().isEmpty()) {
-            anchorFilter = new GreaterThanOrEqualsFilter("mail", personQueryParameter.getAnchor().toLowerCase() );
+            anchorFilter = new GreaterThanOrEqualsFilter("uid", personQueryParameter.getAnchor().toLowerCase() );
         }
 
         // Combine filters
