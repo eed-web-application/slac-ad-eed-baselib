@@ -130,21 +130,21 @@ public class PeopleGroupServiceTest {
         var persons = peopleGroupService.findPersons("bisegni");
         assertThat(persons).isNotNull();
 
-        var foundPeoples = peopleGroupService.findPersons(
+        var foundPeoplesFirstPage = peopleGroupService.findPersons(
                 PersonQueryParameterDTO
                         .builder()
                         .limit(10)
                         .build()
         );
-        assertThat(foundPeoples).isNotNull().hasSize(10);
+        assertThat(foundPeoplesFirstPage).isNotNull().hasSize(10);
 
-        foundPeoples = peopleGroupService.findPersons(
+        var foundPeoplesSecondPage = peopleGroupService.findPersons(
                 PersonQueryParameterDTO
                         .builder()
-                        .searchFilter("bisegni")
+                        .anchor(foundPeoplesFirstPage.get(9).uid())
                         .limit(10)
                         .build()
         );
-        assertThat(foundPeoples).isNotNull().hasSize(1);
+        assertThat(foundPeoplesSecondPage).isNotNull().hasSize(10);
     }
 }
