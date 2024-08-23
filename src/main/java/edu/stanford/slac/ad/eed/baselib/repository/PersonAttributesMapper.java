@@ -1,17 +1,21 @@
 package edu.stanford.slac.ad.eed.baselib.repository;
+
 import edu.stanford.slac.ad.eed.baselib.model.Person;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.ldap.core.AttributesMapper;
 
 import javax.naming.NamingException;
 import javax.naming.directory.Attributes;
 import javax.naming.ldap.LdapName;
 
+@Log4j2
 public class PersonAttributesMapper implements AttributesMapper<Person> {
 
     @Override
     public Person mapFromAttributes(Attributes attrs) throws NamingException {
         Person person = new Person();
-
+        // print in line all the attributes
+        log.info("Attributes: {}", attrs);
         if (attrs.get("uid") != null) {
             person.setUid((String) attrs.get("uid").get());
         }
@@ -35,7 +39,6 @@ public class PersonAttributesMapper implements AttributesMapper<Person> {
         if (attrs.get("distinguishedName") != null) {
             person.setId(new LdapName((String) attrs.get("distinguishedName").get()));
         }
-
         return person;
     }
 }

@@ -4,12 +4,16 @@ logging:
     org.springframework.ldap.core.LdapTemplate: TRACE
 spring:
   ldap:
-    embedded:
-      base-dn: dc=win,dc=slac,dc=stanford,dc=edu
-      ldif: classpath:test-ldap-schema.ldif
-      port: 8389
-      validation:
-        enabled: false
+    username: ${BASE_APP_LDAP_USER:cn=adeedweb,ou=Service-Accounts,ou=SCS,dc=win,dc=slac,dc=stanford,dc=edu}
+    urls: ${BASE_APP_LDAP_URI:ldap://localhost:3389}
+    base: ${BASE_APP_LDAP_BASE:dc=win,dc=slac,dc=stanford,dc=edu}
+    referral: "ignore"  # Set to ignore referrals
+  #    embedded:
+#      base-dn: dc=win,dc=slac,dc=stanford,dc=edu
+#      ldif: classpath:test-ldap-schema.ldif
+#      port: 8389
+#      validation:
+#        enabled: false
   application:
     name: test-app
   cache:

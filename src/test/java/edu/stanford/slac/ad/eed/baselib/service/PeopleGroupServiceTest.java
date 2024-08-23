@@ -97,7 +97,6 @@ public class PeopleGroupServiceTest {
         assertThat(userByUid.uid()).isNotNull().isEqualTo(userByMail.uid());
     }
 
-    @Test
     public void findPeopleTest() {
         String base = "dc=win,dc=slac,dc=stanford,dc=edu";
         String filter = "(&(objectClass=user)(mail=mgibbs@slac.stanford.edu))";

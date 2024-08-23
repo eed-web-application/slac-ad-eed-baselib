@@ -12,11 +12,10 @@ public class InitLDAP {
     @Bean
     public LdapTemplate ldapTemplate(LdapContextSource contextSource) {
         LdapTemplate ldapTemplate = new LdapTemplate(contextSource);
-
         // Set the global properties here
         ldapTemplate.setIgnorePartialResultException(true);
         ldapTemplate.setIgnoreNameNotFoundException(true);
-
+        ldapTemplate.setIgnoreSizeLimitExceededException(true);
         return ldapTemplate;
     }
 }

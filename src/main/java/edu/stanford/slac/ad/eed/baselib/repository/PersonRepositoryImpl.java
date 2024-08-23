@@ -26,15 +26,14 @@ public class PersonRepositoryImpl implements PersonRepositoryCustom {
         // Build query based on lastCn for cursor-based pagination
         LdapQuery query = null;
         List<Person> result = new LinkedList<>();
-//        result.addAll(getContextResult(personQueryParameter));
         result.addAll(getLimitResult(personQueryParameter));
         return result;
     }
 
     /**
      * Get the next page of results based on the last user email
-     * @param personQueryParameter
-     * @return
+     * @param personQueryParameter the query parameter
+     * @return the list of persons
      */
     private List<Person> getContextResult(PersonQueryParameter personQueryParameter) {
         List<Person> result;
@@ -60,8 +59,8 @@ public class PersonRepositoryImpl implements PersonRepositoryCustom {
 
     /**
      * Get the next page of results based on the limit size
-     * @param personQueryParameter
-     * @return
+     * @param personQueryParameter the query parameter
+     * @return the list of persons
      */
     private List<Person> getLimitResult(PersonQueryParameter personQueryParameter) {
         List<Person> result;
