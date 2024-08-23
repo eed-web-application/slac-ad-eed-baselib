@@ -20,10 +20,12 @@ import java.util.List;
         componentModel = "spring"
 )
 public abstract class AuthMapper {
+    static public final String GECOS_FORMAT = "%s %s";
     static public final String EMAIL_FORMAT = "%s@%s";
     static public final String EMAIL_FORMAT_CUSTOM_APP_DOMAIN = "%s@%s.%s";
     @Autowired
     protected AppProperties appProperties;
+    @Mapping(target = "gecos", expression = "java(GECOS_FORMAT.formatted(p.getGivenName(), p.getLastName()))")
     public abstract PersonDTO fromModel(Person p);
     public abstract GroupDTO fromModel(Group g);
     @Mapping(target = "authorizationType", expression = "java(AuthorizationTypeDTO.valueOf(Authorization.Type.fromValue(a.getAuthorizationType()).name()))")

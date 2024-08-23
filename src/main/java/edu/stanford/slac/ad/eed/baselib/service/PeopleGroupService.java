@@ -107,15 +107,16 @@ public class PeopleGroupService {
      * @return the person DTO
      */
     public PersonDTO findPersonByEMail(String email) {
+        var foundPerson = personRepository.findByMail(email)
+                .orElseThrow(
+                        () -> PersonNotFound.personNotFoundBuilder()
+                                .errorCode(-1)
+                                .email(email)
+                                .errorDomain("PeopleGroupService::findPersonByEMail")
+                                .build()
+                );
         return authMapper.fromModel(
-                personRepository.findByMail(email)
-                        .orElseThrow(
-                                () -> PersonNotFound.personNotFoundBuilder()
-                                        .errorCode(-1)
-                                        .email(email)
-                                        .errorDomain("PeopleGroupService::findPersonByEMail")
-                                        .build()
-                        )
+                foundPerson
         );
     }
 

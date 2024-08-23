@@ -1,18 +1,16 @@
 package edu.stanford.slac.ad.eed.baselib.auth.jwt;
 
 import edu.stanford.slac.ad.eed.baselib.api.v1.dto.AuthorizationOwnerTypeDTO;
-import edu.stanford.slac.ad.eed.baselib.config.AppProperties;
 import edu.stanford.slac.ad.eed.baselib.auth.BaseSignKeyResolver;
+import edu.stanford.slac.ad.eed.baselib.config.AppProperties;
 import edu.stanford.slac.ad.eed.baselib.exception.NotAuthorized;
 import edu.stanford.slac.ad.eed.baselib.service.AuthService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.impl.DefaultClaims;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.context.annotation.Scope;
-import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
@@ -20,7 +18,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 @Log4j2

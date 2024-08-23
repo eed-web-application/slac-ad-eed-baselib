@@ -1,4 +1,4 @@
-dn: dc=sdf,dc=slac,dc=stanford,dc=edu
+dn: dc=win,dc=slac,dc=stanford,dc=edu
 objectclass: top
 objectclass: domain
 objectclass: extensibleObject

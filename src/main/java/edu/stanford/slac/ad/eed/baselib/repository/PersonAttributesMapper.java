@@ -18,20 +18,22 @@ public class PersonAttributesMapper implements AttributesMapper<Person> {
         if (attrs.get("mail") != null) {
             person.setMail((String) attrs.get("mail").get());
         }
-        if (attrs.get("gecos") != null) {
-            person.setGecos((String) attrs.get("gecos").get());
+        if (attrs.get("name") != null) {
+            person.setGecos((String) attrs.get("name").get());
         }
         if (attrs.get("cn") != null) {
             person.setCommonName((String) attrs.get("cn").get());
         }
         if (attrs.get("sn") != null) {
-            person.setSurname((String) attrs.get("sn").get());
+            person.setLastName((String) attrs.get("sn").get());
         }
-
+        if (attrs.get("givenName") != null) {
+            person.setGivenName((String) attrs.get("givenName").get());
+        }
         // Handle the ID (Distinguished Name)
         // Assuming the id field is of type Name which represents the DN
-        if (attrs.get("dn") != null) {
-            person.setId(new LdapName((String) attrs.get("dn").get()));
+        if (attrs.get("distinguishedName") != null) {
+            person.setId(new LdapName((String) attrs.get("distinguishedName").get()));
         }
 
         return person;
