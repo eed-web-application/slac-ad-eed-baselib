@@ -5,11 +5,36 @@ objectClass: domain
 objectClass: extensibleObject
 dc: win
 
-# Create the People organizational unit
-dn: ou=People,dc=win,dc=slac,dc=stanford,dc=edu
+# Create Organizational Units
+dn: ou=Windows Infrastructure Group,dc=win,dc=slac,dc=stanford,dc=edu
 objectClass: top
 objectClass: organizationalUnit
-ou: People
+ou: Windows Infrastructure Group
+
+dn: ou=SCS,dc=win,dc=slac,dc=stanford,dc=edu
+objectClass: top
+objectClass: organizationalUnit
+ou: SCS
+
+dn: ou=LCLS,dc=win,dc=slac,dc=stanford,dc=edu
+objectClass: top
+objectClass: organizationalUnit
+ou: LCLS
+
+dn: ou=Users,ou=Windows Infrastructure Group,dc=win,dc=slac,dc=stanford,dc=edu
+objectClass: top
+objectClass: organizationalUnit
+ou: Users
+
+dn: ou=Users,ou=SCS,dc=win,dc=slac,dc=stanford,dc=edu
+objectClass: top
+objectClass: organizationalUnit
+ou: Users
+
+dn: ou=Users,ou=LCLS,dc=win,dc=slac,dc=stanford,dc=edu
+objectClass: top
+objectClass: organizationalUnit
+ou: Users
 
 # User 1
 dn: uid=user1,ou=Users,ou=Windows Infrastructure Group,dc=win,dc=slac,dc=stanford,dc=edu
@@ -17,6 +42,8 @@ objectClass: top
 objectClass: person
 objectClass: organizationalPerson
 objectClass: inetOrgPerson
+objectClass: user
+company: SLAC
 uid: user1
 mail: user1@slac.stanford.edu
 name: Name1 Surname1
@@ -31,6 +58,8 @@ objectClass: top
 objectClass: person
 objectClass: organizationalPerson
 objectClass: inetOrgPerson
+objectClass: user
+company: SLAC
 uid: user2
 mail: user2@slac.stanford.edu
 name: Name2 Surname2
@@ -45,6 +74,8 @@ objectClass: top
 objectClass: person
 objectClass: organizationalPerson
 objectClass: inetOrgPerson
+objectClass: user
+company: SLAC
 uid: user3
 mail: user3@slac.stanford.edu
 name: Name3 Surname3
@@ -59,6 +90,8 @@ objectClass: top
 objectClass: person
 objectClass: organizationalPerson
 objectClass: inetOrgPerson
+objectClass: user
+company: SLAC
 uid: user4
 mail: user4@slac.stanford.edu
 name: Name4 Surname4
@@ -73,6 +106,8 @@ objectClass: top
 objectClass: person
 objectClass: organizationalPerson
 objectClass: inetOrgPerson
+objectClass: user
+company: SLAC
 uid: user5
 mail: user5@slac.stanford.edu
 name: Name5 Surname5
@@ -87,6 +122,8 @@ objectClass: top
 objectClass: person
 objectClass: organizationalPerson
 objectClass: inetOrgPerson
+objectClass: user
+company: SLAC
 uid: user6
 mail: user6@slac.stanford.edu
 name: Name6 Surname6
@@ -101,6 +138,8 @@ objectClass: top
 objectClass: person
 objectClass: organizationalPerson
 objectClass: inetOrgPerson
+objectClass: user
+company: SLAC
 uid: user7
 mail: user7@slac.stanford.edu
 name: Name7 Surname7
@@ -115,6 +154,8 @@ objectClass: top
 objectClass: person
 objectClass: organizationalPerson
 objectClass: inetOrgPerson
+objectClass: user
+company: SLAC
 uid: user8
 mail: user8@slac.stanford.edu
 name: Name8 Surname8
@@ -129,6 +170,8 @@ objectClass: top
 objectClass: person
 objectClass: organizationalPerson
 objectClass: inetOrgPerson
+objectClass: user
+company: SLAC
 uid: user9
 mail: user9@slac.stanford.edu
 name: Name9 Surname9
@@ -143,6 +186,8 @@ objectClass: top
 objectClass: person
 objectClass: organizationalPerson
 objectClass: inetOrgPerson
+objectClass: user
+company: SLAC
 uid: user10
 mail: user10@slac.stanford.edu
 name: Name10 Surname10
@@ -157,6 +202,8 @@ objectClass: top
 objectClass: person
 objectClass: organizationalPerson
 objectClass: inetOrgPerson
+objectClass: user
+company: SLAC
 uid: user11
 mail: user11@slac.stanford.edu
 name: Name11 Surname11
@@ -171,6 +218,8 @@ objectClass: top
 objectClass: person
 objectClass: organizationalPerson
 objectClass: inetOrgPerson
+objectClass: user
+company: SLAC
 uid: user12
 mail: user12@slac.stanford.edu
 name: Name12 Surname12
@@ -185,6 +234,8 @@ objectClass: top
 objectClass: person
 objectClass: organizationalPerson
 objectClass: inetOrgPerson
+objectClass: user
+company: SLAC
 uid: user13
 mail: user13@slac.stanford.edu
 name: Name13 Surname13
@@ -199,6 +250,8 @@ objectClass: top
 objectClass: person
 objectClass: organizationalPerson
 objectClass: inetOrgPerson
+objectClass: user
+company: SLAC
 uid: user14
 mail: user14@slac.stanford.edu
 name: Name14 Surname14
@@ -213,6 +266,8 @@ objectClass: top
 objectClass: person
 objectClass: organizationalPerson
 objectClass: inetOrgPerson
+objectClass: user
+company: SLAC
 uid: user15
 mail: user15@slac.stanford.edu
 name: Name15 Surname15
@@ -227,6 +282,8 @@ objectClass: top
 objectClass: person
 objectClass: organizationalPerson
 objectClass: inetOrgPerson
+objectClass: user
+company: SLAC
 uid: user16
 mail: user16@slac.stanford.edu
 name: Name16 Surname16
@@ -241,6 +298,8 @@ objectClass: top
 objectClass: person
 objectClass: organizationalPerson
 objectClass: inetOrgPerson
+objectClass: user
+company: SLAC
 uid: user17
 mail: user17@slac.stanford.edu
 name: Name17 Surname17
@@ -255,6 +314,8 @@ objectClass: top
 objectClass: person
 objectClass: organizationalPerson
 objectClass: inetOrgPerson
+objectClass: user
+company: SLAC
 uid: user18
 mail: user18@slac.stanford.edu
 name: Name18 Surname18
@@ -269,6 +330,8 @@ objectClass: top
 objectClass: person
 objectClass: organizationalPerson
 objectClass: inetOrgPerson
+objectClass: user
+company: SLAC
 uid: user19
 mail: user19@slac.stanford.edu
 name: Name19 Surname19
@@ -283,6 +346,8 @@ objectClass: top
 objectClass: person
 objectClass: organizationalPerson
 objectClass: inetOrgPerson
+objectClass: user
+company: SLAC
 uid: user20
 mail: user20@slac.stanford.edu
 name: Name20 Surname20
@@ -297,6 +362,8 @@ objectClass: top
 objectClass: person
 objectClass: organizationalPerson
 objectClass: inetOrgPerson
+objectClass: user
+company: SLAC
 uid: user21
 mail: user21@slac.stanford.edu
 name: Name21 Surname21
@@ -311,6 +378,8 @@ objectClass: top
 objectClass: person
 objectClass: organizationalPerson
 objectClass: inetOrgPerson
+objectClass: user
+company: SLAC
 uid: user22
 mail: user22@slac.stanford.edu
 name: Name22 Surname22

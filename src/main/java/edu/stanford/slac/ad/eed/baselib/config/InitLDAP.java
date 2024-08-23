@@ -6,6 +6,8 @@ import org.springframework.data.ldap.repository.config.EnableLdapRepositories;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.core.support.LdapContextSource;
 
+import javax.naming.ldap.SortKey;
+
 @Configuration
 @EnableLdapRepositories(basePackages = "edu.stanford.slac.ad.eed.baselib.repository")
 public class InitLDAP {

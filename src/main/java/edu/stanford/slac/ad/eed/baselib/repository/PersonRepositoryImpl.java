@@ -42,7 +42,9 @@ public class PersonRepositoryImpl implements PersonRepositoryCustom {
                 personQueryParameter.getContext() != null && personQueryParameter.getContext()>0) {
             var conditionCriteria = LdapQueryBuilder.query()
                     .countLimit(personQueryParameter.getContext())
-                    .where("objectCategory").is("user");
+                    .where("objectClass").is("user")
+                    .and("objectClass").is("person")
+                    .and("company").is("SLAC");
 
             if(personQueryParameter.getSearchFilter() != null && !personQueryParameter.getSearchFilter().isEmpty()) {
                 conditionCriteria = conditionCriteria.or(query().where("name").like(personQueryParameter.getSearchFilter())

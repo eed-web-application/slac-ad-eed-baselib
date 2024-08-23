@@ -13,6 +13,6 @@ public interface PersonRepository extends LdapRepository<Person>, PersonReposito
     Optional<Person> findByMail(String mail);
     @Query("(uid={0})")
     Optional<Person> findByUid(String uid);
-    @Query("(&(name=*{0}*)(objectCategory=user))")
+    @Query("(name=*{0}*)")
     List<Person> findByGecosContainsIgnoreCaseOrderByCommonNameAsc(String commonNamePrefix);
 }

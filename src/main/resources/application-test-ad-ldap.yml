@@ -7,6 +7,7 @@ spring:
     username: ${BASE_APP_LDAP_USER:cn=adeedweb,ou=Service-Accounts,ou=SCS,dc=win,dc=slac,dc=stanford,dc=edu}
     urls: ${BASE_APP_LDAP_URI:ldap://localhost:3389}
     base: ${BASE_APP_LDAP_BASE:dc=win,dc=slac,dc=stanford,dc=edu}
+    password: ${BASE_APP_LDAP_PASSWORD:7kP@qZ9#d3N$w2V!xL}
     referral: "ignore"  # Set to ignore referrals
   #    embedded:
 #      base-dn: dc=win,dc=slac,dc=stanford,dc=edu

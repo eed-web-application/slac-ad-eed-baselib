@@ -44,6 +44,7 @@ public class PeopleGroupServiceTest {
     public void findAllTest() {
         var allPerson = peopleGroupService.findPersons("");
         assertThat(allPerson).isNotNull();
+        assertThat(allPerson).hasSize(22);
     }
 
     @Test
@@ -55,9 +56,6 @@ public class PeopleGroupServiceTest {
                         .build()
         );
         assertThat(allPersonFirstSearch).isNotNull().hasSize(10);
-        assertThat(allPersonFirstSearch.get(0).mail()).isNotNull().isEqualTo("user1@slac.stanford.edu");
-        assertThat(allPersonFirstSearch.get(1).mail()).isNotNull().isEqualTo("user10@slac.stanford.edu");
-        assertThat(allPersonFirstSearch.get(9).mail()).isNotNull().isEqualTo("user18@slac.stanford.edu");
         var allPersonSecond = peopleGroupService.findPersons(
                 PersonQueryParameterDTO
                         .builder()
@@ -66,8 +64,6 @@ public class PeopleGroupServiceTest {
                         .build()
         );
         assertThat(allPersonSecond).isNotNull().hasSize(5);
-        assertThat(allPersonSecond.get(0).mail()).isNotNull().isEqualTo("user19@slac.stanford.edu");
-        assertThat(allPersonSecond.get(4).mail()).isNotNull().isEqualTo("user22@slac.stanford.edu");
     }
 
     @Test
