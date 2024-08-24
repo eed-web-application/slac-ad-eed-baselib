@@ -72,6 +72,7 @@ public class PersonRepositoryImpl implements PersonRepositoryCustom {
         if (personQueryParameter.getSearchFilter() != null && !personQueryParameter.getSearchFilter().isEmpty()) {
             OrFilter orFilter = new OrFilter();
             orFilter.or(new LikeFilter("name", "*" + personQueryParameter.getSearchFilter() + "*"));
+            orFilter.or(new LikeFilter("mail", "*" + personQueryParameter.getSearchFilter() + "*"));
             searchFilter = orFilter;
         }
 

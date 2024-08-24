@@ -67,6 +67,32 @@ public class PeopleGroupServiceTest {
     }
 
     @Test
+    public void searchByName() {
+        var allPersonFirstSearch = peopleGroupService.findPersons(
+                PersonQueryParameterDTO
+                        .builder()
+                        .searchFilter("Name22")
+                        .limit(10)
+                        .build()
+        );
+        assertThat(allPersonFirstSearch).isNotNull().hasSize(1);
+        assertThat(allPersonFirstSearch.get(0).commonName()).isNotNull().containsIgnoringCase("Name22");
+    }
+
+    @Test
+    public void searchByMail() {
+        var allPersonFirstSearch = peopleGroupService.findPersons(
+                PersonQueryParameterDTO
+                        .builder()
+                        .searchFilter("user1@")
+                        .limit(10)
+                        .build()
+        );
+        assertThat(allPersonFirstSearch).isNotNull().hasSize(1);
+        assertThat(allPersonFirstSearch.get(0).mail()).isNotNull().containsIgnoringCase("user1@slac.stanford.edu");
+    }
+
+    @Test
     public void testTextSearch() {
         var allPerson = peopleGroupService.findPersons(
                 PersonQueryParameterDTO
