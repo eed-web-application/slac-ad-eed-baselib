@@ -89,6 +89,10 @@ publishing {
     }
 }
 
+jar {
+    // Exclude a specific class file from the JAR
+    exclude 'edu/stanford/slac/ad/eed/baselib/App.class'
+}
 
 jacocoTestReport {
     dependsOn test // tests are required to run before generating the report
