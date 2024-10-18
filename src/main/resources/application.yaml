@@ -5,7 +5,7 @@ server:
 spring:
   ldap:
     urls: ${BASE_APP_LDAP_URI:ldap://localhost:8389}
-    base: ${BASE_APP_LDAP_BASE:dc=sdf,dc=slac,dc=stanford,dc=edu}
+    base: ${BASE_APP_LDAP_BASE:dc=win,dc=slac,dc=stanford,dc=edu}
   application:
     name: test-app
   servlet:

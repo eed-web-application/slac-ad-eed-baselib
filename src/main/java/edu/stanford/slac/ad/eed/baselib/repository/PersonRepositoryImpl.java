@@ -26,15 +26,14 @@ public class PersonRepositoryImpl implements PersonRepositoryCustom {
         // Build query based on lastCn for cursor-based pagination
         LdapQuery query = null;
         List<Person> result = new LinkedList<>();
-//        result.addAll(getContextResult(personQueryParameter));
         result.addAll(getLimitResult(personQueryParameter));
         return result;
     }
 
     /**
      * Get the next page of results based on the last user email
-     * @param personQueryParameter
-     * @return
+     * @param personQueryParameter the query parameter
+     * @return the list of persons
      */
     private List<Person> getContextResult(PersonQueryParameter personQueryParameter) {
         List<Person> result;
@@ -42,17 +41,13 @@ public class PersonRepositoryImpl implements PersonRepositoryCustom {
         if (personQueryParameter.getAnchor() != null && !personQueryParameter.getAnchor().isEmpty() &&
                 personQueryParameter.getContext() != null && personQueryParameter.getContext()>0) {
             var conditionCriteria = LdapQueryBuilder.query()
-                    .base("ou=people")
                     .countLimit(personQueryParameter.getContext())
-                    .where("objectclass").is("person");
+                    .where("objectClass").is("user")
+                    .and("objectClass").is("person")
+                    .and("company").is("SLAC");
 
             if(personQueryParameter.getSearchFilter() != null && !personQueryParameter.getSearchFilter().isEmpty()) {
-                conditionCriteria = conditionCriteria.or(
-                        query()
-                                .where("cn").like(personQueryParameter.getSearchFilter())
-                                .or(
-                                        query().where("sn").like(personQueryParameter.getSearchFilter())
-                                )
+                conditionCriteria = conditionCriteria.or(query().where("name").like(personQueryParameter.getSearchFilter())
                 );
             }
             conditionCriteria = conditionCriteria.and("mail").lte(personQueryParameter.getAnchor());
@@ -66,8 +61,8 @@ public class PersonRepositoryImpl implements PersonRepositoryCustom {
 
     /**
      * Get the next page of results based on the limit size
-     * @param personQueryParameter
-     * @return
+     * @param personQueryParameter the query parameter
+     * @return the list of persons
      */
     private List<Person> getLimitResult(PersonQueryParameter personQueryParameter) {
         List<Person> result;
@@ -76,7 +71,8 @@ public class PersonRepositoryImpl implements PersonRepositoryCustom {
         Filter searchFilter = null;
         if (personQueryParameter.getSearchFilter() != null && !personQueryParameter.getSearchFilter().isEmpty()) {
             OrFilter orFilter = new OrFilter();
-            orFilter.or(new LikeFilter("gecos", "*" + personQueryParameter.getSearchFilter() + "*"));
+            orFilter.or(new LikeFilter("name", "*" + personQueryParameter.getSearchFilter() + "*"));
+            orFilter.or(new LikeFilter("mail", "*" + personQueryParameter.getSearchFilter() + "*"));
             searchFilter = orFilter;
         }
 
@@ -88,7 +84,10 @@ public class PersonRepositoryImpl implements PersonRepositoryCustom {
 
         // Combine filters
         AndFilter finalFilter = new AndFilter();
-        finalFilter.and(new LikeFilter("objectclass", "person"));
+        finalFilter.and(new LikeFilter("objectClass", "user"));
+        finalFilter.and(new LikeFilter("objectClass", "person"));
+        finalFilter.and(new LikeFilter("company", "SLAC"));
+
         if (searchFilter != null) {
             finalFilter.and(searchFilter);
         }
@@ -96,7 +95,6 @@ public class PersonRepositoryImpl implements PersonRepositoryCustom {
             finalFilter.and(anchorFilter);
         }
         var baseCriteria = LdapQueryBuilder.query()
-                .base("ou=people")
                 // with anchor LDAP returns always the anchor, so limit is increased by +1
                 .countLimit(personQueryParameter.getAnchor() != null ? personQueryParameter.getLimit() + 1 : personQueryParameter.getLimit())
                 .filter(finalFilter);

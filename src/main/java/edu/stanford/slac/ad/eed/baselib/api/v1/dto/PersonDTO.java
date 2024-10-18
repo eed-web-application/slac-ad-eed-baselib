@@ -10,7 +10,7 @@ import lombok.Builder;
 public record PersonDTO(
         String uid,
         String commonName,
-        String surname,
+        String lastName,
         String gecos,
         String mail
 ) {
